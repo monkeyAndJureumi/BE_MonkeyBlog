@@ -28,6 +28,4 @@ public class Notice {
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
-
-
 }
