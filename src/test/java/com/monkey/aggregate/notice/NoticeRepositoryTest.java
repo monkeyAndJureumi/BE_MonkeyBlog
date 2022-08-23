@@ -41,7 +41,9 @@ public class NoticeRepositoryTest {
     @Test
     public void pageableSelect() {
         //given
-        Pageable pageRequest = PageRequest.of(-1, 5, Sort.by("createdAt").descending());
+        int page = 1;
+        int size = 5;
+        Pageable pageRequest = PageRequest.of(page - 1, size, Sort.by("createdAt").descending());
 
         //when
         Page<Notice> noticePage = noticeRepository.findAll(pageRequest);
@@ -49,7 +51,7 @@ public class NoticeRepositoryTest {
         //then
         assertEquals(100, noticePage.getTotalElements());
         assertEquals(20, noticePage.getTotalPages());
-        assertEquals(1, noticePage.getNumber());
+        assertEquals(1, noticePage.getNumber() + 1);
         assertEquals("공지사항 제목 - 95", noticePage.getContent().get(0).getTitle());
     }
 }
