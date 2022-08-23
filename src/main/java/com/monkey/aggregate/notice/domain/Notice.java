@@ -28,4 +28,12 @@ public class Notice {
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
+
+    public Notice(String title, String content) {
+        this.title = title;
+        this.content = content;
+        this.viewCount = 0L;
+        this.createdAt = LocalDateTime.now();
+        this.modifiedAt = LocalDateTime.now();
+    }
 }

@@ -19,7 +19,7 @@ public class NoticeRestController {
     @GetMapping
     public ResponseEntity<NoticeRes> findByPageable(@RequestParam("page") int page,
                                             @RequestParam("size") int size) {
-        PageRequest pageRequest = PageRequest.of(page, size, Sort.Direction.DESC);
+        PageRequest pageRequest = PageRequest.of(page - 1, size, Sort.by("createdAt").descending());
         NoticeRes response = noticeApiService.getNoticePage(pageRequest);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

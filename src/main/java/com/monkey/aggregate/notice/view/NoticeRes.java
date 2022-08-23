@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class NoticeRes {
     private List<NoticeDto> notices;
+    private int currentPage;
     private long totalElements;
     private int totalPages;
 
@@ -21,8 +22,8 @@ public class NoticeRes {
         this.notices = noticePage.getContent().stream()
                 .map(notice -> new NoticeDto(notice.getTitle(), notice.getContent(), notice.getCreatedAt(), notice.getModifiedAt()))
                 .collect(Collectors.toList());
+        this.currentPage = noticePage.getNumber() + 1;
         this.totalElements = noticePage.getTotalElements();
         this.totalPages = noticePage.getTotalPages();
-
     }
 }
