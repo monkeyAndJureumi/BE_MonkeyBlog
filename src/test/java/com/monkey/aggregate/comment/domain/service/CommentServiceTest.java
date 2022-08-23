@@ -1,4 +1,4 @@
-package com.monkey.comment.domain.service;
+package com.monkey.aggregate.comment.domain.service;
 
 import com.monkey.aggregate.comment.domain.Comment;
 import com.monkey.aggregate.comment.repository.CommentRepository;

@@ -1,4 +1,4 @@
-package com.monkey.post.domain.repository;
+package com.monkey.aggregate.post.domain.repository;
 
 import com.monkey.aggregate.comment.domain.Comment;
 import com.monkey.aggregate.comment.repository.CommentRepository;

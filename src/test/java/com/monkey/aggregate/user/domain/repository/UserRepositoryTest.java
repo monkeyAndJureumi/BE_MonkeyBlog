@@ -1,4 +1,4 @@
-package com.monkey.user.domain.repository;
+package com.monkey.aggregate.user.domain.repository;
 
 import com.monkey.aggregate.user.domain.User;
 import com.monkey.aggregate.user.repository.UserRepository;
