@@ -52,6 +52,6 @@ public class NoticeRepositoryTest {
         assertEquals(100, noticePage.getTotalElements());
         assertEquals(20, noticePage.getTotalPages());
         assertEquals(1, noticePage.getNumber() + 1);
-        assertEquals("공지사항 제목 - 95", noticePage.getContent().get(0).getTitle());
+        assertEquals("공지사항 제목 - 100", noticePage.getContent().get(0).getTitle());
     }
 }
