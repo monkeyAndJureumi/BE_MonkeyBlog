@@ -1,9 +1,10 @@
 package com.monkey.aop.advice;
 
-import com.monkey.aggregate.user.exception.UserNotFoundException;
+import com.monkey.domain.user.exception.UserNotFoundException;
 import com.monkey.exception.ErrorCode;
 import com.monkey.exception.MonkeyException;
 import com.monkey.exception.MonkeyUnauthorizedException;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -29,6 +30,11 @@ public class MonkeyRestControllerAdvice {
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<ExceptionResponse> signatureException() {
         return new ResponseEntity<>(new ExceptionResponse(ErrorCode.E600, ErrorCode.E600.getMessage()), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ExpiredJwtException.class)
+    public ResponseEntity<ExceptionResponse> expiredJwtException() {
+        return new ResponseEntity<>(new ExceptionResponse(ErrorCode.E602, ErrorCode.E602.getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
