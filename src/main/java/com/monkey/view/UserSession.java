@@ -1,7 +1,7 @@
 package com.monkey.view;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.monkey.domain.user.entity.UserId;
+import com.monkey.aggregate.user.entity.UserId;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

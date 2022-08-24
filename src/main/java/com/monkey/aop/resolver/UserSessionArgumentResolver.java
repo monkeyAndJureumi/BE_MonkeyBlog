@@ -1,6 +1,6 @@
 package com.monkey.aop.resolver;
 
-import com.monkey.domain.user.entity.UserId;
+import com.monkey.aggregate.user.entity.UserId;
 import com.monkey.utils.TokenUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
