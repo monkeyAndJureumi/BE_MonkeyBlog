@@ -1,12 +1,12 @@
 package com.monkey.aggregate.comment.entity.service;
 
-import com.monkey.aggregate.comment.entity.Comment;
-import com.monkey.aggregate.comment.entity.CommentId;
-import com.monkey.aggregate.comment.repository.CommentRepository;
-import com.monkey.aggregate.comment.service.CommentApiService;
-import com.monkey.aggregate.comment.view.ReplyCommentsRes;
-import com.monkey.aggregate.post.entity.PostId;
-import com.monkey.aggregate.user.entity.UserId;
+import com.monkey.aggregate.comment.root.entity.Comment;
+import com.monkey.aggregate.comment.root.entity.CommentId;
+import com.monkey.aggregate.comment.root.repository.CommentRepository;
+import com.monkey.aggregate.comment.root.service.CommentApiService;
+import com.monkey.aggregate.comment.root.view.ReplyCommentsRes;
+import com.monkey.aggregate.post.root.entity.PostId;
+import com.monkey.aggregate.user.root.entity.UserId;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

@@ -1,8 +1,8 @@
 package com.monkey.aggregate.user.entity.repository;
 
-import com.monkey.aggregate.user.entity.User;
-import com.monkey.aggregate.user.repository.UserRepository;
-import com.monkey.aggregate.user.enums.UserSocial;
+import com.monkey.aggregate.user.root.entity.User;
+import com.monkey.aggregate.user.root.repository.UserRepository;
+import com.monkey.aggregate.user.root.enums.UserSocial;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

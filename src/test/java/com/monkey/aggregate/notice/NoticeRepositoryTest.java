@@ -1,7 +1,7 @@
 package com.monkey.aggregate.notice;
 
-import com.monkey.aggregate.notice.entity.Notice;
-import com.monkey.aggregate.notice.repository.NoticeRepository;
+import com.monkey.aggregate.notice.root.entity.Notice;
+import com.monkey.aggregate.notice.root.repository.NoticeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

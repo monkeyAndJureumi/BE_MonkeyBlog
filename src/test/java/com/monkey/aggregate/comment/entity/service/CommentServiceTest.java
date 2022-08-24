@@ -1,13 +1,13 @@
 package com.monkey.aggregate.comment.entity.service;
 
-import com.monkey.aggregate.comment.entity.Comment;
-import com.monkey.aggregate.comment.repository.CommentRepository;
-import com.monkey.aggregate.comment.view.CommentDeleteReq;
-import com.monkey.aggregate.comment.view.CommentSaveReq;
-import com.monkey.aggregate.comment.view.CommentUpdateReq;
-import com.monkey.aggregate.comment.service.CommentService;
-import com.monkey.aggregate.post.entity.PostId;
-import com.monkey.aggregate.user.entity.UserId;
+import com.monkey.aggregate.comment.root.entity.Comment;
+import com.monkey.aggregate.comment.root.repository.CommentRepository;
+import com.monkey.aggregate.comment.root.view.CommentDeleteReq;
+import com.monkey.aggregate.comment.root.view.CommentSaveReq;
+import com.monkey.aggregate.comment.root.view.CommentUpdateReq;
+import com.monkey.aggregate.comment.root.service.CommentService;
+import com.monkey.aggregate.post.root.entity.PostId;
+import com.monkey.aggregate.user.root.entity.UserId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

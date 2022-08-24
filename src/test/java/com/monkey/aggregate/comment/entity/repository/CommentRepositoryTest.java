@@ -1,16 +1,16 @@
 package com.monkey.aggregate.comment.entity.repository;
 
-import com.monkey.aggregate.comment.entity.Comment;
-import com.monkey.aggregate.comment.repository.CommentRepository;
-import com.monkey.aggregate.comment.view.CommentSaveReq;
-import com.monkey.aggregate.post.entity.Post;
-import com.monkey.aggregate.post.entity.PostId;
-import com.monkey.aggregate.post.repository.PostRepository;
-import com.monkey.aggregate.post.view.PostSaveReq;
-import com.monkey.aggregate.user.entity.User;
-import com.monkey.aggregate.user.entity.UserId;
-import com.monkey.aggregate.user.repository.UserRepository;
-import com.monkey.aggregate.user.enums.UserSocial;
+import com.monkey.aggregate.comment.root.entity.Comment;
+import com.monkey.aggregate.comment.root.repository.CommentRepository;
+import com.monkey.aggregate.comment.root.view.CommentSaveReq;
+import com.monkey.aggregate.post.root.entity.Post;
+import com.monkey.aggregate.post.root.entity.PostId;
+import com.monkey.aggregate.post.root.repository.PostRepository;
+import com.monkey.aggregate.post.root.view.PostSaveReq;
+import com.monkey.aggregate.user.root.entity.User;
+import com.monkey.aggregate.user.root.entity.UserId;
+import com.monkey.aggregate.user.root.repository.UserRepository;
+import com.monkey.aggregate.user.root.enums.UserSocial;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
