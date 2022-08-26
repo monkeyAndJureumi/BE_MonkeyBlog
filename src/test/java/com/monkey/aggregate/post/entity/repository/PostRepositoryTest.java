@@ -109,10 +109,10 @@ public class PostRepositoryTest {
         postRepository.save(post);
 
         //when
-        Post result = postRepository.findById(1L).orElseThrow(() -> new MonkeyException(ErrorCode.E100, "Not Found Post Entity"));
+        Post result = postRepository.findById(1L).orElseThrow(() -> new MonkeyException(ErrorCode.E100));
         postRepository.delete(result);
 
-        postRepository.findById(1L).orElseThrow(() -> new MonkeyException(ErrorCode.E100, "Not Found Post Entity"));
+        postRepository.findById(1L).orElseThrow(() -> new MonkeyException(ErrorCode.E100));
 
         //then
         assertThrows(MonkeyException.class, () -> {

@@ -7,8 +7,4 @@ public class UserNotFoundException extends MonkeyException {
     public UserNotFoundException(ErrorCode errorCode) {
         super(errorCode);
     }
-
-    public UserNotFoundException(ErrorCode errorCode, String internalMessage) {
-        super(errorCode, internalMessage);
-    }
 }
