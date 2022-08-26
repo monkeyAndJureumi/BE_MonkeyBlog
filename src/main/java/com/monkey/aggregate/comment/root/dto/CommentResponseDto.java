@@ -13,8 +13,7 @@ import java.time.LocalDateTime;
 public class CommentResponseDto {
     @JsonIgnore
     private Long refUserId;
-    private Long authorId;
-    private String authorName;
+    private Author author;
     private Long commentId;
     private String content;
     private LocalDateTime createdAt;
@@ -23,8 +22,7 @@ public class CommentResponseDto {
 
     public CommentResponseDto(Long refUserId, Long authorId, String authorName, Long commentId, String content, LocalDateTime createdAt, boolean hasReply, boolean isSecrete) {
         this.refUserId = refUserId;
-        this.authorId = authorId;
-        this.authorName = authorName;
+        this.author = new Author(authorId, authorName);
         this.commentId = commentId;
         this.content = content;
         this.createdAt = createdAt;
@@ -33,7 +31,20 @@ public class CommentResponseDto {
     }
 
     public void setSecreteContent(UserId loginUserId) {
-        if (this.isSecrete && !this.authorId.equals(loginUserId.getId()) && !refUserId.equals(loginUserId.getId())) {
+        if (this.isSecrete && !this.author.getId().equals(loginUserId.getId()) && !refUserId.equals(loginUserId.getId())) {
             this.content = "비밀 댓글입니다.";
         }
-    }}
+    }
+
+    @Getter
+    @NoArgsConstructor(access = AccessLevel.PRIVATE)
+    private static class Author {
+        private Long id;
+        private String name;
+
+        public Author(Long id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+    }
+}
