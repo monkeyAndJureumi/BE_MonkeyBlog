@@ -8,7 +8,7 @@ import com.monkey.aggregate.comment.root.dto.CommentSaveDto;
 import com.monkey.aggregate.post.root.entity.Post;
 import com.monkey.aggregate.post.root.entity.PostId;
 import com.monkey.aggregate.post.root.repository.PostRepository;
-import com.monkey.aggregate.post.root.view.PostSaveReq;
+import com.monkey.aggregate.post.root.dto.PostSaveDto;
 import com.monkey.aggregate.user.root.entity.User;
 import com.monkey.aggregate.user.root.entity.UserId;
 import com.monkey.aggregate.user.root.repository.UserRepository;
@@ -48,9 +48,9 @@ public class CommentRepositoryTest {
         User user = getUser();
         userRepository.save(user);
 
-        PostSaveReq dto = new PostSaveReq("게시글");
+        PostSaveDto dto = new PostSaveDto("게시글");
         UserId userId = new UserId(user.getId());
-        Post post = Post.create(userId, dto.getContent());
+        Post post = Post.create(userId, dto.getContent(), false);
         postRepository.save(post);
     }
 

@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PostDto {
+public class PostResponseDto {
     private Author author;
     private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostDto(Long userId, String name, String content, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public PostResponseDto(Long userId, String name, String content, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.author = new Author(userId, name);
         this.content = content;
         this.createdAt = createdAt;

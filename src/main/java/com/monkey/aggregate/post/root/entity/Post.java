@@ -1,7 +1,6 @@
 package com.monkey.aggregate.post.root.entity;
 
 import com.monkey.aop.permission.implement.PermissionEntity;
-import com.monkey.aggregate.post.root.view.PostUpdateReq;
 import com.monkey.aggregate.user.root.entity.UserId;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -26,6 +25,8 @@ public class Post implements PermissionEntity {
     @AttributeOverride(name = "id", column = @Column(name = "author"))
     private UserId userId;
 
+    private boolean isSecret;
+
 //    @ElementCollection
 //    @CollectionTable(name = "post_comments", joinColumns = @JoinColumn(name = "id"))
 //    @OrderColumn(name = "comment_id")
@@ -35,19 +36,21 @@ public class Post implements PermissionEntity {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    private Post(UserId userId, String content) {
+    private Post(UserId userId, String content, boolean isSecret) {
         this.userId = userId;
         this.content = content;
+        this.isSecret = isSecret;
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
     }
 
-    public static Post create(UserId userId, String content) {
-        return new Post(userId, content);
+    public static Post create(UserId userId, String content, boolean isSecret) {
+        return new Post(userId, content, isSecret);
     }
 
-    public void update(PostUpdateReq req) {
-        this.content = req.getContent();
+    public void update(String content, boolean isSecret) {
+        this.content = content;
+        this.isSecret = isSecret;
         this.modifiedAt = LocalDateTime.now();
     }
 }

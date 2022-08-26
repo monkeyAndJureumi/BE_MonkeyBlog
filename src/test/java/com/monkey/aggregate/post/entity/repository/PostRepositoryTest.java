@@ -3,8 +3,8 @@ package com.monkey.aggregate.post.entity.repository;
 import com.monkey.aggregate.comment.root.entity.Comment;
 import com.monkey.aggregate.comment.root.repository.CommentRepository;
 import com.monkey.aggregate.post.root.entity.PostId;
-import com.monkey.aggregate.post.root.dto.PostDto;
-import com.monkey.aggregate.post.root.view.PostUpdateReq;
+import com.monkey.aggregate.post.root.dto.PostResponseDto;
+import com.monkey.aggregate.post.root.dto.PostUpdateDto;
 import com.monkey.aggregate.user.root.entity.UserId;
 import com.monkey.aggregate.user.root.enums.UserSocial;
 import com.monkey.exception.ErrorCode;
@@ -50,7 +50,7 @@ public class PostRepositoryTest {
         userRepository.save(user2);
 
         // 게시글 저장
-        Post post = Post.create(new UserId(user.getId()), "게시글1");
+        Post post = Post.create(new UserId(user.getId()), "게시글1", false);
         postRepository.save(post);
 
         // 댓글 저장
@@ -69,7 +69,7 @@ public class PostRepositoryTest {
     public void save() {
         //given
         User user = userRepository.findById(1L).orElseThrow();
-        Post post = Post.create(new UserId(user.getId()), "게시글");
+        Post post = Post.create(new UserId(user.getId()), "게시글", false);
         postRepository.save(post);
 
         //when
@@ -86,14 +86,14 @@ public class PostRepositoryTest {
     public void modify() {
         //given
         User user = userRepository.findById(1L).orElseThrow();
-        Post post = Post.create(new UserId(user.getId()), "게시글");
+        Post post = Post.create(new UserId(user.getId()), "게시글", false);
         postRepository.save(post);
 
         //when
         String text = "업데이트";
-        PostUpdateReq req = new PostUpdateReq(1L, text);
+        PostUpdateDto req = new PostUpdateDto(1L, text, false);
         Post result = postRepository.findById(req.getPostId()).orElseThrow();
-        result.update(req);
+        result.update(req.getContent(), req.getIsSecret());
 
         //then
         assertEquals(text, result.getContent());
@@ -105,7 +105,7 @@ public class PostRepositoryTest {
     public void delete() {
         //given
         User user = userRepository.findById(1L).orElseThrow();
-        Post post = Post.create(new UserId(user.getId()), "게시글");
+        Post post = Post.create(new UserId(user.getId()), "게시글", false);
         postRepository.save(post);
 
         //when
@@ -142,7 +142,7 @@ public class PostRepositoryTest {
         PostId postId = new PostId(1L);
 
         //when
-        PostDto response = postRepository.selectByPostId(postId);
+        PostResponseDto response = postRepository.selectByPostId(postId);
 
         //then
         assertEquals(response.getContent(), "게시글1");
@@ -150,7 +150,7 @@ public class PostRepositoryTest {
 
     private void createPosts(Long userId) {
         for(var i = 0; i < 10; i++) {
-            Post post = Post.create(new UserId(userId), "게시글" + i);
+            Post post = Post.create(new UserId(userId), "게시글" + i, false);
             postRepository.save(post);
         }
     }
