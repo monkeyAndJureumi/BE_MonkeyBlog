@@ -24,8 +24,7 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository {
                         CommentResponseDto.class)
                 .setParameter("postId", postId.getId())
                 .getResultList();
-        result.forEach(comment -> comment.setSecreteContent(userId));
-        return result;
+        return setSecretComment(result, userId);
     }
 
     @Override
@@ -37,7 +36,11 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository {
                         CommentResponseDto.class)
                 .setParameter("commentId", commentId.getId())
                 .getResultList();
-        result.forEach(comment -> comment.setSecreteContent(userId));
-        return result;
+        return setSecretComment(result, userId);
+    }
+
+    private List<CommentResponseDto> setSecretComment(List<CommentResponseDto> comments, UserId userId) {
+        comments.forEach(comment -> comment.setSecreteContent(userId));
+        return comments;
     }
 }
