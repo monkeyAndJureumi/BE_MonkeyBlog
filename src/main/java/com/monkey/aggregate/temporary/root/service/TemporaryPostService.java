@@ -6,7 +6,6 @@ import com.monkey.aggregate.temporary.root.repository.TemporaryPostRepository;
 import com.monkey.aggregate.temporary.root.view.TemporaryPostRes;
 import com.monkey.aggregate.temporary.root.view.TemporaryPostSaveReq;
 import com.monkey.aggregate.temporary.root.view.TemporaryPostUpdateReq;
-import com.monkey.aggregate.temporary.view.*;
 import com.monkey.aggregate.user.root.entity.UserId;
 import com.monkey.exception.ErrorCode;
 import com.monkey.exception.MonkeyException;

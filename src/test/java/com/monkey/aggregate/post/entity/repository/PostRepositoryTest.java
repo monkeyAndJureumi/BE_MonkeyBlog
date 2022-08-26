@@ -3,7 +3,7 @@ package com.monkey.aggregate.post.entity.repository;
 import com.monkey.aggregate.comment.root.entity.Comment;
 import com.monkey.aggregate.comment.root.repository.CommentRepository;
 import com.monkey.aggregate.post.root.entity.PostId;
-import com.monkey.aggregate.post.root.view.PostRes;
+import com.monkey.aggregate.post.root.dto.PostDto;
 import com.monkey.aggregate.post.root.view.PostUpdateReq;
 import com.monkey.aggregate.user.root.entity.UserId;
 import com.monkey.aggregate.user.root.enums.UserSocial;
@@ -54,9 +54,9 @@ public class PostRepositoryTest {
         postRepository.save(post);
 
         // 댓글 저장
-        Comment comment1 = Comment.create(new UserId(user2.getId()), null, new PostId(post.getId()), "댓글1");
-        Comment comment2 = Comment.create(new UserId(user.getId()), comment1, null, "대댓글1-1");
-        Comment comment3 = Comment.create(new UserId(user.getId()), null, new PostId(post.getId()), "댓글2");
+        Comment comment1 = Comment.create(new UserId(user2.getId()), null, new PostId(post.getId()), "댓글1", false);
+        Comment comment2 = Comment.create(new UserId(user.getId()), comment1, null, "대댓글1-1", false);
+        Comment comment3 = Comment.create(new UserId(user.getId()), null, new PostId(post.getId()), "댓글2", false);
 
         commentRepository.save(comment1);
         commentRepository.save(comment2);
@@ -142,13 +142,10 @@ public class PostRepositoryTest {
         PostId postId = new PostId(1L);
 
         //when
-        PostRes response = postRepository.getResponseByPostId(postId);
+        PostDto response = postRepository.selectByPostId(postId);
 
         //then
         assertEquals(response.getContent(), "게시글1");
-        assertEquals(response.getComments().size(), 2);
-        assertEquals(false, response.getComments().get(0).isHasReply());
-        assertEquals(true, response.getComments().get(1).isHasReply());
     }
 
     private void createPosts(Long userId) {

@@ -1,11 +1,11 @@
 package com.monkey.aggregate.post.root.controller;
 
 import com.monkey.aggregate.post.root.entity.PostId;
-import com.monkey.aggregate.post.root.service.PostApiService;
+import com.monkey.aggregate.post.root.repository.PostRepository;
 import com.monkey.aggregate.post.root.service.PostService;
-import com.monkey.aggregate.post.root.view.PostDeleteReq;
-import com.monkey.aggregate.post.root.view.PostRes;
+import com.monkey.aggregate.post.root.dto.PostDto;
 import com.monkey.aggregate.post.root.view.PostSaveReq;
+import com.monkey.aggregate.user.root.entity.UserId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +16,11 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class PostRestController {
     private final PostService postService;
-    private final PostApiService postApiService;
+    private final PostRepository postRepository;
 
-    @GetMapping
-    public ResponseEntity<PostRes> get(@RequestParam("id") Long id) {
-        PostRes res = postApiService.getPost(new PostId(id));
-        return new ResponseEntity<>(res, HttpStatus.ACCEPTED);
+    @GetMapping("/{post_id}")
+    public ResponseEntity<PostDto> select(@PathVariable("post_id") Long id) {
+        return new ResponseEntity<>(postRepository.selectByPostId(new PostId(id)), HttpStatus.ACCEPTED);
     }
 
     @PostMapping
@@ -31,8 +30,8 @@ public class PostRestController {
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(@RequestBody PostDeleteReq req) {
-        postService.deletePost(req);
+    public ResponseEntity<HttpStatus> delete(UserId userId, @RequestParam("id") Long postId) {
+        postService.deletePost(userId, new PostId(postId));
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

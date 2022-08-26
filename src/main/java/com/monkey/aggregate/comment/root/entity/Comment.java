@@ -1,22 +1,23 @@
 package com.monkey.aggregate.comment.root.entity;
 
-import com.monkey.aggregate.comment.root.view.CommentUpdateReq;
+import com.monkey.aggregate.comment.root.dto.CommentUpdateDto;
+import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.aggregate.post.root.entity.PostId;
 import com.monkey.aggregate.user.root.entity.UserId;
-import com.monkey.exception.ErrorCode;
-import com.monkey.exception.MonkeyException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "comment")
-public class Comment {
+public class Comment implements PermissionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,6 +25,9 @@ public class Comment {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ref_comment", referencedColumnName = "id")
     private Comment refComment;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "refComment")
+    private Set<Comment> replyComments = new LinkedHashSet<>();
 
     @Column(name = "content")
     private String content;
@@ -39,14 +43,18 @@ public class Comment {
     @Column(name = "hasReply")
     private boolean hasReply;
 
+    @Column(name = "isSecrete")
+    private boolean isSecrete;
+
     @Column(name = "created_at", updatable = false)
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    public void update(CommentUpdateReq req) {
-        this.content = req.getContent();
+    public void update(CommentUpdateDto dto) {
+        this.content = dto.getContent();
+        this.isSecrete = dto.getIsSecret();
         this.modifiedAt = LocalDateTime.now();
     }
 
@@ -65,25 +73,18 @@ public class Comment {
         this.hasReply = true;
     }
 
-//    public void setFalseHasReply() {
-//        this.hasReply = false;
-//    }
-
-    private Comment(Comment refComment, PostId postId, UserId userId, String content) {
+    private Comment(Comment refComment, PostId postId, UserId userId, String content, boolean isSecrete) {
         this.refComment = refComment;
         this.postId = postId;
         this.userId = userId;
         this.content = content;
-        this.createAt = LocalDateTime.now();
+        this.isSecrete = isSecrete;
+        this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
     }
 
-    public static Comment create(UserId userId, Comment refComment, PostId postId, String content) {
-        // 부모노드가 null 아닌 경우 자식노드끼리 연관관계가 매핑되어있는 걸로 간주
-        if (refComment != null && refComment.getRefComment() != null)
-            throw new MonkeyException(ErrorCode.E500);
-
-        Comment comment = new Comment(refComment, postId, userId, content);
+    public static Comment create(UserId userId, Comment refComment, PostId postId, String content, boolean isSecrete) {
+        Comment comment = new Comment(refComment, postId, userId, content, isSecrete);
 
         if (comment.getRefComment() != null)
             comment.getRefComment().setTrueHasReply();

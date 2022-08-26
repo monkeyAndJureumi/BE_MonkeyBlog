@@ -15,15 +15,15 @@ public class UserRestController {
     private final UserService userService;
 
     @GetMapping("/test_login")
-    public ResponseEntity<String> test() {
-        Long userId = userService.getUserId();
-        String token = TokenUtils.CreateJwtToken(userId);
+    public ResponseEntity<String> test(@RequestParam("id") Long id) {
+        Long result = userService.getUserId(id);
+        String token = TokenUtils.CreateJwtToken(result);
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
-    @PostMapping("/test_save")
-    public ResponseEntity<HttpStatus> test(@RequestBody UserSaveReq req) {
-        userService.saveUser(req);
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PostMapping("/save")
+    public ResponseEntity<Long> test(@RequestBody UserSaveReq req) {
+        Long userId = userService.saveUser(req);
+        return new ResponseEntity<>(userId, HttpStatus.OK);
     }
 }

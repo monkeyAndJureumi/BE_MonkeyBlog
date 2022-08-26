@@ -1,6 +1,7 @@
 package com.monkey.aop.resolver;
 
 import com.monkey.aggregate.user.root.entity.UserId;
+import com.monkey.aop.annotation.NonRequiredParam;
 import com.monkey.utils.TokenUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,9 @@ public class UserSessionArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest httpRequest = (HttpServletRequest) webRequest.getNativeRequest();
         String token = httpRequest.getHeader("Authorization");
+
+        if (token == null && parameter.hasParameterAnnotation(NonRequiredParam.class))
+            return new UserId(null);
 
         Long userId = TokenUtils.ParseJwtToken(token);
         return new UserId(userId);

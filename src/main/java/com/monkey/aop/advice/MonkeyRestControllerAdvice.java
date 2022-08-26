@@ -9,17 +9,20 @@ import io.jsonwebtoken.SignatureException;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@Slf4j
 @RestControllerAdvice
 public class MonkeyRestControllerAdvice {
 
     @ExceptionHandler(MonkeyException.class)
     public ResponseEntity<ExceptionResponse> monkeyException(MonkeyException e) {
-        return new ResponseEntity<>(new ExceptionResponse(e.getErrorCode(), e.getErrorCode().getMessage()), HttpStatus.OK);
+        log.error("{}", e.getMessage());
+        return new ResponseEntity<>(new ExceptionResponse(e.getErrorCode(), e.getErrorCode().getMessage()), e.getHttpStatus());
     }
 
     @ExceptionHandler(MonkeyUnauthorizedException.class)
@@ -39,7 +42,7 @@ public class MonkeyRestControllerAdvice {
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ExceptionResponse> userNotFoundException(UserNotFoundException e) {
-        return new ResponseEntity<>(new ExceptionResponse(e.getErrorCode(), e.getMessage()), HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(new ExceptionResponse(e.getErrorCode(), e.getErrorCode().getMessage()), HttpStatus.UNAUTHORIZED);
     }
 
     @Getter

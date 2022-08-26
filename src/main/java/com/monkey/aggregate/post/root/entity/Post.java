@@ -1,5 +1,6 @@
 package com.monkey.aggregate.post.root.entity;
 
+import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.aggregate.post.root.view.PostUpdateReq;
 import com.monkey.aggregate.user.root.entity.UserId;
 import lombok.AccessLevel;
@@ -13,7 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "post")
-public class Post {
+public class Post implements PermissionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

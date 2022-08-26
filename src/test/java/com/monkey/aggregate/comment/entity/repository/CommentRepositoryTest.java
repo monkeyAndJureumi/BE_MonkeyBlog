@@ -1,8 +1,10 @@
 package com.monkey.aggregate.comment.entity.repository;
 
+import com.monkey.aggregate.comment.root.dto.CommentResponseDto;
 import com.monkey.aggregate.comment.root.entity.Comment;
+import com.monkey.aggregate.comment.root.entity.CommentId;
 import com.monkey.aggregate.comment.root.repository.CommentRepository;
-import com.monkey.aggregate.comment.root.view.CommentSaveReq;
+import com.monkey.aggregate.comment.root.dto.CommentSaveDto;
 import com.monkey.aggregate.post.root.entity.Post;
 import com.monkey.aggregate.post.root.entity.PostId;
 import com.monkey.aggregate.post.root.repository.PostRepository;
@@ -58,15 +60,12 @@ public class CommentRepositoryTest {
         User user = userRepository.findById(1L).orElseThrow();
         Post post = postRepository.findById(1L).orElseThrow();
 
-        CommentSaveReq dto1 = new CommentSaveReq(1L, null, "댓글1");
-        CommentSaveReq dto2 = new CommentSaveReq(1L, 1L, "댓글2");
-
-        Comment refComment = Comment.create(new UserId(user.getId()), null, new PostId(dto1.getPostId()), dto1.getContent());
-        Comment comment = Comment.create(new UserId(user.getId()), refComment, new PostId(dto2.getPostId()), dto2.getContent());
+        Comment refComment = Comment.create(new UserId(user.getId()), null, new PostId(1L), "댓글1", false);
+        Comment comment = Comment.create(new UserId(user.getId()), refComment, new PostId(1L), "댓글2", false);
         commentRepository.save(comment);
 
 
-        List<Comment> comments = commentRepository.findAllByPostIdOrderByCreateAtDesc(new PostId(post.getId()));
+        List<Comment> comments = commentRepository.findAllByPostIdAndRefCommentIsNullOrderByCreatedAtDesc(new PostId(post.getId()));
 
         Comment result = comments.get(0);
 
@@ -80,12 +79,10 @@ public class CommentRepositoryTest {
         User user = userRepository.findById(1L).orElseThrow();
         Post post = postRepository.findById(1L).orElseThrow();
 
-        CommentSaveReq dto1 = new CommentSaveReq(post.getId(), null, "댓글1");
-        Comment comment1 = Comment.create(new UserId(user.getId()), null, new PostId(dto1.getPostId()), dto1.getContent());
+        Comment comment1 = Comment.create(new UserId(user.getId()), null, new PostId(1L), "댓글", false);
 
         Comment refComment = commentRepository.save(comment1);
-        CommentSaveReq dto2 = new CommentSaveReq(post.getId(), refComment.getId(), "댓글2");
-        Comment comment1_1 = Comment.create(new UserId(user.getId()), refComment, new PostId(dto2.getPostId()), dto2.getContent());
+        Comment comment1_1 = Comment.create(new UserId(user.getId()), refComment, new PostId(1L), "댓글2", false);
 
         //when
         commentRepository.save(comment1_1);
@@ -100,17 +97,15 @@ public class CommentRepositoryTest {
         //given
         User user = userRepository.findById(1L).orElseThrow();
         Post post = postRepository.findById(1L).orElseThrow();
-        CommentSaveReq dto1 = new CommentSaveReq(1L, null, "댓글1");
-        Comment comment1 = commentRepository.save(Comment.create(new UserId(user.getId()), null, new PostId(dto1.getPostId()), dto1.getContent()));
+        Comment comment1 = commentRepository.save(Comment.create(new UserId(user.getId()), null, new PostId(1L), "댓글", false));
 
-        CommentSaveReq dto2 = new CommentSaveReq(1L, comment1.getId(), "대댓글1");
-        Comment comment1_1 = commentRepository.save(Comment.create(new UserId(user.getId()), comment1, new PostId(dto2.getPostId()), dto2.getContent()));
+        Comment comment1_1 = commentRepository.save(Comment.create(new UserId(user.getId()), comment1, null, "대댓글1", false));
 
-        CommentSaveReq dto3 = new CommentSaveReq(1L, comment1.getId(), "대댓글2");
-        Comment comment1_2 = commentRepository.save(Comment.create(new UserId(user.getId()), comment1, new PostId(dto3.getPostId()), dto3.getContent()));
+        CommentSaveDto dto3 = new CommentSaveDto(1L, comment1.getId(), "대댓글2", false);
+        Comment comment1_2 = commentRepository.save(Comment.create(new UserId(user.getId()), comment1, null, "대댓글2", false));
 
         //when
-        List<Comment> comments = commentRepository.findAllByRefComment(comment1);
+        List<CommentResponseDto> comments = commentRepository.findAllByRefComment(new UserId(user.getId()), new CommentId(comment1.getId()));
 
         //then
         assertEquals(2, comments.size());

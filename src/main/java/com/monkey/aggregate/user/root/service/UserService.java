@@ -15,12 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
 
-    public Long getUserId() {
-        return userRepository.findById(1L).orElseThrow(() -> new UserNotFoundException(ErrorCode.E000)).getId();
+    public Long getUserId(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(ErrorCode.E000)).getId();
     }
     @Transactional
-    public void saveUser(UserSaveReq req) {
+    public Long saveUser(UserSaveReq req) {
         User user = User.create(req.getName(), req.getEmail(), req.getNumber(), req.getSocial());
-        userRepository.save(user);
+        return userRepository.save(user).getId();
     }
 }

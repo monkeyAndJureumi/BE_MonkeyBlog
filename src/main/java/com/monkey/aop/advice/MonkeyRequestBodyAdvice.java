@@ -22,7 +22,7 @@ public class MonkeyRequestBodyAdvice implements RequestBodyAdvice {
         try {
             return UserSession.class.isAssignableFrom(Class.forName(targetType.getTypeName()));
         } catch (ClassNotFoundException e) {
-            throw new MonkeyException(ErrorCode.E500);
+            throw new MonkeyException(ErrorCode.E400);
         }
     }
 
