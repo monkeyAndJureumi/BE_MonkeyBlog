@@ -11,6 +11,6 @@ import org.springframework.stereotype.Service;
 public class PermissionService {
     public void checkPermission(UserId userId, PermissionEntity permissionEntity) {
         if (userId.getId() != permissionEntity.getUserId().getId())
-            throw new MonkeyException(ErrorCode.E001, HttpStatus.UNAUTHORIZED);
+            throw new MonkeyException(ErrorCode.E001, HttpStatus.FORBIDDEN);
     }
 }
