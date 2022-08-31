@@ -1,6 +1,5 @@
 package com.monkey.aggregate.comment.root.controller;
 
-import com.monkey.aggregate.comment.root.dto.CommentDto;
 import com.monkey.aggregate.comment.root.dto.CommentResponseDto;
 import com.monkey.aggregate.comment.root.entity.CommentId;
 import com.monkey.aggregate.comment.root.service.CommentApiService;

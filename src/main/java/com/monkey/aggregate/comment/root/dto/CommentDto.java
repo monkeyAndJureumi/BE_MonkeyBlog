@@ -38,7 +38,7 @@ public class CommentDto {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    private static class Author {
+    public static class Author {
         private Long id;
         private String name;
 

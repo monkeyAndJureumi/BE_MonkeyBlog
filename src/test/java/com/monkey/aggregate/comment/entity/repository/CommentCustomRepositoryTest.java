@@ -53,7 +53,7 @@ public class CommentCustomRepositoryTest {
 
         //then
         assertEquals(100, result.size());
-        assertEquals("테스트1", result.get(0).getAuthor());
+        assertEquals("테스트1", result.get(0).getAuthor().getName());
         assertEquals("댓글-100", result.get(0).getContent());
     }
 
