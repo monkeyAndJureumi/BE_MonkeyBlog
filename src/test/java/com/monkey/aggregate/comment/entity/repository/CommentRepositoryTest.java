@@ -1,6 +1,6 @@
 package com.monkey.aggregate.comment.entity.repository;
 
-import com.monkey.aggregate.comment.root.dto.CommentResponseDto;
+import com.monkey.aggregate.comment.root.dto.CommentDto;
 import com.monkey.aggregate.comment.root.entity.Comment;
 import com.monkey.aggregate.comment.root.entity.CommentId;
 import com.monkey.aggregate.comment.root.repository.CommentRepository;
@@ -105,7 +105,7 @@ public class CommentRepositoryTest {
         Comment comment1_2 = commentRepository.save(Comment.create(new UserId(user.getId()), comment1, null, "대댓글2", false));
 
         //when
-        List<CommentResponseDto> comments = commentRepository.findAllByRefComment(new UserId(user.getId()), new CommentId(comment1.getId()));
+        List<CommentDto> comments = commentRepository.findAllByRefComment(new UserId(user.getId()), new CommentId(comment1.getId()));
 
         //then
         assertEquals(2, comments.size());

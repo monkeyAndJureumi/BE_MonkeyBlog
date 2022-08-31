@@ -17,14 +17,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
     private final PermissionService permissionService;
 
-
-    @Transactional
     public void saveComment(CommentSaveDto dto) {
         if (dto.getUserId() == null || dto.getPostId() == null)
             throw new MonkeyException(ErrorCode.E400);
@@ -43,7 +41,6 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    @Transactional
     public void modifyComment(CommentUpdateDto dto) {
         Comment comment = commentRepository.findById(dto.getCommentId())
                 .orElseThrow(() -> new MonkeyException(ErrorCode.E200, HttpStatus.NOT_FOUND));
@@ -51,15 +48,10 @@ public class CommentService {
         comment.update(dto);
     }
 
-    @Transactional
     public void deleteComment(UserId userId, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new MonkeyException(ErrorCode.E200, HttpStatus.NOT_FOUND));
         permissionService.checkPermission(userId, comment);
         comment.delete();
-    }
-
-    public List<Comment> getLowerComments(Long postId) {
-        return commentRepository.findAllByPostIdAndRefCommentIsNullOrderByCreatedAtDesc(new PostId(postId));
     }
 }

@@ -1,6 +1,6 @@
 package com.monkey.aggregate.comment.root.repository.custom;
 
-import com.monkey.aggregate.comment.root.dto.CommentResponseDto;
+import com.monkey.aggregate.comment.root.dto.CommentDto;
 import com.monkey.aggregate.comment.root.entity.CommentId;
 import com.monkey.aggregate.post.root.entity.PostId;
 import com.monkey.aggregate.user.root.entity.UserId;
@@ -16,30 +16,30 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository {
     private final EntityManager em;
 
     @Override
-    public List<CommentResponseDto> findAllByPostId(UserId userId, PostId postId) {
-        List<CommentResponseDto> result = em.createQuery(
-                        "select new com.monkey.aggregate.comment.root.dto.CommentResponseDto(p.userId.id, c.userId.id, u.name, c.id, c.content, c.createdAt, c.hasReply, c.isSecrete) " +
+    public List<CommentDto> findAllByPostId(UserId userId, PostId postId) {
+        List<CommentDto> result = em.createQuery(
+                        "select new com.monkey.aggregate.comment.root.dto.CommentDto(p.userId.id, c.userId.id, u.name, c.id, c.content, c.createdAt, c.hasReply, c.isSecrete) " +
                                 "from Post p join fetch Comment c on p.id = c.postId.id join User u on u.id = c.userId.id " +
                                 "where p.id = :postId and c.refComment is null order by c.createdAt desc",
-                        CommentResponseDto.class)
+                        CommentDto.class)
                 .setParameter("postId", postId.getId())
                 .getResultList();
         return setSecretComment(result, userId);
     }
 
     @Override
-    public List<CommentResponseDto> findAllByRefComment(UserId userId, CommentId commentId) {
-        List<CommentResponseDto> result = em.createQuery(
-                        "select new com.monkey.aggregate.comment.root.dto.CommentResponseDto(c2.userId.id, u.id, u.name, c1.id, c1.content, c1.createdAt, c1.hasReply, c1.isSecrete) " +
+    public List<CommentDto> findAllByRefComment(UserId userId, CommentId commentId) {
+        List<CommentDto> result = em.createQuery(
+                        "select new com.monkey.aggregate.comment.root.dto.CommentDto(c2.userId.id, u.id, u.name, c1.id, c1.content, c1.createdAt, c1.hasReply, c1.isSecrete) " +
                                 "from Comment c1 join Comment c2 on c1.refComment.id = c2.refComment.id join User u on u.id = c1.userId.id " +
                                 "where c1.refComment.id = :commentId",
-                        CommentResponseDto.class)
+                        CommentDto.class)
                 .setParameter("commentId", commentId.getId())
                 .getResultList();
         return setSecretComment(result, userId);
     }
 
-    private List<CommentResponseDto> setSecretComment(List<CommentResponseDto> comments, UserId userId) {
+    private List<CommentDto> setSecretComment(List<CommentDto> comments, UserId userId) {
         comments.forEach(comment -> comment.setSecreteContent(userId));
         return comments;
     }

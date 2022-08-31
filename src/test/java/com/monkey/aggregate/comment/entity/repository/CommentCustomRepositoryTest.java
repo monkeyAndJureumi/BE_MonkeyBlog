@@ -1,6 +1,6 @@
 package com.monkey.aggregate.comment.entity.repository;
 
-import com.monkey.aggregate.comment.root.dto.CommentResponseDto;
+import com.monkey.aggregate.comment.root.dto.CommentDto;
 import com.monkey.aggregate.comment.root.entity.Comment;
 import com.monkey.aggregate.comment.root.repository.CommentRepository;
 import com.monkey.aggregate.post.root.entity.Post;
@@ -49,11 +49,11 @@ public class CommentCustomRepositoryTest {
         //given
 
         //when
-        List<CommentResponseDto> result = commentRepository.findAllByPostId(new UserId(1L), new PostId(1L));
+        List<CommentDto> result = commentRepository.findAllByPostId(new UserId(1L), new PostId(1L));
 
         //then
         assertEquals(100, result.size());
-        assertEquals("테스트1", result.get(0).getAuthorName());
+        assertEquals("테스트1", result.get(0).getAuthor());
         assertEquals("댓글-100", result.get(0).getContent());
     }
 
@@ -76,7 +76,7 @@ public class CommentCustomRepositoryTest {
     }
 
     public void savePost() {
-        Post post = Post.create(new UserId(1L), "게시글");
+        Post post = Post.create(new UserId(1L), "게시글", false);
         postRepository.save(post);
     }
 }

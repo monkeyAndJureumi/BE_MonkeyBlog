@@ -1,8 +1,10 @@
 package com.monkey.aggregate.comment.root.controller;
 
+import com.monkey.aggregate.comment.root.dto.CommentDto;
 import com.monkey.aggregate.comment.root.dto.CommentResponseDto;
 import com.monkey.aggregate.comment.root.entity.CommentId;
 import com.monkey.aggregate.comment.root.repository.CommentRepository;
+import com.monkey.aggregate.comment.root.service.CommentApiService;
 import com.monkey.aggregate.comment.root.service.CommentService;
 import com.monkey.aggregate.comment.root.dto.CommentSaveDto;
 import com.monkey.aggregate.comment.root.dto.CommentUpdateDto;
@@ -21,18 +23,19 @@ import java.util.List;
 @RequestMapping("/comment")
 public class CommentRestController {
     private final CommentService commentService;
+    private final CommentApiService commentApiService;
     private final CommentRepository commentRepository;
 
     @GetMapping
-    public ResponseEntity<List<CommentResponseDto>> getCommentsByPost(@NonRequiredParam UserId userId, @RequestParam("post_id") final Long postId) {
-        List<CommentResponseDto> comments = commentRepository.findAllByPostId(userId, new PostId(postId));
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+    public ResponseEntity<CommentResponseDto> getCommentsByPost(@NonRequiredParam final UserId userId, @RequestParam("post_id") final Long postId) {
+        CommentResponseDto responseDto = commentApiService.selectByPostId(userId, new PostId(postId));
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @GetMapping("/{comment_id}")
-    public ResponseEntity<List<CommentResponseDto>> getReplyComments(@NonRequiredParam UserId userId, @PathVariable("comment_id") final Long commentId) {
-        List<CommentResponseDto> comments = commentRepository.findAllByRefComment(userId, new CommentId(commentId));
-        return new ResponseEntity<>(comments, HttpStatus.OK);
+    public ResponseEntity<CommentResponseDto> getReplyComments(@NonRequiredParam final UserId userId, @PathVariable("comment_id") final Long commentId) {
+        CommentResponseDto responseDto = commentApiService.selectByCommentId(userId, new CommentId(commentId));
+        return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @PostMapping
