@@ -1,9 +1,13 @@
 package com.monkey.aop.advice;
 
+import com.monkey.aggregate.user.root.entity.User;
+import com.monkey.aggregate.user.root.repository.UserRepository;
 import com.monkey.exception.ErrorCode;
 import com.monkey.exception.MonkeyException;
+import com.monkey.exception.MonkeyUnauthorizedException;
 import com.monkey.utils.TokenUtils;
 import com.monkey.view.UserSession;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
@@ -15,7 +19,9 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 
 @RestControllerAdvice
+@RequiredArgsConstructor
 public class MonkeyRequestBodyAdvice implements RequestBodyAdvice {
+    private final UserRepository userRepository;
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -37,7 +43,12 @@ public class MonkeyRequestBodyAdvice implements RequestBodyAdvice {
         HttpHeaders headers = inputMessage.getHeaders();
         String token = headers.getFirst("Authorization");
 
-        session.setUserId(TokenUtils.ParseJwtToken(token));
+        Long id = TokenUtils.ParseJwtToken(token);
+        User user = userRepository.findById(id).orElseThrow(() -> new MonkeyUnauthorizedException(ErrorCode.E000));
+
+        session.setUserId(user.getId());
+        session.setUuid(user.getUuid());
+
         return session;
     }
 

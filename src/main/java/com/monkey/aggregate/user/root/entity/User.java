@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -33,6 +34,9 @@ public class User {
     @Convert(converter = UserSocialConverter.class)
     private UserSocial social;
 
+    @Column(name = "uuid")
+    private String uuid;
+
     // 가입일
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
@@ -48,6 +52,7 @@ public class User {
         this.social = social;
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
+        this.uuid = UUID.randomUUID().toString();
     }
 
     public static User create(String name, String email, String number, UserSocial social) {
