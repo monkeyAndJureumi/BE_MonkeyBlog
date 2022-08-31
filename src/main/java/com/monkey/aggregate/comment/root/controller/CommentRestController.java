@@ -3,7 +3,6 @@ package com.monkey.aggregate.comment.root.controller;
 import com.monkey.aggregate.comment.root.dto.CommentDto;
 import com.monkey.aggregate.comment.root.dto.CommentResponseDto;
 import com.monkey.aggregate.comment.root.entity.CommentId;
-import com.monkey.aggregate.comment.root.repository.CommentRepository;
 import com.monkey.aggregate.comment.root.service.CommentApiService;
 import com.monkey.aggregate.comment.root.service.CommentService;
 import com.monkey.aggregate.comment.root.dto.CommentSaveDto;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,7 +22,6 @@ import java.util.List;
 public class CommentRestController {
     private final CommentService commentService;
     private final CommentApiService commentApiService;
-    private final CommentRepository commentRepository;
 
     @GetMapping
     public ResponseEntity<CommentResponseDto> getCommentsByPost(@NonRequiredParam final UserId userId, @RequestParam("post_id") final Long postId) {
@@ -45,7 +42,7 @@ public class CommentRestController {
     }
 
     @PatchMapping
-    public ResponseEntity<HttpStatus> patchComment(final UserId userId, @RequestBody final CommentUpdateDto dto) {
+    public ResponseEntity<HttpStatus> patchComment(@RequestBody final CommentUpdateDto dto) {
         commentService.modifyComment(dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
