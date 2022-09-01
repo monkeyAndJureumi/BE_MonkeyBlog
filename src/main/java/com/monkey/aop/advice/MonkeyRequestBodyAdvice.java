@@ -1,7 +1,7 @@
 package com.monkey.aop.advice;
 
-import com.monkey.aggregate.user.root.entity.User;
-import com.monkey.aggregate.user.root.repository.UserRepository;
+import com.monkey.domain.user.root.entity.User;
+import com.monkey.domain.user.root.repository.UserRepository;
 import com.monkey.exception.ErrorCode;
 import com.monkey.exception.MonkeyException;
 import com.monkey.exception.MonkeyUnauthorizedException;
