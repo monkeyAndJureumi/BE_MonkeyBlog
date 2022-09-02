@@ -3,7 +3,7 @@ package com.monkey.aggregate.comment.service;
 import com.monkey.aggregate.comment.domain.CommentId;
 import com.monkey.aggregate.comment.dto.CommentDto;
 import com.monkey.aggregate.comment.dto.CommentResponseDto;
-import com.monkey.aggregate.comment.repository.CommentRepository;
+import com.monkey.aggregate.comment.infra.repository.CommentRepository;
 import com.monkey.aggregate.post.domain.PostId;
 import com.monkey.aggregate.user.domain.UserId;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +24,7 @@ public class CommentApiService {
     }
 
     public CommentResponseDto selectByCommentId(final UserId userId, final CommentId commentId) {
-        List<CommentDto> comments = commentRepository.findAllByRefComment(userId, commentId);
+        List<CommentDto> comments = commentRepository.findAllByRefCommentId(userId, commentId);
         return new CommentResponseDto(comments);
     }
 }

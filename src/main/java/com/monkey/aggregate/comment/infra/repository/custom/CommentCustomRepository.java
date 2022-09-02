@@ -1,4 +1,4 @@
-package com.monkey.aggregate.comment.repository.custom;
+package com.monkey.aggregate.comment.infra.repository.custom;
 
 import com.monkey.aggregate.comment.domain.CommentId;
 import com.monkey.aggregate.comment.dto.CommentDto;
@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface CommentCustomRepository {
     List<CommentDto> findAllByPostId(UserId userId, PostId postId);
-    List<CommentDto> findAllByRefComment(UserId userId, CommentId commentId);
+    List<CommentDto> findAllByRefCommentId(UserId userId, CommentId commentId);
 }

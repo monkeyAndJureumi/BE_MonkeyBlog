@@ -1,4 +1,4 @@
-package com.monkey.aggregate.comment.repository.custom;
+package com.monkey.aggregate.comment.infra.repository.custom;
 
 import com.monkey.aggregate.comment.domain.CommentId;
 import com.monkey.aggregate.comment.dto.CommentDto;
@@ -28,7 +28,7 @@ public class CommentCustomRepositoryImpl implements CommentCustomRepository {
     }
 
     @Override
-    public List<CommentDto> findAllByRefComment(UserId userId, CommentId commentId) {
+    public List<CommentDto> findAllByRefCommentId(UserId userId, CommentId commentId) {
         List<CommentDto> result = em.createQuery(
                         "select new com.monkey.aggregate.comment.dto.CommentDto(c2.author.userId.id, u.id, u.name, c1.id, c1.content, c1.createdAt, c1.hasReply, c1.isSecrete) " +
                                 "from Comment c1 join Comment c2 on c1.refComment.id = c2.refComment.id join User u on u.id = c1.author.userId.id " +

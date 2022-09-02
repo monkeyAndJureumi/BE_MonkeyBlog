@@ -4,7 +4,7 @@ import com.monkey.aggregate.comment.domain.CommentAuthor;
 import com.monkey.aggregate.comment.dto.CommentSaveDto;
 import com.monkey.aggregate.comment.dto.CommentUpdateDto;
 import com.monkey.aggregate.comment.domain.Comment;
-import com.monkey.aggregate.comment.repository.CommentRepository;
+import com.monkey.aggregate.comment.infra.repository.CommentRepository;
 import com.monkey.aop.permission.service.PermissionService;
 import com.monkey.aggregate.post.domain.PostId;
 import com.monkey.aggregate.user.domain.UserId;
