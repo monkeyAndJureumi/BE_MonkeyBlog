@@ -20,11 +20,17 @@ public class CommentApiService {
 
     public CommentResponseDto selectByPostId(final UserId userId, final PostId postId) {
         List<CommentDto> comments = commentRepository.findAllByPostId(userId, postId);
+        setSecretComment(comments, userId);
         return new CommentResponseDto(comments);
     }
 
     public CommentResponseDto selectByCommentId(final UserId userId, final CommentId commentId) {
         List<CommentDto> comments = commentRepository.findAllByRefCommentId(userId, commentId);
+        setSecretComment(comments, userId);
         return new CommentResponseDto(comments);
+    }
+
+    private void setSecretComment(List<CommentDto> comments, UserId userId) {
+        comments.forEach(comment -> comment.setSecreteContent(userId));
     }
 }
