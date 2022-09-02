@@ -1,6 +1,6 @@
 package com.monkey.aop.resolver;
 
-import com.monkey.domain.user.root.entity.UserId;
+import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aop.annotation.NonRequiredParam;
 import com.monkey.utils.TokenUtils;
 import org.springframework.core.MethodParameter;

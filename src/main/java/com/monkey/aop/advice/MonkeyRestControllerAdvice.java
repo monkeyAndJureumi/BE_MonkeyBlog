@@ -1,6 +1,6 @@
 package com.monkey.aop.advice;
 
-import com.monkey.domain.user.root.exception.UserNotFoundException;
+import com.monkey.aggregate.user.exception.UserNotFoundException;
 import com.monkey.exception.ErrorCode;
 import com.monkey.exception.MonkeyException;
 import com.monkey.exception.MonkeyUnauthorizedException;
