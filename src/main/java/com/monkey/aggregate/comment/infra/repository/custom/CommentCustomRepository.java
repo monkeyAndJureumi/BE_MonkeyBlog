@@ -8,6 +8,6 @@ import com.monkey.aggregate.user.domain.UserId;
 import java.util.List;
 
 public interface CommentCustomRepository {
-    List<CommentDto> findAllByPostId(UserId userId, PostId postId);
-    List<CommentDto> findAllByRefCommentId(UserId userId, CommentId commentId);
+    List<CommentDto> findAllByPostId(PostId postId);
+    List<CommentDto> findAllByRefCommentId(CommentId commentId);
 }

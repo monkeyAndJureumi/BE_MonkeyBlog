@@ -2,7 +2,7 @@ package com.monkey.aop.resolver;
 
 import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aop.annotation.NonRequiredParam;
-import com.monkey.utils.TokenUtils;
+import com.monkey.utils.JwtTokenUtils;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -28,7 +28,7 @@ public class UserSessionArgumentResolver implements HandlerMethodArgumentResolve
         if (token == null && parameter.hasParameterAnnotation(NonRequiredParam.class))
             return new UserId(null);
 
-        Long userId = TokenUtils.ParseJwtToken(token);
+        Long userId = JwtTokenUtils.ParseJwtToken(token);
         return new UserId(userId);
     }
 }

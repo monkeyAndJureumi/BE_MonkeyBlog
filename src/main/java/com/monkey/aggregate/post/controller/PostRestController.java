@@ -6,6 +6,8 @@ import com.monkey.aggregate.post.dto.PostSaveDto;
 import com.monkey.aggregate.post.infra.repository.PostRepository;
 import com.monkey.aggregate.post.service.PostService;
 import com.monkey.aggregate.user.domain.UserId;
+import com.monkey.enums.MonkeyErrorCode;
+import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +22,7 @@ public class PostRestController {
 
     @GetMapping("/{post_id}")
     public ResponseEntity<PostResponseDto> select(@PathVariable("post_id") Long id) {
-        return new ResponseEntity<>(postRepository.selectByPostId(new PostId(id)), HttpStatus.OK);
+        return new ResponseEntity<>(postRepository.selectByPostId(new PostId(id)).orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E100)), HttpStatus.OK);
     }
 
     @PostMapping

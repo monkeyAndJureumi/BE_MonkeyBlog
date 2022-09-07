@@ -8,7 +8,7 @@ import com.monkey.aggregate.post.infra.repository.PostRepository;
 import com.monkey.aggregate.post.dto.PostSaveDto;
 import com.monkey.aggregate.post.dto.PostUpdateDto;
 import com.monkey.aggregate.user.domain.UserId;
-import com.monkey.exception.ErrorCode;
+import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,20 +22,24 @@ public class PostService {
     private final PermissionService permissionService;
 
     public void savePost(final PostSaveDto dto) {
-        Post post = Post.create(new PostAuthor(dto.getUserId(), dto.getUserName()), dto.getContent(), dto.getIsSecrete());
+        Post post = Post.builder()
+                .author(new PostAuthor(dto.getUserId()))
+                .content(dto.getContent())
+                .isSecret(dto.getIsSecrete())
+                .build();
         postRepository.save(post);
     }
 
     public void modifyPost(final PostUpdateDto dto) {
         Post post = postRepository.findById(dto.getPostId())
-                .orElseThrow(() -> new MonkeyException(ErrorCode.E100));
+                .orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E100));
         permissionService.checkPermission(dto.getUserId(), post);
         post.update(dto.getContent(), dto.getIsSecret());
     }
 
     public void deletePost(final UserId userId, final PostId postId) {
         Post post = postRepository.findById(postId.getId())
-                .orElseThrow(() -> new MonkeyException(ErrorCode.E100));
+                .orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E100));
         permissionService.checkPermission(userId, post);
         postRepository.delete(post);
     }

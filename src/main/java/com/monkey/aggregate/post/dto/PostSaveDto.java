@@ -10,8 +10,9 @@ public class PostSaveDto extends UserSessionDto {
 
     private boolean isSecrete;
 
-    public PostSaveDto(String content) {
+    public PostSaveDto(String content, boolean isSecrete) {
         this.content = content;
+        this.isSecrete = isSecrete;
     }
 
     public String getContent() {

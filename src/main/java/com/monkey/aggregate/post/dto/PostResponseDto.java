@@ -23,7 +23,7 @@ public class PostResponseDto {
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    private static class Author {
+    public static class Author {
         private Long userId;
         private String name;
 

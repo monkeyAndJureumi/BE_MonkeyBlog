@@ -21,6 +21,6 @@ public class BlogService {
 
     private BlogId generateId(final BlogSaveDto dto) {
         long now = System.currentTimeMillis();
-        return new BlogId(now + "-" + dto.getUuid());
+        return new BlogId(now + "-" + dto.getUserId().getId());
     }
 }

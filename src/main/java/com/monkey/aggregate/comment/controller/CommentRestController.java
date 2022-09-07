@@ -36,7 +36,7 @@ public class CommentRestController {
 
     @PostMapping
     public ResponseEntity<HttpStatus> saveComment(@RequestBody final CommentSaveDto dto) {
-        commentService.saveComment(dto);
+        commentService.save(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

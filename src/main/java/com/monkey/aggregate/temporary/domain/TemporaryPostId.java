@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
@@ -13,6 +14,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class TemporaryPostId implements Serializable {
     private static final long serialVersionUID = 7842243670110240599L;
+    @Column(name = "temporary_post_id", nullable = false)
     private String id;
 
     public TemporaryPostId(String id) {

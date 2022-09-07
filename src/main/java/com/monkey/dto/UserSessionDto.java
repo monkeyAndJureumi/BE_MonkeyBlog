@@ -11,15 +11,7 @@ public abstract class UserSessionDto {
     @JsonIgnore
     private UserId userId;
 
-    @JsonIgnore
-    private String userName;
-
-    @JsonIgnore
-    private String uuid;
-
-    public void setSession(Long id, String name, String uuid) {
+    public void setSession(Long id) {
         this.userId = new UserId(id);
-        this.userName = name;
-        this.uuid = uuid;
     }
 }

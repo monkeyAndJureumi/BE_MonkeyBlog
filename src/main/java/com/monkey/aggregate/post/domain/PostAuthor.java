@@ -23,9 +23,6 @@ public class PostAuthor implements Serializable {
     )
     private UserId userId;
 
-    @Column(name = "author_name")
-    private String name;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -39,7 +36,6 @@ public class PostAuthor implements Serializable {
     @Override
     public int hashCode() {
         int result = userId != null ? userId.hashCode() : 0;
-        result = 31 * result + (name != null ? name.hashCode() : 0);
         return result;
     }
 }

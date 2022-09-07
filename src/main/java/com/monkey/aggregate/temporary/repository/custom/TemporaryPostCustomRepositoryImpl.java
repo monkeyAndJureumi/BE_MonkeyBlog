@@ -15,9 +15,10 @@ public class TemporaryPostCustomRepositoryImpl implements TemporaryPostCustomRep
 
     @Override
     public List<TemporaryPostIndexDto> findAllIndexByUserId(UserId userId) {
-        return em.createQuery("select new com.monkey.aggregate.temporary.root.dto.TemporaryPostIndexDto(p.postId.id, p.createdAt, p.modifiedAt) " +
+        return em.createQuery("select new com.monkey.aggregate.temporary.dto.TemporaryPostIndexDto(p.postId.id, p.createdAt, p.modifiedAt) " +
                 "from TemporaryPost p where p.userId = :userId", TemporaryPostIndexDto.class)
                 .setParameter("userId", userId)
                 .getResultList();
     }
 }
+

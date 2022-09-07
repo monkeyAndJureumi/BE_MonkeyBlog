@@ -5,6 +5,7 @@ import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.aggregate.post.domain.PostId;
 import com.monkey.aggregate.user.domain.UserId;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -63,16 +64,8 @@ public class Comment implements PermissionEntity {
         this.modifiedAt = LocalDateTime.now();
     }
 
-    /**
-     * * Comment 객체를 저장할 때 refComment 필드가 null 이 아니라면,
-     * 하위댓글로 판단하여 refComment 객체의 reply 필드를 true 로 설정하여,
-     * 하위 댓글 여부 표시
-     */
-    public void setTrueHasReply() {
-        this.hasReply = true;
-    }
-
-    private Comment(Comment refComment, PostId postId, CommentAuthor author, String content, boolean isSecrete) {
+    @Builder
+    public Comment(Comment refComment, PostId postId, CommentAuthor author, String content, boolean isSecrete) {
         this.refComment = refComment;
         this.postId = postId;
         this.author = author;
@@ -82,13 +75,8 @@ public class Comment implements PermissionEntity {
         this.modifiedAt = LocalDateTime.now();
     }
 
-    public static Comment create(CommentAuthor author, Comment refComment, PostId postId, String content, boolean isSecrete) {
-        Comment comment = new Comment(refComment, postId, author, content, isSecrete);
-
-        if (comment.getRefComment() != null)
-            comment.getRefComment().setTrueHasReply();
-
-        return comment;
+    public void setHasReplyTrue() {
+        this.hasReply = true;
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.monkey.aggregate.post.domain;
 import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.aggregate.user.domain.UserId;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -35,16 +36,13 @@ public class Post implements PermissionEntity {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    private Post(PostAuthor author, String content, boolean isSecret) {
+    @Builder
+    public Post(PostAuthor author, String content, boolean isSecret) {
         this.author = author;
         this.content = content;
         this.isSecret = isSecret;
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
-    }
-
-    public static Post create(PostAuthor postAuthor, String content, boolean isSecret) {
-        return new Post(postAuthor, content, isSecret);
     }
 
     public void update(String content, boolean isSecret) {
