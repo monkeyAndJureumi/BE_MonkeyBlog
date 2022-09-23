@@ -9,11 +9,10 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class KakaoUrlParameterDto {
+public class KakaoTokenRequestDto {
     @JsonProperty(value = "grant_type", required = true)
-    private String grantType;
+    private String grantType = "authorization_code";
 
     @JsonProperty(value = "client_id", required = true)
     private String clientId;
@@ -26,4 +25,11 @@ public class KakaoUrlParameterDto {
 
     @JsonProperty(value = "client_secret")
     private String clientSecret;
+
+    public KakaoTokenRequestDto(String clientId, String redirectUri, String code, String clientSecret) {
+        this.clientId = clientId;
+        this.redirectUri = redirectUri;
+        this.code = code;
+        this.clientSecret = clientSecret;
+    }
 }

@@ -2,7 +2,9 @@ package com.monkey.aop.resolver;
 
 import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aop.annotation.NonRequiredParam;
+import com.monkey.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -14,10 +16,12 @@ import javax.servlet.http.HttpServletRequest;
 
 
 @Component
+@RequiredArgsConstructor
 public class UserSessionArgumentResolver implements HandlerMethodArgumentResolver {
+    private final JwtProperties jwtProperties;
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().isAssignableFrom(UserId.class);
+        return parameter.getParameterType().isAssignableFrom(UserId.class) && !parameter.hasParameterAnnotation(NonRequiredParam.class);
     }
 
     @Override
@@ -25,10 +29,10 @@ public class UserSessionArgumentResolver implements HandlerMethodArgumentResolve
         HttpServletRequest httpRequest = (HttpServletRequest) webRequest.getNativeRequest();
         String token = httpRequest.getHeader("Authorization");
 
-        if (token == null && parameter.hasParameterAnnotation(NonRequiredParam.class))
-            return new UserId(null);
+//        if (token == null && parameter.hasParameterAnnotation(NonRequiredParam.class))
+//            return new UserId(null);
 
-        Long userId = JwtTokenUtils.ParseJwtToken(token);
+        Long userId = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
         return new UserId(userId);
     }
 }

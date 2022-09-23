@@ -1,9 +1,10 @@
 package com.monkey.aggregate.user.domain;
 
+import com.monkey.aggregate.user.dto.social.UserInfo;
+import com.monkey.aggregate.user.enums.SocialType;
 import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -19,9 +20,6 @@ public class User implements PermissionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
-    private UserUId uid;
-
     @Column(name = "name")
     private String name;
 
@@ -36,9 +34,8 @@ public class User implements PermissionEntity {
     @Convert(converter = EncryptConverter.class)
     private String number;
 
-    @OneToOne(orphanRemoval = true)
-    @JoinTable(name = "user_info", joinColumns = @JoinColumn(name = "id"), inverseJoinColumns = @JoinColumn(name = "id"))
-    private UserInfo userInfo;
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private com.monkey.aggregate.user.domain.UserInfo userInfo;
 
     // 가입일
     @Column(name = "created_at", updatable = false)
@@ -48,12 +45,12 @@ public class User implements PermissionEntity {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    @Builder
-    private User(UserUId uid, String name, String email, String number) {
-        this.uid = uid;
-        this.name = name;
-        this.email = email;
-        this.number = number;
+    public User(UserInfo userInfo) {
+        this.name = userInfo.getName();
+        this.nickName = userInfo.getNickName();
+        this.email = userInfo.getEmail();
+        this.number = userInfo.getPhoneNumber();
+        this.userInfo = new com.monkey.aggregate.user.domain.UserInfo(this.getUserId(), userInfo);
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
     }

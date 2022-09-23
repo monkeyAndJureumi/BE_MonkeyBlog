@@ -2,7 +2,7 @@ package com.monkey.aggregate.user.dto.social.kakao;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkey.aggregate.user.dto.social.TokenResponseDto;
+import com.monkey.aggregate.user.dto.social.OauthTokenResponseDto;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class KakaoTokenResponseDto extends TokenResponseDto {
+public class KakaoTokenResponseDto extends OauthTokenResponseDto {
     @JsonProperty(value = "token_type", required = true)
     private String tokenType;
 

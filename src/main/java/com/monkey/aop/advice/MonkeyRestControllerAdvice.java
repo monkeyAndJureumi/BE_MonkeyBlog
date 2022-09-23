@@ -1,5 +1,6 @@
 package com.monkey.aop.advice;
 
+import com.monkey.aggregate.user.controller.UserRestControllerAdvice;
 import com.monkey.aggregate.user.exception.UserNotFoundException;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
@@ -11,15 +12,24 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
 @RestControllerAdvice
 public class MonkeyRestControllerAdvice {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    protected ResponseEntity<ExceptionResponse> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), exception.getBindingResult().getAllErrors().get(0).getDefaultMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    public String createResponseMessage(BindingResult bindingResult) {
+        return bindingResult.getAllErrors().get(0).getDefaultMessage();
+    }
     @ExceptionHandler(MonkeyException.class)
     public ResponseEntity<ExceptionResponse> monkeyException(MonkeyException e) {
-        log.error("{}", e.getMessage());
         return new ResponseEntity<>(new ExceptionResponse(e.getErrorCode().getCode(), e.getErrorCode().getDescription()), e.getHttpStatus());
     }
 

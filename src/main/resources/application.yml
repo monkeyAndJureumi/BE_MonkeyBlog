@@ -5,6 +5,8 @@ spring:
   jpa.open-in-view: false
 ---
 spring:
+  messages:
+    basename: messages,errors
   config:
     activate:
       on-profile: local

@@ -13,7 +13,8 @@ public enum MonkeyErrorCode implements ErrorCode {
     E500("내부 오류"),
     E600("올바르지 않은 토큰입니다."),
     E601("올바르지 않은 토큰 타입입니다."),
-    E602("만료된 토큰입니다.");
+    E602("만료된 토큰입니다."),
+    E603("토큰을 찾을 수 없습니다.");
 
     private final String description;
 
@@ -28,6 +29,6 @@ public enum MonkeyErrorCode implements ErrorCode {
 
     @Override
     public String getDescription() {
-        return this.getDescription();
+        return description;
     }
 }

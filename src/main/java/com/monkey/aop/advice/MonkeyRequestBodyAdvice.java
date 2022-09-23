@@ -4,6 +4,7 @@ import com.monkey.aggregate.user.domain.User;
 import com.monkey.aggregate.user.infra.repository.UserRepository;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
+import com.monkey.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
 import com.monkey.dto.UserSessionDto;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +23,7 @@ import java.lang.reflect.Type;
 @RequiredArgsConstructor
 public class MonkeyRequestBodyAdvice implements RequestBodyAdvice {
     private final UserRepository userRepository;
+    private final JwtProperties jwtProperties;
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -43,7 +45,7 @@ public class MonkeyRequestBodyAdvice implements RequestBodyAdvice {
         HttpHeaders headers = inputMessage.getHeaders();
         String token = headers.getFirst("Authorization");
 
-        Long id = JwtTokenUtils.ParseJwtToken(token);
+        Long id = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
         User user = userRepository.findById(id).orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E000, HttpStatus.UNAUTHORIZED));
 
         session.setSession(user.getId());

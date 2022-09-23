@@ -12,8 +12,12 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity @Table(name = "user_info")
 public class UserInfo {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
+
+    @OneToOne(mappedBy = "userInfo")
+//    @JoinTable(name = "user_info", joinColumns = @JoinColumn(name = "user"), inverseJoinColumns = @JoinColumn(name = "id"))
+    private User user;
 
     @Column(name = "type")
     @Convert(converter = UserSocialConverter.class)
@@ -44,4 +48,17 @@ public class UserInfo {
     @Column(name = "phone_number")
     @Convert(converter = EncryptConverter.class)
     private String phoneNumber;
+
+    protected UserInfo(UserId userId, com.monkey.aggregate.user.dto.social.UserInfo userInfo) {
+        this.id = userInfo.getId();
+        this.social = userInfo.getSocialType();
+        this.name = userInfo.getName();
+        this.imageUrl = userInfo.getImageUrl();
+        this.nickName = userInfo.getNickName();
+        this.email = userInfo.getEmail();
+        this.ageRange = userInfo.getAgeRange();
+        this.birthDay = userInfo.getBirthDay();
+        this.gender = userInfo.getGender();
+        this.phoneNumber = userInfo.getPhoneNumber();
+    }
 }

@@ -1,11 +1,16 @@
 package com.monkey.aggregate.user.controller;
 
+import com.monkey.aggregate.user.dto.token.RefreshRequestDto;
+import com.monkey.aggregate.user.service.TokenService;
+import com.monkey.aggregate.user.dto.token.TokenResponseDto;
+import com.monkey.aggregate.user.dto.token.AccessRequestDto;
 import com.monkey.aggregate.user.service.UserService;
-import com.monkey.aggregate.user.dto.user.UserSaveDto;
-import com.monkey.utils.JwtTokenUtils;
+import com.monkey.aggregate.user.validation.sequence.AccessSequence;
+import com.monkey.aggregate.user.validation.sequence.RefreshSequence;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,17 +18,15 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class UserRestController {
     private final UserService userService;
+    private final TokenService tokenService;
 
-    @GetMapping("/test_login")
-    public ResponseEntity<String> test(@RequestParam("id") Long id) {
-        Long result = userService.getUserId(id);
-        String token = JwtTokenUtils.CreateJwtToken(result);
-        return new ResponseEntity<>(token, HttpStatus.OK);
+    @PostMapping
+    public ResponseEntity<TokenResponseDto> token(@Validated(AccessSequence.class) @RequestBody AccessRequestDto dto) {
+        return new ResponseEntity<>(userService.provideAccessToken(dto), HttpStatus.OK);
     }
 
-    @PostMapping("/save")
-    public ResponseEntity<Long> test(@RequestBody UserSaveDto req) {
-        Long userId = userService.saveUser(req);
-        return new ResponseEntity<>(userId, HttpStatus.OK);
+    @PatchMapping("/token")
+    public ResponseEntity<TokenResponseDto> refresh(@Validated(RefreshSequence.class) @RequestBody RefreshRequestDto dto) {
+        return new ResponseEntity<>(tokenService.refreshAccessToken(dto), HttpStatus.OK);
     }
 }

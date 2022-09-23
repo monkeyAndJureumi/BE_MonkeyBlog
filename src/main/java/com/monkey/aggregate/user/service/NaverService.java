@@ -1,14 +1,15 @@
 package com.monkey.aggregate.user.service;
 
-import com.monkey.aggregate.user.dto.social.TokenResponseDto;
+import com.monkey.aggregate.user.dto.social.OAuthToken;
+import com.monkey.aggregate.user.dto.social.UserInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class NaverService implements SocialService {
     @Override
-    public TokenResponseDto getTokenDto(String authorizeCode) {
+    public UserInfo getUserInfo(OAuthToken dto) {
         return null;
     }
 }

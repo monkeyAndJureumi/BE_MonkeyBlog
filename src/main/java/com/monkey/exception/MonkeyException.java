@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 public class MonkeyException extends RuntimeException {
-    private final ErrorCode errorCode;
+    private ErrorCode errorCode;
     private HttpStatus httpStatus;
 
     public MonkeyException(ErrorCode errorCode) {
@@ -17,6 +17,10 @@ public class MonkeyException extends RuntimeException {
     public MonkeyException(ErrorCode errorCode, String message) {
         super(message);
         this.errorCode = errorCode;
+    }
+
+    public MonkeyException(Throwable throwable) {
+        super(throwable);
     }
 
     public MonkeyException(ErrorCode errorCode, HttpStatus httpStatus) {

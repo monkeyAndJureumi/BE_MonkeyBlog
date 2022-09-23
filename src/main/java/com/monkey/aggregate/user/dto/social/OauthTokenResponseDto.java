@@ -1,6 +1,6 @@
 package com.monkey.aggregate.user.dto.social;
 
-public abstract class TokenResponseDto {
+public abstract class OauthTokenResponseDto {
     public abstract String getTokenType();
     public abstract String getAccessToken();
     public abstract Integer getAccessTokenExpiresIn();

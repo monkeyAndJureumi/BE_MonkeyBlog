@@ -1,14 +1,15 @@
 package com.monkey.aggregate.user.dto.social.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkey.aggregate.user.dto.social.UserInfoResponseDto;
+import com.monkey.aggregate.user.dto.social.UserInfo;
+import com.monkey.aggregate.user.enums.SocialType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class KakaoUserInfoResponseDto extends UserInfoResponseDto {
+public class KakaoUserInfoResponseDto extends UserInfo {
     @JsonProperty("id")
     private Long id;
 
@@ -26,6 +27,40 @@ public class KakaoUserInfoResponseDto extends UserInfoResponseDto {
 
     public Long getId() {
         return id;
+    }
+    public SocialType getSocialType() {
+        return SocialType.KAKAO;
+    }
+    public String getName() {
+        return kakaoAccount.getName();
+    }
+
+    public String getImageUrl() {
+        return kakaoAccount.getProfile().getProfileImageUrl();
+    }
+
+    public String getNickName() {
+        return kakaoAccount.getProfile().getNickName();
+    }
+
+    public String getEmail() {
+        return kakaoAccount.getEmail();
+    }
+
+    public String getAgeRange() {
+        return kakaoAccount.getAgeRange();
+    }
+
+    public String getBirthDay() {
+        return kakaoAccount.getBirthday();
+    }
+
+    public String getGender() {
+        return kakaoAccount.getGender();
+    }
+
+    public String getPhoneNumber() {
+        return kakaoAccount.getPhoneNumber();
     }
 
     public Boolean getHasSignedUp() {
