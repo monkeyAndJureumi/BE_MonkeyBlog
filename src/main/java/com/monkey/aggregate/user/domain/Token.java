@@ -1,6 +1,5 @@
 package com.monkey.aggregate.user.domain;
 
-import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
 import com.monkey.properties.JwtProperties;
@@ -9,15 +8,15 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.time.LocalDateTime;
 
-@Document(collation = "user_token")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@RedisHash(value = "jwt_token", timeToLive = 2592000)
 public class Token {
     @Id
-    private UserId userId;
+    private Long userId;
 
     private String accessToken;
 
@@ -33,7 +32,7 @@ public class Token {
 
     @Builder
     public Token(UserId userId, JwtProperties jwtProperties) {
-        this.userId = userId;
+        this.userId = userId.getId();
         this.accessToken = JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId.getId());
         this.accessTokenExpiration = jwtProperties.getAccessTokenExpiration().intValue();
         this.refreshToken = JwtTokenUtils.CreateRefreshToken(jwtProperties.getRefreshTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId.getId());
@@ -43,7 +42,7 @@ public class Token {
     }
 
     public UserId getUserId() {
-        return userId;
+        return new UserId(userId);
     }
 
     public String getAccessToken() {
