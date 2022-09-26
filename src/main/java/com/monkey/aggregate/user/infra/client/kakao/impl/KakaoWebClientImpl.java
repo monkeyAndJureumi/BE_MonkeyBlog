@@ -1,8 +1,6 @@
 package com.monkey.aggregate.user.infra.client.kakao.impl;
 
-import com.monkey.aggregate.user.dto.social.OAuthToken;
-import com.monkey.aggregate.user.dto.social.kakao.KakaoAuthorizeCodeResponseDto;
-import com.monkey.aggregate.user.dto.social.kakao.KakaoTokenResponseDto;
+import com.monkey.aggregate.user.dto.social.OauthToken;
 import com.monkey.aggregate.user.dto.social.kakao.KakaoUserInfoResponseDto;
 import com.monkey.aggregate.user.infra.client.kakao.KakaoWebClient;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +13,7 @@ public class KakaoWebClientImpl implements KakaoWebClient {
     private final KakaoApiWebClientImpl apiWebClient;
 
     @Override
-    public KakaoUserInfoResponseDto requestUserInfo(OAuthToken dto, MultiValueMap<String, String> parameters) {
+    public KakaoUserInfoResponseDto requestUserInfo(OauthToken dto, MultiValueMap<String, String> parameters) {
         return apiWebClient.requestUserInfo(dto, parameters);
     }
 }
