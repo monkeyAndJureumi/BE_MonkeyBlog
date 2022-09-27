@@ -1,6 +1,6 @@
 package com.monkey.aggregate.user.service;
 
-import com.monkey.aggregate.user.dto.social.OAuthToken;
+import com.monkey.aggregate.user.dto.social.OauthToken;
 import com.monkey.aggregate.user.dto.social.UserInfo;
 import com.monkey.aggregate.user.dto.token.TokenResponseDto;
 import com.monkey.aggregate.user.dto.token.AccessRequestDto;
@@ -38,6 +38,6 @@ public class UserService {
 
     private UserInfo getOAuthUserInfo(AccessRequestDto dto) {
         SocialService service = socialServiceFactory.getSocialService(dto.getSocialType());
-        return service.getUserInfo(new OAuthToken(dto.getAccessToken()));
+        return service.getUserInfo(new OauthToken(dto.getAccessToken()));
     }
 }

@@ -1,7 +1,7 @@
 package com.monkey.aggregate.user.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkey.aggregate.user.dto.social.OAuthToken;
+import com.monkey.aggregate.user.dto.social.OauthToken;
 import com.monkey.aggregate.user.dto.social.kakao.KakaoUserInfoRequestDto;
 import com.monkey.aggregate.user.dto.social.kakao.KakaoUserInfoResponseDto;
 import com.monkey.aggregate.user.infra.client.kakao.KakaoWebClient;
@@ -22,7 +22,7 @@ public class KakaoService implements SocialService {
         this.kakaoWebClient = kakaoWebClient;
     }
 
-    public KakaoUserInfoResponseDto getUserInfo(OAuthToken dto) {
+    public KakaoUserInfoResponseDto getUserInfo(OauthToken dto) {
         KakaoUserInfoRequestDto requestDto = new KakaoUserInfoRequestDto(true, properties.getPropertyKeys());
         MultiValueMap<String, String> parameters = WebClientUtils.convertParameters(requestDto, objectMapper);
         return kakaoWebClient.requestUserInfo(dto, parameters);

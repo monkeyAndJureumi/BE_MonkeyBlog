@@ -1,11 +1,9 @@
 package com.monkey.aggregate.user.infra.client.kakao.impl;
 
-import com.monkey.aggregate.user.dto.social.OAuthToken;
+import com.monkey.aggregate.user.dto.social.OauthToken;
 import com.monkey.aggregate.user.dto.social.kakao.KakaoUserInfoResponseDto;
-import com.monkey.aggregate.user.exception.WebClientErrorCode;
 import com.monkey.aggregate.user.exception.WebClientException;
 import com.monkey.aggregate.user.infra.client.kakao.KakaoApiWebClient;
-import com.monkey.exception.MonkeyException;
 import com.monkey.properties.KakaoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -29,7 +27,7 @@ public class KakaoApiWebClientImpl implements KakaoApiWebClient {
     }
 
     @Override
-    public KakaoUserInfoResponseDto requestUserInfo(OAuthToken dto, MultiValueMap<String, String> parameters) {
+    public KakaoUserInfoResponseDto requestUserInfo(OauthToken dto, MultiValueMap<String, String> parameters) {
         KakaoUserInfoResponseDto responseDto = client.post()
                 .uri(uriBuilder -> uriBuilder.path(properties.getUserInfoUri()).build())
                 .header(HttpHeaders.AUTHORIZATION, dto.getAccessToken())

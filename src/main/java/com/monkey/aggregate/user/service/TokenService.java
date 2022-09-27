@@ -23,7 +23,7 @@ public class TokenService {
     }
 
     public TokenResponseDto getToken(User user) {
-        Token token = tokenRepository.findById(user.getUserId()).orElseGet(() -> createToken(user));
+        Token token = tokenRepository.findById(user.getUserId().getId()).orElseGet(() -> createToken(user));
         return createUserTokenDto(token);
     }
 
