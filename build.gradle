@@ -40,6 +40,7 @@ tasks.named('test') {
 
 springBoot {
     mainClass ='com.monkey.MonkeyBlogJavaApplication'
+    archivesBaseName = 'MonkeyBlog'
 }
 
 bootRun {
