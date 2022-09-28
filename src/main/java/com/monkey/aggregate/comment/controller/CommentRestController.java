@@ -9,10 +9,12 @@ import com.monkey.aggregate.comment.dto.CommentUpdateDto;
 import com.monkey.aggregate.post.domain.PostId;
 import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aop.annotation.NonRequiredParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 
 @RestController
@@ -22,8 +24,9 @@ public class CommentRestController {
     private final CommentService commentService;
     private final CommentApiService commentApiService;
 
+    @ApiOperation(value = "게시글의 댓글 목록을 리턴")
     @GetMapping
-    public ResponseEntity<CommentResponseDto> getCommentsByPost(@NonRequiredParam final UserId userId, @RequestParam("post_id") final Long postId) {
+    public ResponseEntity<CommentResponseDto> getCommentsByPost(@NonRequiredParam @ApiIgnore final UserId userId, @RequestParam("post_id") final Long postId) {
         CommentResponseDto responseDto = commentApiService.selectByPostId(userId, new PostId(postId));
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
