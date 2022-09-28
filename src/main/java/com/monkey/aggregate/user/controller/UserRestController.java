@@ -27,6 +27,7 @@ public class UserRestController {
     @ApiOperation(value = "액세스 토큰 발급", notes = "소셜로그인을 진행한 후 발급받은 액세스토큰을 요청 값에 담아 전송하면 서비스 액세스 토큰을 리턴")
     @ApiResponses({
             @ApiResponse(code = 200, message = "액세스 토큰과 리프레시 토큰을 리턴"),
+            @ApiResponse(code = 400, message = "토큰타입이 일치하지 않는 경우"),
             @ApiResponse(code = 401, message = "소셜로그인을 진행한 후 발급받은 액세스 토큰이 만료 된 경우")
     })
     @PostMapping
