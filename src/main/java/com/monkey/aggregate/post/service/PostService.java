@@ -26,6 +26,7 @@ public class PostService {
                 .author(new PostAuthor(dto.getUserId()))
                 .content(dto.getContent())
                 .isSecret(dto.getIsSecrete())
+                .status(dto.getStatus())
                 .build();
         postRepository.save(post);
     }
@@ -34,7 +35,7 @@ public class PostService {
         Post post = postRepository.findById(dto.getPostId())
                 .orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E100));
         permissionService.checkPermission(dto.getUserId(), post);
-        post.update(dto.getContent(), dto.getIsSecret());
+        post.update(dto.getContent(), dto.getIsSecret(), dto.getStatus());
     }
 
     public void deletePost(final UserId userId, final PostId postId) {

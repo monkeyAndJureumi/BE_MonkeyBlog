@@ -5,6 +5,7 @@ import com.monkey.aggregate.post.domain.PostAuthor;
 import com.monkey.aggregate.post.domain.PostId;
 import com.monkey.aggregate.post.dto.PostSaveDto;
 import com.monkey.aggregate.post.dto.PostUpdateDto;
+import com.monkey.aggregate.post.enums.PostStatus;
 import com.monkey.aggregate.post.infra.repository.PostRepository;
 import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aop.permission.service.PermissionService;
@@ -50,7 +51,7 @@ public class PostServiceTest {
     @Test
     public void modifiedPost() {
         //given
-        PostUpdateDto updateDto = new PostUpdateDto(1L, "Modified Content", false);
+        PostUpdateDto updateDto = new PostUpdateDto(1L, "Modified Content", false, PostStatus.DEACTIVATE);
         Post post = Post.builder()
                 .author(new PostAuthor(new UserId(1L)))
                 .content("Test Content")

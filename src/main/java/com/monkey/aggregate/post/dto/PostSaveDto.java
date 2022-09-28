@@ -1,14 +1,21 @@
 package com.monkey.aggregate.post.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.monkey.aggregate.post.enums.PostStatus;
 import com.monkey.dto.UserSessionDto;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class PostSaveDto extends UserSessionDto {
+    @JsonProperty(value = "content")
     private String content;
 
+    @JsonProperty(value = "is_secret")
     private boolean isSecrete;
+
+    @JsonProperty(value = "status")
+    private PostStatus status;
 
     public PostSaveDto(String content, boolean isSecrete) {
         this.content = content;
@@ -21,5 +28,9 @@ public class PostSaveDto extends UserSessionDto {
 
     public boolean getIsSecrete() {
         return isSecrete;
+    }
+
+    public PostStatus getStatus() {
+        return status;
     }
 }
