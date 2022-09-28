@@ -7,7 +7,7 @@ import javax.persistence.Converter;
 
 @Converter(autoApply = true)
 public class PostStatusConverter extends AbstractEnumConverter<PostStatus> {
-    public PostStatusConverter(boolean isNullable, boolean isEncrypt) {
+    public PostStatusConverter() {
         super(PostStatus.class, false, false);
     }
 }
