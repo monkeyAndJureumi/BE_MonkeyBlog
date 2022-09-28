@@ -9,8 +9,6 @@ import com.monkey.aggregate.comment.dto.CommentUpdateDto;
 import com.monkey.aggregate.post.domain.PostId;
 import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aop.annotation.NonRequiredParam;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
@@ -28,10 +26,6 @@ public class CommentRestController {
     private final CommentApiService commentApiService;
 
     @ApiOperation(value = "게시글의 댓글 목록을 리턴")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "userId", value = "사용자 인덱스번호(Authorization)"),
-//            @ApiImplicitParam(name = "postId", value = "게시글 인덱스번호", required = true)
-//    })
     @GetMapping
     public ResponseEntity<CommentResponseDto> getCommentsByPost(
             @NonRequiredParam @ApiIgnore final UserId userId,

@@ -30,6 +30,7 @@ public class TokenService {
     public Token createToken(User user) {
         Token token = Token.builder()
                 .userId(user.getUserId())
+                .userCode(user.getUserCode())
                 .jwtProperties(jwtProperties)
                 .build();
         return tokenRepository.save(token);

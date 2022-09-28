@@ -59,4 +59,8 @@ public class User implements PermissionEntity {
     public UserId getUserId() {
         return new UserId(this.getId());
     }
+
+    public String getUserCode() {
+        return id + "_" + userInfo.getId();
+    }
 }

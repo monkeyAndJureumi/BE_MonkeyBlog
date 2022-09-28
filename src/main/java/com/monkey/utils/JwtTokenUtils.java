@@ -13,7 +13,7 @@ import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JwtTokenUtils {
-    public static String CreateAccessToken(long expiration, String issuer, String secretKey, Long userId) {
+    public static String CreateAccessToken(long expiration, String issuer, String secretKey, Long userId, String userCode) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + Duration.ofSeconds(expiration).toMillis());
         return Jwts.builder()
@@ -22,12 +22,13 @@ public class JwtTokenUtils {
                 .setIssuedAt(now)
                 .setExpiration(expireDate)
                 .setSubject("Access Token")
-                .setId(userId.toString())
                 .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes()))
+                .claim("user_id", userId)
+                .claim("user_code", userCode)
                 .compact();
     }
 
-    public static String CreateRefreshToken(long expiration, String issuer, String secretKey, Long userId) {
+    public static String CreateRefreshToken(long expiration, String issuer, String secretKey, Long userId, String userCode) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + Duration.ofSeconds(expiration).toMillis());
         return Jwts.builder()
@@ -36,18 +37,19 @@ public class JwtTokenUtils {
                 .setIssuedAt(now)
                 .setExpiration(expireDate)
                 .setSubject("Refresh Token")
-                .setId(userId.toString())
                 .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes()))
+                .claim("user_id", userId)
+                .claim("user_code", userCode)
                 .compact();
     }
 
-    public static Long ParseJwtToken(String token, String secretKey) throws SignatureException {
+    public static Claims ParseJwtToken(String token, String secretKey) throws SignatureException {
         token = RemoveBearer(token);
         Claims claims = Jwts.parser()
                 .setSigningKey(Base64.getEncoder().encodeToString(secretKey.getBytes()))
                 .parseClaimsJws(token)
                 .getBody();
-        return Long.parseLong(claims.getId());
+        return claims;
     }
 
     private static String RemoveBearer(String token) {

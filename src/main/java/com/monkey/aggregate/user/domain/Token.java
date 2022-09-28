@@ -18,6 +18,8 @@ public class Token {
     @Id
     private Long userId;
 
+    private String userCode;
+
     private String accessToken;
 
     private Integer accessTokenExpiration;
@@ -31,11 +33,11 @@ public class Token {
     private LocalDateTime issuedAt;
 
     @Builder
-    public Token(UserId userId, JwtProperties jwtProperties) {
+    public Token(UserId userId, String userCode, JwtProperties jwtProperties) {
         this.userId = userId.getId();
-        this.accessToken = JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId.getId());
+        this.accessToken = JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId.getId(), userCode);
         this.accessTokenExpiration = jwtProperties.getAccessTokenExpiration().intValue();
-        this.refreshToken = JwtTokenUtils.CreateRefreshToken(jwtProperties.getRefreshTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId.getId());
+        this.refreshToken = JwtTokenUtils.CreateRefreshToken(jwtProperties.getRefreshTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId.getId(), userCode);
         this.refreshTokenExpiration = jwtProperties.getRefreshTokenExpiration().intValue();
         this.issuedAt = LocalDateTime.now();
         this.isExpired = false;
@@ -66,7 +68,7 @@ public class Token {
         validExpiration();
         if (!this.refreshToken.equals(refreshToken))
             throw new MonkeyException(MonkeyErrorCode.E600);
-        this.accessToken = JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId);
+        this.accessToken = JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId, userCode);
     }
 
     /**

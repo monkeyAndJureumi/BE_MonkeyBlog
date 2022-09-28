@@ -4,6 +4,7 @@ import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aop.annotation.NonRequiredParam;
 import com.monkey.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,7 @@ public class UserSessionArgumentResolver implements HandlerMethodArgumentResolve
 //        if (token == null && parameter.hasParameterAnnotation(NonRequiredParam.class))
 //            return new UserId(null);
 
-        Long userId = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
-        return new UserId(userId);
+        Claims claims = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
+        return new UserId(claims.get("user_id", Long.class));
     }
 }

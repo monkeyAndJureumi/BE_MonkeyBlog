@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("/user/token")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserRestController {
     private final UserService userService;
@@ -30,7 +30,7 @@ public class UserRestController {
             @ApiResponse(code = 400, message = "토큰타입이 일치하지 않는 경우"),
             @ApiResponse(code = 401, message = "소셜로그인을 진행한 후 발급받은 액세스 토큰이 만료 된 경우")
     })
-    @PostMapping
+    @PostMapping("/token")
     public ResponseEntity<TokenResponseDto> token(@Validated(AccessSequence.class) @RequestBody AccessRequestDto dto) {
         return new ResponseEntity<>(userService.provideAccessToken(dto), HttpStatus.OK);
     }
