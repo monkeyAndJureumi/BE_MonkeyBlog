@@ -8,7 +8,10 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PostTempSaveDto extends UserSessionDto {
+public class PostTempUpdateDto extends UserSessionDto {
+    @JsonProperty(value = "post_id")
+    private String postTempId;
+
     @JsonProperty(value = "content")
     private String content;
 }
