@@ -2,14 +2,12 @@ package com.monkey.aggregate.user.service;
 
 import com.monkey.aggregate.user.dto.social.OauthToken;
 import com.monkey.aggregate.user.dto.social.UserInfo;
-import com.monkey.aggregate.user.dto.token.TokenResponseDto;
-import com.monkey.aggregate.user.dto.token.AccessRequestDto;
-import com.monkey.aggregate.user.enums.GrantType;
+import com.monkey.aggregate.token.dto.TokenRequestDto;
+import com.monkey.aggregate.user.dto.user.UserIdentityDto;
 import com.monkey.aggregate.user.infra.repository.UserRepository;
 import com.monkey.aggregate.user.domain.User;
 import com.monkey.aggregate.user.exception.UserNotFoundException;
 import com.monkey.enums.MonkeyErrorCode;
-import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,24 +18,20 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
     private final UserRepository userRepository;
     private final SocialServiceFactory socialServiceFactory;
-    private final TokenService tokenService;
 
     public Long getUserId(Long id) {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(MonkeyErrorCode.E000)).getId();
     }
 
-    public TokenResponseDto provideAccessToken(AccessRequestDto dto) {
-        if (!dto.getGrantType().equals(GrantType.ACCESS_TOKEN))
-            throw new MonkeyException(MonkeyErrorCode.E400);
-
+    public UserIdentityDto getUserInfo(TokenRequestDto dto) {
         UserInfo userInfo = getOAuthUserInfo(dto);
-        User user = userRepository.findByUserInfoIdAndAndUserInfoSocial(userInfo.getId(), dto.getSocialType())
+        User user = userRepository.findByUserInfoIdAndAndUserInfoSocial(userInfo.getId(), dto.getSocial_type())
                 .orElseGet(() -> userRepository.save(new User(userInfo)));
-        return tokenService.getToken(user);
+        return new UserIdentityDto(user);
     }
 
-    private UserInfo getOAuthUserInfo(AccessRequestDto dto) {
-        SocialService service = socialServiceFactory.getSocialService(dto.getSocialType());
-        return service.getUserInfo(new OauthToken(dto.getAccessToken()));
+    private UserInfo getOAuthUserInfo(TokenRequestDto dto) {
+        SocialService service = socialServiceFactory.getSocialService(dto.getSocial_type());
+        return service.getUserInfo(new OauthToken(dto.getAccess_token()));
     }
 }

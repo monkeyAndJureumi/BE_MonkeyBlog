@@ -14,12 +14,21 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.ConstraintViolationException;
+import java.util.Iterator;
+
 @Slf4j
 @org.springframework.web.bind.annotation.RestControllerAdvice
 public class RestControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ExceptionResponse> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), exception.getBindingResult().getAllErrors().get(0).getDefaultMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), exception.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    protected ResponseEntity<ExceptionResponse> constraintViolationException(ConstraintViolationException exception) {
+        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), getErrorMessage(exception.getConstraintViolations().iterator())), HttpStatus.BAD_REQUEST);
     }
 
 
@@ -53,5 +62,21 @@ public class RestControllerAdvice {
             this.errorCode = errorCode;
             this.message = message;
         }
+    }
+
+    private String getErrorMessage(final Iterator<ConstraintViolation<?>> violationIterator) {
+        final StringBuilder result = new StringBuilder();
+        while (violationIterator.hasNext()) {
+            final ConstraintViolation<?> constraintViolation = violationIterator.next();
+            result.append(getPropertyName(constraintViolation.getPropertyPath().toString()));
+            result.append(" is ");
+            result.append(constraintViolation.getMessage());
+        }
+
+        return result.toString();
+    }
+
+    private String getPropertyName(String path) {
+        return path.substring(path.lastIndexOf(".") + 1);
     }
 }

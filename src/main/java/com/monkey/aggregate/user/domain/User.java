@@ -1,7 +1,6 @@
 package com.monkey.aggregate.user.domain;
 
 import com.monkey.aggregate.user.dto.social.UserInfo;
-import com.monkey.aggregate.user.enums.SocialType;
 import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
@@ -19,6 +18,9 @@ public class User implements PermissionEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "code")
+    private String code;
 
     @Column(name = "name")
     private String name;
@@ -47,6 +49,7 @@ public class User implements PermissionEntity {
 
     public User(UserInfo userInfo) {
         this.name = userInfo.getName();
+        this.code = userInfo.getSocialType() + "_" + userInfo.getId();
         this.nickName = userInfo.getNickName();
         this.email = userInfo.getEmail();
         this.number = userInfo.getPhoneNumber();
@@ -60,7 +63,4 @@ public class User implements PermissionEntity {
         return new UserId(this.getId());
     }
 
-    public String getUserCode() {
-        return id + "_" + userInfo.getId();
-    }
 }
