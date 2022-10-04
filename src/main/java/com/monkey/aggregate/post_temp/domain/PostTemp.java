@@ -28,7 +28,7 @@ public class PostTemp implements PermissionEntity {
     private LocalDateTime createdAt;
 
     public PostTemp(PostTempSaveDto dto) {
-        this.id = new PostTempId(dto.getUserCode());
+        this.id = new PostTempId(LocalDateTime.now() + "_" + dto.getUserCode());
         this.content = dto.getContent();
         this.userId = dto.getUserId();
         this.createdAt = LocalDateTime.now();

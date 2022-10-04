@@ -3,6 +3,7 @@ package com.monkey.aggregate.post.controller;
 import com.monkey.aggregate.post.domain.PostId;
 import com.monkey.aggregate.post.dto.PostResponseDto;
 import com.monkey.aggregate.post.dto.PostSaveDto;
+import com.monkey.aggregate.post.dto.PostUpdateDto;
 import com.monkey.aggregate.post.infra.repository.PostRepository;
 import com.monkey.aggregate.post.service.PostService;
 import com.monkey.aggregate.user.domain.UserId;
@@ -11,11 +12,13 @@ import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/post")
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostRestController {
     private final PostService postService;
     private final PostRepository postRepository;
@@ -34,6 +37,12 @@ public class PostRestController {
     @DeleteMapping
     public ResponseEntity<HttpStatus> delete(UserId userId, @RequestParam("id") Long postId) {
         postService.deletePost(userId, new PostId(postId));
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping
+    public ResponseEntity<HttpStatus> update(PostUpdateDto dto) {
+        postService.modifyPost(dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

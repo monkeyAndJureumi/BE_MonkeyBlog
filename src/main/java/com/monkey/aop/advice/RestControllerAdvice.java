@@ -11,19 +11,21 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Iterator;
+import java.util.List;
 
 @Slf4j
 @org.springframework.web.bind.annotation.RestControllerAdvice
 public class RestControllerAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ExceptionResponse> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), exception.getFieldError().getDefaultMessage()), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), getErrorMessage(exception.getBindingResult().getAllErrors())), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
@@ -62,6 +64,12 @@ public class RestControllerAdvice {
             this.errorCode = errorCode;
             this.message = message;
         }
+    }
+
+    private String getErrorMessage(final List<ObjectError> errors) {
+        final StringBuilder result = new StringBuilder();
+        errors.forEach(error -> result.append(error.getDefaultMessage()));
+        return result.toString();
     }
 
     private String getErrorMessage(final Iterator<ConstraintViolation<?>> violationIterator) {

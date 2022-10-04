@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Getter
@@ -16,8 +15,8 @@ public class PostTempId implements Serializable {
     private static final long serialVersionUID = 511665815035422515L;
     private String id;
 
-    public PostTempId(String userCode) {
-        this.id = LocalDateTime.now() + "_" + userCode;
+    public PostTempId(String id) {
+        this.id = id;
     }
 
     @Override

@@ -25,13 +25,13 @@ public class UserService {
 
     public UserIdentityDto getUserInfo(TokenRequestDto dto) {
         UserInfo userInfo = getOAuthUserInfo(dto);
-        User user = userRepository.findByUserInfoIdAndAndUserInfoSocial(userInfo.getId(), dto.getSocial_type())
+        User user = userRepository.findByUserInfoIdAndAndUserInfoSocial(userInfo.getId(), dto.getSocialType())
                 .orElseGet(() -> userRepository.save(new User(userInfo)));
         return new UserIdentityDto(user);
     }
 
     private UserInfo getOAuthUserInfo(TokenRequestDto dto) {
-        SocialService service = socialServiceFactory.getSocialService(dto.getSocial_type());
-        return service.getUserInfo(new OauthToken(dto.getAccess_token()));
+        SocialService service = socialServiceFactory.getSocialService(dto.getSocialType());
+        return service.getUserInfo(new OauthToken(dto.getAccessToken()));
     }
 }

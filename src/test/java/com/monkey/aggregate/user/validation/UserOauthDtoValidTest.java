@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkey.aggregate.token.dto.TokenRequestDto;
 import com.monkey.aggregate.user.enums.SocialType;
-import com.monkey.aggregate.token.marker.AccessType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -21,7 +20,6 @@ import java.util.Iterator;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(properties = "spring.profiles.active=local")
@@ -66,7 +64,7 @@ public class UserOauthDtoValidTest {
         assertEquals("authorization_token is not null", iterator.next().getMessage());
     }
 
-    @Validated(AccessType.class)
+    @Validated
     private Iterator<ConstraintViolation<TokenRequestDto>> validDto(TokenRequestDto dto) {
         Set<ConstraintViolation<TokenRequestDto>> validResult = validator.validate(dto);
         return validResult.iterator();
@@ -141,6 +139,6 @@ public class UserOauthDtoValidTest {
         TokenRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenRequestDto.class);
 
         //then
-        assertEquals(SocialType.KAKAO, dto.getSocial_type());
+        assertEquals(SocialType.KAKAO, dto.getSocialType());
     }
 }

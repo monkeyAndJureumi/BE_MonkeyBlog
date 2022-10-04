@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Documented
 public @interface TokenRequestConstraint {
-    String message() default "";
+    String message() default "grant_type is null";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

@@ -2,6 +2,7 @@ package com.monkey.aggregate.post_temp.service;
 
 import com.monkey.aggregate.post_temp.domain.PostTemp;
 import com.monkey.aggregate.post_temp.domain.PostTempId;
+import com.monkey.aggregate.post_temp.dto.PostTempResponseDto;
 import com.monkey.aggregate.post_temp.dto.PostTempSaveDto;
 import com.monkey.aggregate.post_temp.dto.PostTempUpdateDto;
 import com.monkey.aggregate.post_temp.infra.PostTempRepository;
@@ -17,6 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostTempService {
     private final PostTempRepository postTempRepository;
     private final PermissionService permissionService;
+
+    public PostTempResponseDto select(UserId userId, String id) {
+        PostTemp post = postTempRepository.findById(new PostTempId(id)).orElseThrow();
+        permissionService.checkPermission(userId, post);
+        return new PostTempResponseDto(post);
+    }
 
     @Transactional
     public void save(PostTempSaveDto dto) {

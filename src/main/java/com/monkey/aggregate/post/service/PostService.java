@@ -1,7 +1,6 @@
 package com.monkey.aggregate.post.service;
 
 import com.monkey.aop.permission.service.PermissionService;
-import com.monkey.aggregate.post.domain.PostAuthor;
 import com.monkey.aggregate.post.domain.Post;
 import com.monkey.aggregate.post.domain.PostId;
 import com.monkey.aggregate.post.infra.repository.PostRepository;
@@ -22,12 +21,7 @@ public class PostService {
     private final PermissionService permissionService;
 
     public void savePost(final PostSaveDto dto) {
-        Post post = Post.builder()
-                .author(new PostAuthor(dto.getUserId()))
-                .content(dto.getContent())
-                .isSecret(dto.getIsSecrete())
-                .status(dto.getStatus())
-                .build();
+        Post post = new Post(dto);
         postRepository.save(post);
     }
 
@@ -35,7 +29,7 @@ public class PostService {
         Post post = postRepository.findById(dto.getPostId())
                 .orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E100));
         permissionService.checkPermission(dto.getUserId(), post);
-        post.update(dto.getContent(), dto.getIsSecret(), dto.getStatus());
+        post.update(dto);
     }
 
     public void deletePost(final UserId userId, final PostId postId) {

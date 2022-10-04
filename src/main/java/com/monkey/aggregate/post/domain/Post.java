@@ -1,6 +1,7 @@
 package com.monkey.aggregate.post.domain;
 
-import com.monkey.aggregate.post.enums.PostStatus;
+import com.monkey.aggregate.post.dto.PostSaveDto;
+import com.monkey.aggregate.post.dto.PostUpdateDto;
 import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.aggregate.user.domain.UserId;
 import lombok.AccessLevel;
@@ -28,7 +29,6 @@ public class Post implements PermissionEntity {
 
     private boolean isSecret;
 
-    private PostStatus status;
 
 //    @ElementCollection
 //    @CollectionTable(name = "post_comments", joinColumns = @JoinColumn(name = "id"))
@@ -40,19 +40,17 @@ public class Post implements PermissionEntity {
     private LocalDateTime modifiedAt;
 
     @Builder
-    public Post(PostAuthor author, String content, boolean isSecret, PostStatus status) {
-        this.author = author;
-        this.content = content;
-        this.isSecret = isSecret;
-        this.status = status;
+    public Post(PostSaveDto dto) {
+        this.author = new PostAuthor(dto.getUserId());
+        this.content = dto.getContent();
+        this.isSecret = dto.getIsSecrete();
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
     }
 
-    public void update(String content, boolean isSecret, PostStatus status) {
-        this.content = content;
-        this.isSecret = isSecret;
-        this.status = status;
+    public void update(PostUpdateDto dto) {
+        this.content = dto.getContent();
+        this.isSecret = dto.getIsSecret();
         this.modifiedAt = LocalDateTime.now();
     }
 
