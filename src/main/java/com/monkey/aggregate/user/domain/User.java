@@ -1,6 +1,8 @@
 package com.monkey.aggregate.user.domain;
 
-import com.monkey.aggregate.user.dto.social.UserInfo;
+import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
+import com.monkey.aggregate.user.dto.user.UserProfileSaveDto;
+import com.monkey.aggregate.user.dto.user.UserProfileUpdateDto;
 import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
@@ -37,7 +39,10 @@ public class User implements PermissionEntity {
     private String number;
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private com.monkey.aggregate.user.domain.UserInfo userInfo;
+    private UserInfo userInfo;
+
+    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private UserProfile profile;
 
     // 가입일
     @Column(name = "created_at", updatable = false)
@@ -47,20 +52,27 @@ public class User implements PermissionEntity {
     @Column(name = "modified_at")
     private LocalDateTime modifiedAt;
 
-    public User(UserInfo userInfo) {
-        this.name = userInfo.getName();
-        this.code = userInfo.getSocialType() + "_" + userInfo.getId();
-        this.nickName = userInfo.getNickName();
-        this.email = userInfo.getEmail();
-        this.number = userInfo.getPhoneNumber();
-        this.userInfo = new com.monkey.aggregate.user.domain.UserInfo(this.getUserId(), userInfo);
-        this.createdAt = LocalDateTime.now();
-        this.modifiedAt = LocalDateTime.now();
-    }
-
     @Override
     public UserId getUserId() {
         return new UserId(this.getId());
     }
 
+    public User(OAuthUserInfo userInfo) {
+        this.name = userInfo.getName();
+        this.code = userInfo.getSocialType() + "_" + userInfo.getId();
+        this.nickName = userInfo.getNickName();
+        this.email = userInfo.getEmail();
+        this.number = userInfo.getPhoneNumber();
+        this.userInfo = new UserInfo(userInfo);
+        this.createdAt = LocalDateTime.now();
+        this.modifiedAt = LocalDateTime.now();
+    }
+
+    public void setProfile(UserProfileSaveDto dto) {
+        this.profile = new UserProfile(this, dto);
+    }
+
+    public void updateProfile(UserProfileUpdateDto dto) {
+        this.profile.update(dto);
+    }
 }

@@ -1,5 +1,6 @@
 package com.monkey.aggregate.user.domain;
 
+import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 import com.monkey.aggregate.user.enums.SocialType;
 import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
@@ -49,7 +50,7 @@ public class UserInfo {
     @Convert(converter = EncryptConverter.class)
     private String phoneNumber;
 
-    protected UserInfo(UserId userId, com.monkey.aggregate.user.dto.social.UserInfo userInfo) {
+    protected UserInfo(OAuthUserInfo userInfo) {
         this.id = userInfo.getId();
         this.social = userInfo.getSocialType();
         this.name = userInfo.getName();

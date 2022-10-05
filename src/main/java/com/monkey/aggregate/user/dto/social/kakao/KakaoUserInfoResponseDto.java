@@ -1,7 +1,7 @@
 package com.monkey.aggregate.user.dto.social.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkey.aggregate.user.dto.social.UserInfo;
+import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 import com.monkey.aggregate.user.enums.SocialType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class KakaoUserInfoResponseDto extends UserInfo {
+public class KakaoUserInfoResponseDto extends OAuthUserInfo {
     @JsonProperty("id")
     private Long id;
 

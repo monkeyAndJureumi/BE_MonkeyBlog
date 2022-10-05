@@ -1,8 +1,8 @@
 package com.monkey.aggregate.user.service;
 
 import com.monkey.aggregate.user.dto.social.OauthToken;
-import com.monkey.aggregate.user.dto.social.UserInfo;
+import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 
 public interface SocialService {
-    UserInfo getUserInfo(OauthToken dto);
+    OAuthUserInfo getUserInfo(OauthToken dto);
 }

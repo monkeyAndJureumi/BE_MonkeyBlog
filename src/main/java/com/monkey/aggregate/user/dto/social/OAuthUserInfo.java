@@ -2,7 +2,7 @@ package com.monkey.aggregate.user.dto.social;
 
 import com.monkey.aggregate.user.enums.SocialType;
 
-public abstract class UserInfo {
+public abstract class OAuthUserInfo {
     public abstract SocialType getSocialType();
     public abstract Long getId();
     public abstract String getName();

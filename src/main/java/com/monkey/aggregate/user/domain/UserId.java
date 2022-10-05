@@ -6,12 +6,14 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserId {
+public class UserId implements Serializable {
+    private static final long serialVersionUID = -7032849755577754587L;
     @Column(name = "user_id")
     private Long id;
 

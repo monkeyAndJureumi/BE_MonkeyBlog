@@ -1,7 +1,7 @@
 package com.monkey.aggregate.user.service;
 
 import com.monkey.aggregate.user.dto.social.OauthToken;
-import com.monkey.aggregate.user.dto.social.UserInfo;
+import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 import com.monkey.aggregate.token.dto.TokenRequestDto;
 import com.monkey.aggregate.user.dto.user.UserIdentityDto;
 import com.monkey.aggregate.user.infra.repository.UserRepository;
@@ -23,14 +23,15 @@ public class UserService {
         return userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(MonkeyErrorCode.E000)).getId();
     }
 
+    @Transactional
     public UserIdentityDto getUserInfo(TokenRequestDto dto) {
-        UserInfo userInfo = getOAuthUserInfo(dto);
+        OAuthUserInfo userInfo = getOAuthUserInfo(dto);
         User user = userRepository.findByUserInfoIdAndAndUserInfoSocial(userInfo.getId(), dto.getSocialType())
                 .orElseGet(() -> userRepository.save(new User(userInfo)));
         return new UserIdentityDto(user);
     }
 
-    private UserInfo getOAuthUserInfo(TokenRequestDto dto) {
+    private OAuthUserInfo getOAuthUserInfo(TokenRequestDto dto) {
         SocialService service = socialServiceFactory.getSocialService(dto.getSocialType());
         return service.getUserInfo(new OauthToken(dto.getAccessToken()));
     }
