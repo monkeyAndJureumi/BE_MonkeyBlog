@@ -36,7 +36,7 @@ public class CommentServiceTest {
     public void saveComment() {
         //given
         CommentSaveDto dto = new CommentSaveDto(1L, null, "Test Comment", false);
-        dto.setSession(1L);
+        dto.setSession("test");
 
         //when
         commentService.save(dto);
@@ -50,7 +50,7 @@ public class CommentServiceTest {
     public void saveReply() {
         //given
         CommentSaveDto dto = new CommentSaveDto(1L, 1L, "Test Reply Comment", false);
-        dto.setSession(1L);
+        dto.setSession("test");
         doReturn(Optional.of(getComment())).when(commentRepository).findById(dto.getRefCommentId());
 
         //when
@@ -66,7 +66,7 @@ public class CommentServiceTest {
     public void modifyComment() {
         //given
         CommentUpdateDto dto = new CommentUpdateDto(1L, "Test Modify Comment", false);
-        dto.setSession(1L);
+        dto.setSession("test");
         Comment comment = getComment();
         doReturn(Optional.of(comment)).when(commentRepository).findById(1L);
         //when

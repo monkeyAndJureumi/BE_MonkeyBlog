@@ -1,5 +1,7 @@
 package com.monkey.aggregate.skill.service;
 
+import com.monkey.aggregate.skill.dto.UserSkillSearchResultDto;
+import com.monkey.aggregate.skill.enums.Skill;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -18,30 +20,26 @@ public class UserSkillService {
     private final String KEY = "test";
 
 
-    public List find(String keyword) {
+    public UserSkillSearchResultDto find(String keyword) {
         keyword = keyword.toUpperCase();
-        List<String> result = new ArrayList<>();
+        List<Skill> result = new ArrayList<>();
         int length = keyword.length();
-        if (length == 0) return result;
+        if (length == 0) return new UserSkillSearchResultDto(result);
 
         Long start = redisTemplate.opsForZSet().rank(KEY, keyword);
-        log.info("keyword rank: {}", start);
-        if (start == null) return result;
+        if (start == null) return new UserSkillSearchResultDto(result);
 
         Set<ZSetOperations.TypedTuple<String>> rangeResultWithScore = redisTemplate.opsForZSet().rangeWithScores(KEY, start, -1);
-        log.info("range Result Size: {}", rangeResultWithScore.size());
-        if (rangeResultWithScore.isEmpty()) return result;
+        if (rangeResultWithScore.isEmpty()) return new UserSkillSearchResultDto(result);
 
         for(ZSetOperations.TypedTuple<String> typedTuple : rangeResultWithScore) {
             String value = typedTuple.getValue();
-            log.info("search value: {}", value);
-            log.info("search score: {}", typedTuple.getScore());
             int minLength = Math.min(value.length(), length);
             if (value.endsWith("*") && value.startsWith(keyword.substring(0, minLength))) {
-                result.add(value.replace("*", ""));
+                result.add(Skill.create(value.replace("*", "")));
             }
         }
 
-        return result;
+        return new UserSkillSearchResultDto(result);
     }
 }

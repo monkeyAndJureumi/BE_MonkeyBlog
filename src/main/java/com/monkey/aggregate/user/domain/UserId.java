@@ -3,6 +3,7 @@ package com.monkey.aggregate.user.domain;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -15,9 +16,10 @@ import java.util.Objects;
 public class UserId implements Serializable {
     private static final long serialVersionUID = -7032849755577754587L;
     @Column(name = "user_id")
-    private Long id;
+    @Comment(value = "유저 아이디")
+    private String id;
 
-    public UserId(Long id) {
+    public UserId(String id) {
         this.id = id;
     }
 

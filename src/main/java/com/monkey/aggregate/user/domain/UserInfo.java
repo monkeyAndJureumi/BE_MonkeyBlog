@@ -6,6 +6,7 @@ import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 
@@ -22,35 +23,44 @@ public class UserInfo {
 
     @Column(name = "type")
     @Convert(converter = UserSocialConverter.class)
+    @Comment("소셜 타입")
     private SocialType social;
 
     @Column(name = "name")
+    @Comment("이름")
     private String name;
 
     @Column(name = "image_url")
+    @Comment("프로필 이미지 URL")
     private String imageUrl;
 
     @Column(name = "nickname")
+    @Comment("닉네임")
     private String nickName;
 
     @Column(name = "email")
     @Convert(converter = EncryptConverter.class)
+    @Comment("이메일 주소")
     private String email;
 
     @Column(name = "age_range")
+    @Comment("연령대")
     private String ageRange;
 
     @Column(name = "birthday")
+    @Comment("생년월일")
     private String birthDay;
 
     @Column(name = "gender")
+    @Comment("성별")
     private String gender;
 
     @Column(name = "phone_number")
     @Convert(converter = EncryptConverter.class)
+    @Comment("휴대전화번호")
     private String phoneNumber;
 
-    protected UserInfo(OAuthUserInfo userInfo) {
+    public UserInfo(OAuthUserInfo userInfo) {
         this.id = userInfo.getId();
         this.social = userInfo.getSocialType();
         this.name = userInfo.getName();
@@ -61,5 +71,9 @@ public class UserInfo {
         this.birthDay = userInfo.getBirthDay();
         this.gender = userInfo.getGender();
         this.phoneNumber = userInfo.getPhoneNumber();
+    }
+
+    protected void setUser(User user) {
+        this.user = user;
     }
 }

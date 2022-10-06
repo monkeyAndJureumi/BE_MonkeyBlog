@@ -19,7 +19,7 @@ public class UserSkillController {
     private final UserSkillService service;
 
     @GetMapping
-    public ResponseEntity<List<String>> search(@RequestParam("keyword") String keyword) {
+    public ResponseEntity<UserSkillSearchResultDto> search(@RequestParam("keyword") String keyword) {
         return new ResponseEntity<>(service.find(keyword), HttpStatus.OK);
     }
 }

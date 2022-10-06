@@ -42,7 +42,7 @@ public class RequestBodyAdvice implements org.springframework.web.servlet.mvc.me
 
         Claims claims = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
 
-        session.setSession(claims.get("user_id", Long.class));
+        session.setSession(claims.get("user_id", String.class));
         session.setUserCode(claims.get("user_code", String.class));
 
         return session;

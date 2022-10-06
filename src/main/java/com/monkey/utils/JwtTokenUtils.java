@@ -1,5 +1,6 @@
 package com.monkey.utils;
 
+import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
 import io.jsonwebtoken.*;
@@ -13,7 +14,7 @@ import java.util.Date;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class JwtTokenUtils {
-    public static String CreateAccessToken(long expiration, String issuer, String secretKey, Long userId, String userCode) {
+    public static String CreateAccessToken(long expiration, String issuer, String secretKey, UserId userId) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + Duration.ofSeconds(expiration).toMillis());
         return Jwts.builder()
@@ -23,12 +24,11 @@ public class JwtTokenUtils {
                 .setExpiration(expireDate)
                 .setSubject("Access Token")
                 .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes()))
-                .claim("user_id", userId)
-                .claim("user_code", userCode)
+                .claim("user_id", userId.getId())
                 .compact();
     }
 
-    public static String CreateRefreshToken(long expiration, String issuer, String secretKey, Long userId, String userCode) {
+    public static String CreateRefreshToken(long expiration, String issuer, String secretKey, UserId userId) {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + Duration.ofSeconds(expiration).toMillis());
         return Jwts.builder()
@@ -38,8 +38,7 @@ public class JwtTokenUtils {
                 .setExpiration(expireDate)
                 .setSubject("Refresh Token")
                 .signWith(SignatureAlgorithm.HS256, Base64.getEncoder().encodeToString(secretKey.getBytes()))
-                .claim("user_id", userId)
-                .claim("user_code", userCode)
+                .claim("user_id", userId.getId())
                 .compact();
     }
 

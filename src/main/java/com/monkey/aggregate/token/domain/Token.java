@@ -17,54 +17,27 @@ import java.time.LocalDateTime;
 @RedisHash(value = "jwt_token")
 public class Token {
     @Id
-    private String userCode;
-
-    private UserId userId;
-
-    private String accessToken;
-
-    @Indexed
     private String refreshToken;
+
 
     @TimeToLive
     private Long expiration;
-    private LocalDateTime issuedAt;
 
     public Token(TokenSaveDto dto) {
-        this.userCode = dto.getUserCode();
-        this.userId = dto.getUserId();
-        this.accessToken = dto.getAccessToken();
         this.refreshToken = dto.getRefreshToken();
         this.expiration = dto.getExpiration();
-        this.issuedAt = LocalDateTime.now();
-    }
-
-
-    public String getAccessToken() {
-        return accessToken;
     }
 
     public String getRefreshToken() {
         return refreshToken;
     }
 
-    public String getUserCode() {
-        return userCode;
+    public String refresh(JwtProperties jwtProperties) {
+        return JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), getUserId(jwtProperties));
     }
 
-    public UserId getUserId() {
-        return userId;
-    }
-
-    public Long getExpiration() {
-        return expiration;
-    }
-
-    public LocalDateTime getIssuedAt() {
-        return issuedAt;
-    }
-
-    public void refresh(JwtProperties jwtProperties) {
-        this.accessToken = JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId.getId(), userCode);
+    public UserId getUserId(JwtProperties jwtProperties) {
+        String userId = JwtTokenUtils.ParseJwtToken(refreshToken, jwtProperties.getSecretKey()).get("userId", String.class);
+        return new UserId(userId);
     }
 }

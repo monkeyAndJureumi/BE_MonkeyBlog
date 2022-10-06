@@ -8,10 +8,10 @@ import java.util.List;
 
 @Getter
 public class UserSkillSearchResultDto {
-    @JsonProperty("skill_list")
-    private List<Skill> skillList;
+    @JsonProperty("result")
+    private List<Skill> result;
 
-    public UserSkillSearchResultDto(List<Skill> skillList) {
-        this.skillList = skillList;
+    public UserSkillSearchResultDto(List<Skill> result) {
+        this.result = result;
     }
 }

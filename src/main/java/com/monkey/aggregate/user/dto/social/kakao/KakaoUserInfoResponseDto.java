@@ -1,6 +1,7 @@
 package com.monkey.aggregate.user.dto.social.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 import com.monkey.aggregate.user.enums.SocialType;
 import lombok.AccessLevel;
@@ -24,6 +25,10 @@ public class KakaoUserInfoResponseDto extends OAuthUserInfo {
 
     @JsonProperty("kakao_account")
     private KakaoAccount kakaoAccount;
+
+    public UserId getUserId() {
+        return new UserId(SocialType.KAKAO + "_" + getId());
+    }
 
     public Long getId() {
         return id;

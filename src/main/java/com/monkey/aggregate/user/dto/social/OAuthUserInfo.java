@@ -1,5 +1,6 @@
 package com.monkey.aggregate.user.dto.social;
 
+import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aggregate.user.enums.SocialType;
 
 public abstract class OAuthUserInfo {
@@ -13,4 +14,6 @@ public abstract class OAuthUserInfo {
     public abstract String getBirthDay();
     public abstract String getGender();
     public abstract String getPhoneNumber();
+
+    public abstract UserId getUserId();
 }

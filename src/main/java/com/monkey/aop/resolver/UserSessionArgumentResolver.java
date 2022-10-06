@@ -34,6 +34,6 @@ public class UserSessionArgumentResolver implements HandlerMethodArgumentResolve
 //            return new UserId(null);
 
         Claims claims = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
-        return new UserId(claims.get("user_id", Long.class));
+        return new UserId(claims.get("user_id", String.class));
     }
 }

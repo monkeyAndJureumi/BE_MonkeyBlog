@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserIdentityDto {
-    private String userCode;
     private UserId userId;
 
     public UserIdentityDto(User user) {
-        this.userCode = user.getCode();
         this.userId = user.getUserId();
     }
 }

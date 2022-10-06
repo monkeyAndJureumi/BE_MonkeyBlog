@@ -7,13 +7,16 @@ import com.monkey.aggregate.token.enums.GrantType;
 import com.monkey.aggregate.user.enums.SocialType;
 import com.monkey.aggregate.token.validation.groups.TokenRequestGroups;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 
 
 @Getter
 @TokenRequestConstraint(message = "invalid grant_type")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TokenRequestDto {
     @JsonProperty("grant_type")
     @ApiModelProperty(value = "요청 타입, 대소문자 구분 X")

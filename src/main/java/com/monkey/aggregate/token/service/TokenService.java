@@ -25,15 +25,15 @@ public class TokenService {
 
     public TokenResponseDto provideToken(TokenRequestDto dto) {
         UserIdentityDto identityDto = userService.getUserInfo(dto);
-        TokenSaveDto saveDto = new TokenSaveDto(identityDto.getUserId(), identityDto.getUserCode(), jwtProperties);
+        TokenSaveDto saveDto = new TokenSaveDto(identityDto.getUserId(), jwtProperties);
 //        Token token = tokenRepository.findById(identityDto.getUserCode()).orElseGet(() -> tokenRepository.save(new Token(saveDto)));
         Token token = tokenRepository.save(new Token(saveDto));
-        return new TokenResponseDto(token.getAccessToken(), jwtProperties.getAccessTokenExpiration().intValue(), token.getRefreshToken(), jwtProperties.getRefreshTokenExpiration().intValue());
+        return new TokenResponseDto(dto.getAccessToken(), jwtProperties.getAccessTokenExpiration().intValue(), token.getRefreshToken(), jwtProperties.getRefreshTokenExpiration().intValue());
     }
 
     public TokenResponseDto refreshToken(TokenRequestDto dto) {
         Token token = tokenRepository.findByRefreshToken(dto.getRefreshToken()).orElseThrow(() -> new MonkeyException(TokenErrorCode.T400, HttpStatus.BAD_REQUEST));
-        token.refresh(jwtProperties);
-        return new TokenResponseDto(token.getAccessToken(), jwtProperties.getAccessTokenExpiration().intValue(), token.getRefreshToken(), jwtProperties.getRefreshTokenExpiration().intValue());
+        String accessToken = token.refresh(jwtProperties);
+        return new TokenResponseDto(accessToken, jwtProperties.getAccessTokenExpiration().intValue(), token.getRefreshToken(), jwtProperties.getRefreshTokenExpiration().intValue());
     }
 }

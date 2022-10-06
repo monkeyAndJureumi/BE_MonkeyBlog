@@ -3,6 +3,7 @@ package com.monkey.aggregate.user.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkey.aggregate.skill.enums.Skill;
 import com.monkey.aggregate.user.domain.User;
+import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 import com.monkey.aggregate.user.dto.user.UserProfileSaveDto;
 import com.monkey.aggregate.user.dto.user.UserProfileUpdateDto;
@@ -75,8 +76,7 @@ public class UserRepositoryTest {
         UserProfileSaveDto dto = objectMapper.convertValue(objectMap, UserProfileSaveDto.class);
 
         //when
-        User user = userRepository.findById(1L).orElseThrow();
-        user.setProfile(dto);
+        User user = userRepository.findById(new UserId("")).orElseThrow();
     }
 
     private OAuthUserInfo getOAuthUserInfo() {
@@ -129,6 +129,11 @@ public class UserRepositoryTest {
             @Override
             public String getPhoneNumber() {
                 return null;
+            }
+
+            @Override
+            public UserId getUserId() {
+                return new UserId(SocialType.KAKAO + "_" + getId());
             }
         };
     }

@@ -1,13 +1,12 @@
 package com.monkey.aggregate.user.domain;
 
 import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
-import com.monkey.aggregate.user.dto.user.UserProfileSaveDto;
 import com.monkey.aggregate.user.dto.user.UserProfileUpdateDto;
 import com.monkey.aop.permission.implement.PermissionEntity;
-import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Comment;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,62 +16,52 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "member")
 public class User implements PermissionEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "code")
-    private String code;
-
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "nickName")
-    private String nickName;
-
-    @Column(name = "email", unique = true)
-    @Convert(converter = EncryptConverter.class)
-    private String email;
-
-    @Column(name = "number", unique = true)
-    @Convert(converter = EncryptConverter.class)
-    private String number;
+    @EmbeddedId
+    private UserId id;
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_info_id")
+    @Comment("소셜 유저정보")
     private UserInfo userInfo;
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "profile_id")
+    @Comment("유저 프로필 정보")
     private UserProfile profile;
 
     // 가입일
     @Column(name = "created_at", updatable = false)
+    @Comment("유저 생성일자")
     private LocalDateTime createdAt;
 
     // 회원정보 수정일
     @Column(name = "modified_at")
+    @Comment("유저 정보 수정일자")
     private LocalDateTime modifiedAt;
 
     @Override
     public UserId getUserId() {
-        return new UserId(this.getId());
+        return this.id;
     }
 
     public User(OAuthUserInfo userInfo) {
-        this.name = userInfo.getName();
-        this.code = userInfo.getSocialType() + "_" + userInfo.getId();
-        this.nickName = userInfo.getNickName();
-        this.email = userInfo.getEmail();
-        this.number = userInfo.getPhoneNumber();
-        this.userInfo = new UserInfo(userInfo);
+        this.id = new UserId(userInfo.getSocialType() + "_" + userInfo.getId());
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
     }
 
-    public void setProfile(UserProfileSaveDto dto) {
-        this.profile = new UserProfile(this, dto);
+    public void setUserInfo(UserInfo userInfo) {
+        userInfo.setUser(this);
+        this.userInfo = userInfo;
+    }
+
+    public void setProfile(UserProfile profile) {
+        profile.setUser(this);
+        this.profile = profile;
     }
 
     public void updateProfile(UserProfileUpdateDto dto) {
         this.profile.update(dto);
+        this.modifiedAt = LocalDateTime.now();
     }
 }

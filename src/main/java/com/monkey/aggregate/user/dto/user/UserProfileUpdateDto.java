@@ -12,6 +12,9 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserProfileUpdateDto {
+    @JsonProperty("git_url")
+    private String gitUrl;
+
     @JsonProperty("skill_list")
     private Set<Skill> skillList = new LinkedHashSet<>();
 }

@@ -14,7 +14,7 @@ public abstract class UserSessionDto {
     @JsonIgnore
     private String userCode;
 
-    public void setSession(Long id) {
+    public void setSession(String id) {
         this.userId = new UserId(id);
     }
     public void setUserCode(String code) {
