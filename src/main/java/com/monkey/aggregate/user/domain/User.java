@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "member")
 public class User implements PermissionEntity {
     @EmbeddedId
-    private UserId id;
+    private UserId userId;
 
     @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_info_id")
@@ -39,13 +39,8 @@ public class User implements PermissionEntity {
     @Comment("유저 정보 수정일자")
     private LocalDateTime modifiedAt;
 
-    @Override
-    public UserId getUserId() {
-        return this.id;
-    }
-
     public User(OAuthUserInfo userInfo) {
-        this.id = new UserId(userInfo.getSocialType() + "_" + userInfo.getId());
+        this.userId = new UserId(userInfo.getSocialType() + "_" + userInfo.getId());
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
     }

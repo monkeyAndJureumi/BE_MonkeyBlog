@@ -1,7 +1,7 @@
 package com.monkey.aggregate.user.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkey.aggregate.skill.enums.Skill;
+import com.monkey.aggregate.user.enums.UserSkill;
 import com.monkey.aggregate.user.domain.User;
 import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
@@ -54,9 +54,9 @@ public class UserRepositoryTest {
         //given
         saveProfile();
         Map<String, Object> objectMap = new HashMap<>();
-        Set<Skill> skills = new LinkedHashSet<>();
-        skills.addAll(List.of(Skill.SPRING));
-        objectMap.put("skill_list", skills);
+        Set<UserSkill> userSkills = new LinkedHashSet<>();
+        userSkills.addAll(List.of(UserSkill.SPRING));
+        objectMap.put("skill_list", userSkills);
         UserProfileUpdateDto dto = objectMapper.convertValue(objectMap, UserProfileUpdateDto.class);
 
         //when
@@ -70,9 +70,9 @@ public class UserRepositoryTest {
 
     private void saveProfile() {
         Map<String, Object> objectMap = new HashMap<>();
-        Set<Skill> skills = new LinkedHashSet<>();
-        skills.addAll(List.of(Skill.JAVA, Skill.SPRING));
-        objectMap.put("skill_list", skills);
+        Set<UserSkill> userSkills = new LinkedHashSet<>();
+        userSkills.addAll(List.of(UserSkill.JAVA, UserSkill.SPRING));
+        objectMap.put("skill_list", userSkills);
         UserProfileSaveDto dto = objectMapper.convertValue(objectMap, UserProfileSaveDto.class);
 
         //when

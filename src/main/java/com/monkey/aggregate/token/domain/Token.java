@@ -19,7 +19,6 @@ public class Token {
     @Id
     private String refreshToken;
 
-
     @TimeToLive
     private Long expiration;
 

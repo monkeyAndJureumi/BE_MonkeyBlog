@@ -1,7 +1,6 @@
-package com.monkey.aggregate.skill.service;
+package com.monkey.aggregate.user.service;
 
-import com.monkey.aggregate.skill.dto.UserSkillSearchResultDto;
-import com.monkey.aggregate.skill.enums.Skill;
+import com.monkey.aggregate.user.dto.user.UserSkillSearchResultDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -22,7 +21,7 @@ public class UserSkillService {
 
     public UserSkillSearchResultDto find(String keyword) {
         keyword = keyword.toUpperCase();
-        List<Skill> result = new ArrayList<>();
+        List<String> result = new ArrayList<>();
         int length = keyword.length();
         if (length == 0) return new UserSkillSearchResultDto(result);
 
@@ -34,9 +33,8 @@ public class UserSkillService {
 
         for(ZSetOperations.TypedTuple<String> typedTuple : rangeResultWithScore) {
             String value = typedTuple.getValue();
-            int minLength = Math.min(value.length(), length);
-            if (value.endsWith("*") && value.startsWith(keyword.substring(0, minLength))) {
-                result.add(Skill.create(value.replace("*", "")));
+            if (value.endsWith("*") && value.startsWith(keyword)) {
+                result.add(value.replace("*", ""));
             }
         }
 

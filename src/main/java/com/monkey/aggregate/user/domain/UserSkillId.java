@@ -1,6 +1,6 @@
 package com.monkey.aggregate.user.domain;
 
-import com.monkey.aggregate.skill.enums.Skill;
+import com.monkey.aggregate.user.enums.UserSkill;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,12 +20,11 @@ public class UserSkillId implements Serializable {
     private UserProfile profile;
 
     @Column(name = "skill_name")
-    @Enumerated(EnumType.STRING)
-    private Skill skill;
+    private UserSkill userSkill;
 
-    protected UserSkillId(UserProfile profile, Skill skill) {
+    protected UserSkillId(UserProfile profile, UserSkill userSkill) {
         this.profile = profile;
-        this.skill = skill;
+        this.userSkill = userSkill;
     }
 
     @Override
@@ -36,13 +35,13 @@ public class UserSkillId implements Serializable {
         UserSkillId that = (UserSkillId) o;
 
         if (!Objects.equals(profile, that.profile)) return false;
-        return skill == that.skill;
+        return userSkill == that.userSkill;
     }
 
     @Override
     public int hashCode() {
         int result = profile != null ? profile.hashCode() : 0;
-        result = 31 * result + (skill != null ? skill.hashCode() : 0);
+        result = 31 * result + (userSkill != null ? userSkill.hashCode() : 0);
         return result;
     }
 }

@@ -1,7 +1,7 @@
 package com.monkey.aggregate.user.dto.user;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkey.aggregate.skill.enums.Skill;
+import com.monkey.aggregate.user.enums.UserSkill;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,5 +13,5 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class UserProfileSaveDto {
     @JsonProperty("skill_list")
-    private Set<Skill> skillList = new LinkedHashSet<>();
+    private Set<UserSkill> userSkillList = new LinkedHashSet<>();
 }

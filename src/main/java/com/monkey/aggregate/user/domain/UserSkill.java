@@ -1,6 +1,5 @@
 package com.monkey.aggregate.user.domain;
 
-import com.monkey.aggregate.skill.enums.Skill;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

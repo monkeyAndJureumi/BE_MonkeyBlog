@@ -1,7 +1,6 @@
 package com.monkey.aggregate.user.domain;
 
 import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
-import com.monkey.aggregate.user.dto.user.UserProfileSaveDto;
 import com.monkey.aggregate.user.dto.user.UserProfileUpdateDto;
 import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
@@ -59,7 +58,7 @@ public class UserProfile {
 
     protected void update(UserProfileUpdateDto dto) {
         this.gitUrl = dto.getGitUrl();
-        this.skillList = dto.getSkillList().stream().map(skill -> new UserSkillId(this, skill)).collect(Collectors.toList())
+        this.skillList = dto.getUserSkillList().stream().map(skill -> new UserSkillId(this, skill)).collect(Collectors.toList())
                 .stream().map(UserSkill::new).collect(Collectors.toSet());
     }
 
