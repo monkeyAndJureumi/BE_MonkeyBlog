@@ -1,13 +1,14 @@
 package com.monkey.aggregate.user.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monkey.aggregate.user.domain.UserProfile;
 import com.monkey.aggregate.user.enums.UserSkill;
 import com.monkey.aggregate.user.domain.User;
 import com.monkey.aggregate.user.domain.UserId;
 import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 import com.monkey.aggregate.user.dto.user.UserProfileSaveDto;
 import com.monkey.aggregate.user.dto.user.UserProfileUpdateDto;
-import com.monkey.aggregate.user.enums.SocialType;
+import com.monkey.aggregate.user.enums.OauthType;
 import com.monkey.aggregate.user.infra.repository.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -60,11 +61,11 @@ public class UserRepositoryTest {
         UserProfileUpdateDto dto = objectMapper.convertValue(objectMap, UserProfileUpdateDto.class);
 
         //when
-        User user = userRepository.findById(1L).orElseThrow();
-        user.updateProfile(dto);
+        UserProfile user = userRepository.findProfileByUserId(new UserId("gwqgrwq")).orElseThrow();
+        user.update(dto);
 
         //then
-        User result = userRepository.findById(1L).orElseThrow();
+        User result = userRepository.findById(new UserId("fdqgrqw")).orElseThrow();
         assertEquals(1, result.getProfile().getSkillList().size());
     }
 
@@ -82,8 +83,8 @@ public class UserRepositoryTest {
     private OAuthUserInfo getOAuthUserInfo() {
         return new OAuthUserInfo() {
             @Override
-            public SocialType getSocialType() {
-                return SocialType.KAKAO;
+            public OauthType getSocialType() {
+                return OauthType.KAKAO;
             }
 
             @Override
@@ -133,7 +134,7 @@ public class UserRepositoryTest {
 
             @Override
             public UserId getUserId() {
-                return new UserId(SocialType.KAKAO + "_" + getId());
+                return new UserId(OauthType.KAKAO + "_" + getId());
             }
         };
     }

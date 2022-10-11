@@ -1,6 +1,5 @@
 package com.monkey.aggregate.user.infra.client.kakao.impl;
 
-import com.monkey.aggregate.user.dto.social.OauthToken;
 import com.monkey.aggregate.user.dto.social.kakao.KakaoUserInfoResponseDto;
 import com.monkey.aggregate.user.exception.WebClientException;
 import com.monkey.aggregate.user.infra.client.kakao.KakaoApiWebClient;
@@ -27,10 +26,10 @@ public class KakaoApiWebClientImpl implements KakaoApiWebClient {
     }
 
     @Override
-    public KakaoUserInfoResponseDto requestUserInfo(OauthToken dto, MultiValueMap<String, String> parameters) {
+    public KakaoUserInfoResponseDto requestUserInfo(String accessToken, MultiValueMap<String, String> parameters) {
         KakaoUserInfoResponseDto responseDto = client.post()
                 .uri(uriBuilder -> uriBuilder.path(properties.getUserInfoUri()).build())
-                .header(HttpHeaders.AUTHORIZATION, dto.getAccessToken())
+                .header(HttpHeaders.AUTHORIZATION, accessToken)
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData(parameters))
                 .retrieve().onStatus(httpStatus -> httpStatus != HttpStatus.OK,

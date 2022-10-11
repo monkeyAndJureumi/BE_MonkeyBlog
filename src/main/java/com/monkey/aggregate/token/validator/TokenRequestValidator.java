@@ -1,9 +1,9 @@
-package com.monkey.aggregate.token.validation;
+package com.monkey.aggregate.token.validator;
 
-import com.monkey.aggregate.token.annotation.TokenRequestConstraint;
-import com.monkey.aggregate.token.dto.TokenRequestDto;
-import com.monkey.aggregate.token.validation.sequence.AccessTypeSequence;
-import com.monkey.aggregate.token.validation.sequence.RefreshTypeSequence;
+import com.monkey.aggregate.token.annotation.TokenPostRequestConstraint;
+import com.monkey.aggregate.token.dto.TokenPostRequestDto;
+import com.monkey.aggregate.token.validator.sequence.AccessRequestSequence;
+import com.monkey.aggregate.token.validator.sequence.RefreshRequestSequence;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.CollectionUtils;
@@ -14,21 +14,21 @@ import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
-public class TokenRequestValidator implements ConstraintValidator<TokenRequestConstraint, TokenRequestDto> {
+public class TokenRequestValidator implements ConstraintValidator<TokenPostRequestConstraint, TokenPostRequestDto> {
     private final Validator validator;
 
     @Override
-    public boolean isValid(TokenRequestDto value, ConstraintValidatorContext context) {
+    public boolean isValid(TokenPostRequestDto value, ConstraintValidatorContext context) {
         if (value.getGrantType() == null)
             return false;
 
         Set<ConstraintViolation<Object>> constraintViolations = null;
         switch (value.getGrantType()) {
             case ACCESS_TOKEN:
-                constraintViolations = validator.validate(value, AccessTypeSequence.class);
+                constraintViolations = validator.validate(value, AccessRequestSequence.class);
                 break;
             case REFRESH_TOKEN:
-                constraintViolations = validator.validate(value, RefreshTypeSequence.class);
+                constraintViolations = validator.validate(value, RefreshRequestSequence.class);
                 break;
         }
 

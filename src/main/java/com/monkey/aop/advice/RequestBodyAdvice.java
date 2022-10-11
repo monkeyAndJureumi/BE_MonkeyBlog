@@ -19,6 +19,7 @@ import java.lang.reflect.Type;
 @RequiredArgsConstructor
 public class RequestBodyAdvice implements org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice {
     private final JwtProperties jwtProperties;
+    private final String AUTH_HEADER = "Authorization";
 
     @Override
     public boolean supports(MethodParameter methodParameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
@@ -38,12 +39,11 @@ public class RequestBodyAdvice implements org.springframework.web.servlet.mvc.me
     public Object afterBodyRead(Object body, HttpInputMessage inputMessage, MethodParameter parameter, Type targetType, Class<? extends HttpMessageConverter<?>> converterType) {
         final UserSessionDto session = (UserSessionDto) body;
         HttpHeaders headers = inputMessage.getHeaders();
-        String token = headers.getFirst("Authorization");
+        String token = headers.getFirst(AUTH_HEADER);
 
         Claims claims = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
 
         session.setSession(claims.get("user_id", String.class));
-        session.setUserCode(claims.get("user_code", String.class));
 
         return session;
     }

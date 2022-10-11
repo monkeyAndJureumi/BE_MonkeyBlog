@@ -1,18 +1,17 @@
 package com.monkey.aggregate.token.annotation;
 
-
-import com.monkey.aggregate.token.validation.GrantTypeValidator;
+import com.monkey.aggregate.token.validator.JwtTokenValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Constraint(validatedBy = GrantTypeValidator.class)
+@Constraint(validatedBy = JwtTokenValidator.class)
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 @Documented
-public @interface GrantTypeConstraint {
-    String message() default "invalid grant_type";
+public @interface JwtTokenConstraint {
+    String message() default "";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

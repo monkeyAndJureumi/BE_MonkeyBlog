@@ -2,8 +2,8 @@ package com.monkey.aggregate.user.validation;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkey.aggregate.token.dto.TokenRequestDto;
-import com.monkey.aggregate.user.enums.SocialType;
+import com.monkey.aggregate.token.dto.TokenPostRequestDto;
+import com.monkey.aggregate.user.enums.OauthType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -38,11 +38,11 @@ public class UserOauthDtoValidTest {
         jsonObject.put("social_type", "kakao");
         jsonObject.put("access_token", "");
         jsonObject.put("refresh_token", "");
-        TokenRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenRequestDto.class);
+        TokenPostRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenPostRequestDto.class);
 
         //when
-        Set<ConstraintViolation<TokenRequestDto>> validResult = validator.validate(dto);
-        Iterator<ConstraintViolation<TokenRequestDto>> iterator = validResult.iterator();
+        Set<ConstraintViolation<TokenPostRequestDto>> validResult = validator.validate(dto);
+        Iterator<ConstraintViolation<TokenPostRequestDto>> iterator = validResult.iterator();
 
         //then
         assertEquals("invalid grant_type", iterator.next().getMessage());
@@ -55,18 +55,18 @@ public class UserOauthDtoValidTest {
         jsonObject.put("grant_type", null);
         jsonObject.put("social_type", "kakao");
         jsonObject.put("authorization_token", null);
-        TokenRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenRequestDto.class);
+        TokenPostRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenPostRequestDto.class);
 
         //when
-        Iterator<ConstraintViolation<TokenRequestDto>> iterator = validDto(dto);
+        Iterator<ConstraintViolation<TokenPostRequestDto>> iterator = validDto(dto);
 
         //then
         assertEquals("authorization_token is not null", iterator.next().getMessage());
     }
 
     @Validated
-    private Iterator<ConstraintViolation<TokenRequestDto>> validDto(TokenRequestDto dto) {
-        Set<ConstraintViolation<TokenRequestDto>> validResult = validator.validate(dto);
+    private Iterator<ConstraintViolation<TokenPostRequestDto>> validDto(TokenPostRequestDto dto) {
+        Set<ConstraintViolation<TokenPostRequestDto>> validResult = validator.validate(dto);
         return validResult.iterator();
     }
 
@@ -80,11 +80,11 @@ public class UserOauthDtoValidTest {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("grant_type", "refresh_token");
         jsonObject.put("refresh_token", null);
-        TokenRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenRequestDto.class);
+        TokenPostRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenPostRequestDto.class);
 
         //when
-        Set<ConstraintViolation<TokenRequestDto>> validResult = validator.validate(dto);
-        Iterator<ConstraintViolation<TokenRequestDto>> iterator = validResult.iterator();
+        Set<ConstraintViolation<TokenPostRequestDto>> validResult = validator.validate(dto);
+        Iterator<ConstraintViolation<TokenPostRequestDto>> iterator = validResult.iterator();
 
         //then
         assertEquals("refresh_token is not null", iterator.next().getMessage());
@@ -98,11 +98,11 @@ public class UserOauthDtoValidTest {
         jsonObject.put("social_type", "");
         jsonObject.put("access_token", "");
         jsonObject.put("refresh_token", "");
-        TokenRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenRequestDto.class);
+        TokenPostRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenPostRequestDto.class);
 
         //when
-        Set<ConstraintViolation<TokenRequestDto>> validResult = validator.validate(dto);
-        Iterator<ConstraintViolation<TokenRequestDto>> iterator = validResult.iterator();
+        Set<ConstraintViolation<TokenPostRequestDto>> validResult = validator.validate(dto);
+        Iterator<ConstraintViolation<TokenPostRequestDto>> iterator = validResult.iterator();
 
         //then
         assertEquals("invalid social_type", iterator.next().getMessage());
@@ -116,11 +116,11 @@ public class UserOauthDtoValidTest {
         jsonObject.put("social_type", "gogle");
         jsonObject.put("access_token", "");
         jsonObject.put("refresh_token", "");
-        TokenRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenRequestDto.class);
+        TokenPostRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenPostRequestDto.class);
 
         //when
-        Set<ConstraintViolation<TokenRequestDto>> validResult = validator.validate(dto);
-        Iterator<ConstraintViolation<TokenRequestDto>> iterator = validResult.iterator();
+        Set<ConstraintViolation<TokenPostRequestDto>> validResult = validator.validate(dto);
+        Iterator<ConstraintViolation<TokenPostRequestDto>> iterator = validResult.iterator();
 
         //then
         assertEquals("invalid social_type", iterator.next().getMessage());
@@ -136,9 +136,9 @@ public class UserOauthDtoValidTest {
         jsonObject.put("refresh_token", "");
 
         //when
-        TokenRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenRequestDto.class);
+        TokenPostRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenPostRequestDto.class);
 
         //then
-        assertEquals(SocialType.KAKAO, dto.getSocialType());
+        assertEquals(OauthType.KAKAO, dto.getOauthType());
     }
 }

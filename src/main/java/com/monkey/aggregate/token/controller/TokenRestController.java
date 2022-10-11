@@ -1,6 +1,6 @@
 package com.monkey.aggregate.token.controller;
 
-import com.monkey.aggregate.token.dto.TokenRequestDto;
+import com.monkey.aggregate.token.dto.TokenPostRequestDto;
 import com.monkey.aggregate.token.dto.TokenResponseDto;
 import com.monkey.aggregate.token.service.TokenService;
 import io.swagger.annotations.ApiOperation;
@@ -9,6 +9,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,7 +27,7 @@ public class TokenRestController {
             @ApiResponse(code = 401, message = "소셜로그인을 진행한 후 발급받은 액세스 토큰이 만료 된 경우")
     })
     @PostMapping
-    public ResponseEntity<TokenResponseDto> token(@Valid @RequestBody TokenRequestDto dto) {
+    public ResponseEntity<TokenResponseDto> token(@Valid @RequestBody TokenPostRequestDto dto) {
         return new ResponseEntity<>(dto.getGrantType().getTokenFunc().apply(tokenService, dto), HttpStatus.OK);
     }
 }

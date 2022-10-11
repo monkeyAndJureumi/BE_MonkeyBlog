@@ -2,26 +2,30 @@ package com.monkey.aggregate.user.domain;
 
 import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 import com.monkey.aggregate.user.dto.user.UserProfileUpdateDto;
+import com.monkey.aggregate.user.enums.UserSkill;
+import com.monkey.aggregate.user.enums.UserStatus;
+import com.monkey.aop.permission.implement.PermissionEntity;
 import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "user_profile")
-public class UserProfile {
+public class UserProfile implements PermissionEntity {
     @EmbeddedId
-    private UserId id;
+    private UserId userId;
 
     @MapsId
-    @OneToOne(mappedBy = "profile")
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private User user;
 
@@ -45,8 +49,18 @@ public class UserProfile {
     @Convert(converter = EncryptConverter.class)
     private String number;
 
-    @OneToMany(mappedBy = "userSkillId.profile", cascade = CascadeType.ALL)
-    private Set<UserSkill> skillList = new LinkedHashSet<>();
+//    @OneToMany(mappedBy = "userSkillId.profile", cascade = CascadeType.ALL)
+//    @ElementCollection
+//    @CollectionTable(name = "user_skill", joinColumns = @JoinColumn(name = "userId"))
+//    @OrderColumn
+//    private Set<com.monkey.aggregate.user.enums.UserSkill> skillList = new LinkedHashSet<>();
+
+    @Column(name = "skill_list")
+    private String skillList;
+
+    public List<UserSkill> getSkillList() {
+        return Arrays.stream(skillList.split(", ")).map(UserSkill::create).collect(Collectors.toList());
+    }
 
     public UserProfile(OAuthUserInfo userInfo) {
         this.name = userInfo.getName();
@@ -56,10 +70,13 @@ public class UserProfile {
         this.number = userInfo.getPhoneNumber();
     }
 
-    protected void update(UserProfileUpdateDto dto) {
+    public void update(UserProfileUpdateDto dto) {
+        if (!this.user.getStatus().equals(UserStatus.ACTIVATE))
+            throw new IllegalStateException("비활성화 된 유저입니다.");
         this.gitUrl = dto.getGitUrl();
-        this.skillList = dto.getUserSkillList().stream().map(skill -> new UserSkillId(this, skill)).collect(Collectors.toList())
-                .stream().map(UserSkill::new).collect(Collectors.toSet());
+        this.skillList = dto.getUserSkillList().stream()
+                .map(skill -> Objects.requireNonNull(UserSkill.create(skill)).name())
+                .collect(Collectors.joining(", "));
     }
 
     protected void setUser(User user) {

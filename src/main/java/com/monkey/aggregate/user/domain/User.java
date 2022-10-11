@@ -2,6 +2,7 @@ package com.monkey.aggregate.user.domain;
 
 import com.monkey.aggregate.user.dto.social.OAuthUserInfo;
 import com.monkey.aggregate.user.dto.user.UserProfileUpdateDto;
+import com.monkey.aggregate.user.enums.UserStatus;
 import com.monkey.aop.permission.implement.PermissionEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -19,13 +20,7 @@ public class User implements PermissionEntity {
     @EmbeddedId
     private UserId userId;
 
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_info_id")
-    @Comment("소셜 유저정보")
-    private UserInfo userInfo;
-
-    @OneToOne(orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "profile_id")
+    @OneToOne(mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
     @Comment("유저 프로필 정보")
     private UserProfile profile;
 
@@ -39,15 +34,14 @@ public class User implements PermissionEntity {
     @Comment("유저 정보 수정일자")
     private LocalDateTime modifiedAt;
 
+    @Column(name = "status")
+    private UserStatus status;
+
     public User(OAuthUserInfo userInfo) {
         this.userId = new UserId(userInfo.getSocialType() + "_" + userInfo.getId());
         this.createdAt = LocalDateTime.now();
         this.modifiedAt = LocalDateTime.now();
-    }
-
-    public void setUserInfo(UserInfo userInfo) {
-        userInfo.setUser(this);
-        this.userInfo = userInfo;
+        this.status = UserStatus.ACTIVATE;
     }
 
     public void setProfile(UserProfile profile) {
@@ -55,8 +49,7 @@ public class User implements PermissionEntity {
         this.profile = profile;
     }
 
-    public void updateProfile(UserProfileUpdateDto dto) {
-        this.profile.update(dto);
-        this.modifiedAt = LocalDateTime.now();
+    public void deactivate() {
+        this.status = UserStatus.DEACTIVATE;
     }
 }

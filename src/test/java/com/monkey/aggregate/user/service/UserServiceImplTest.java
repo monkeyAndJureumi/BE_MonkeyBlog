@@ -1,6 +1,7 @@
 package com.monkey.aggregate.user.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monkey.aggregate.user.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,9 +11,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
-public class UserServiceTest {
+public class UserServiceImplTest {
     @Autowired
-    private UserService userService;
+    private UserServiceImpl userServiceImpl;
 
     @Autowired
     private ObjectMapper objectMapper;

@@ -33,6 +33,11 @@ public class RestControllerAdvice {
         return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), getErrorMessage(exception.getConstraintViolations().iterator())), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    protected ResponseEntity<ExceptionResponse> illegalArgumentException(IllegalArgumentException exception) {
+        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), exception.getMessage()), HttpStatus.BAD_REQUEST);
+    }
+
 
     @ExceptionHandler(MonkeyException.class)
     public ResponseEntity<ExceptionResponse> monkeyException(MonkeyException e) {
