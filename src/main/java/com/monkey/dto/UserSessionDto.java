@@ -1,7 +1,7 @@
 package com.monkey.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.monkey.aggregate.user.domain.UserId;
+import com.monkey.context.user.domain.UserId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 

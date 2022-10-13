@@ -1,6 +1,6 @@
 package com.monkey.aop.resolver;
 
-import com.monkey.aggregate.user.domain.UserId;
+import com.monkey.context.user.domain.UserId;
 import com.monkey.aop.annotation.NonRequiredParam;
 import com.monkey.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;

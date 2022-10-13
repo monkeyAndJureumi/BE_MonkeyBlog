@@ -1,6 +1,6 @@
 package com.monkey.utils;
 
-import com.monkey.aggregate.user.domain.UserId;
+import com.monkey.context.user.domain.UserId;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
 import io.jsonwebtoken.*;

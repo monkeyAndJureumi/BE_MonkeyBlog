@@ -1,8 +1,6 @@
 package com.monkey.aop.advice;
 
-import com.monkey.aggregate.user.exception.UserNotFoundException;
 import com.monkey.enums.MonkeyErrorCode;
-import com.monkey.exception.MonkeyException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.AccessLevel;
@@ -38,12 +36,6 @@ public class RestControllerAdvice {
         return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
-
-    @ExceptionHandler(MonkeyException.class)
-    public ResponseEntity<ExceptionResponse> monkeyException(MonkeyException e) {
-        return new ResponseEntity<>(new ExceptionResponse(e.getErrorCode().getCode(), e.getErrorCode().getDescription()), e.getHttpStatus());
-    }
-
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<ExceptionResponse> signatureException() {
         return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E600.getCode(), MonkeyErrorCode.E600.getDescription()), HttpStatus.UNAUTHORIZED);
@@ -52,11 +44,6 @@ public class RestControllerAdvice {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<ExceptionResponse> expiredJwtException() {
         return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E602.getCode(), MonkeyErrorCode.E602.getDescription()), HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(UserNotFoundException.class)
-    public ResponseEntity<ExceptionResponse> userNotFoundException(UserNotFoundException e) {
-        return new ResponseEntity<>(new ExceptionResponse(e.getErrorCode().getCode(), e.getErrorCode().getDescription()), HttpStatus.UNAUTHORIZED);
     }
 
     @Getter

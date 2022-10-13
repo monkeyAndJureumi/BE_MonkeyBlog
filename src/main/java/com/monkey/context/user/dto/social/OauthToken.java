@@ -1,0 +1,13 @@
+package com.monkey.context.user.dto.social;
+
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
+public class OauthToken {
+    private String accessToken;
+}

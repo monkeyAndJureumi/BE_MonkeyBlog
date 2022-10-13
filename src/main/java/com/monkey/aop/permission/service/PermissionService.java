@@ -1,7 +1,7 @@
 package com.monkey.aop.permission.service;
 
 import com.monkey.aop.permission.implement.PermissionEntity;
-import com.monkey.aggregate.user.domain.UserId;
+import com.monkey.context.user.domain.UserId;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
 import org.springframework.http.HttpStatus;
