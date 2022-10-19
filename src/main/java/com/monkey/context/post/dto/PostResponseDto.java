@@ -14,7 +14,7 @@ public class PostResponseDto {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public PostResponseDto(Long userId, String name, String content, LocalDateTime createdAt, LocalDateTime modifiedAt) {
+    public PostResponseDto(String userId, String name, String content, LocalDateTime createdAt, LocalDateTime modifiedAt) {
         this.author = new Author(userId, name);
         this.content = content;
         this.createdAt = createdAt;
@@ -24,10 +24,10 @@ public class PostResponseDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Author {
-        private Long userId;
+        private String userId;
         private String name;
 
-        private Author(Long userId, String name) {
+        private Author(String userId, String name) {
             this.userId = userId;
             this.name = name;
         }

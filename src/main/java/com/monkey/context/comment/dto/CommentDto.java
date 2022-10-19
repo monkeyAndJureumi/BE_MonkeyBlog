@@ -21,7 +21,7 @@ public class CommentDto {
     private boolean hasReply;
     private boolean isSecrete;
 
-    public CommentDto(Long refUserId, Long authorId, String authorName, Long commentId, String content, LocalDateTime createdAt, boolean hasReply, boolean isSecrete) {
+    public CommentDto(String refUserId, String authorId, String authorName, Long commentId, String content, LocalDateTime createdAt, boolean hasReply, boolean isSecrete) {
         this.refUserId = new RefAuthor(refUserId);
         this.author = new Author(authorId, authorName);
         this.commentId = commentId;
@@ -38,9 +38,9 @@ public class CommentDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class RefAuthor {
-        private Long id;
+        private String id;
 
-        public RefAuthor(Long id) {
+        public RefAuthor(String id) {
             this.id = id;
         }
 
@@ -63,10 +63,10 @@ public class CommentDto {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class Author {
-        private Long id;
+        private String id;
         private String name;
 
-        public Author(Long id, String name) {
+        public Author(String id, String name) {
             this.id = id;
             this.name = name;
         }
