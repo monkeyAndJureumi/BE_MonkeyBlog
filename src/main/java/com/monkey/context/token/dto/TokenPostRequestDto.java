@@ -22,7 +22,7 @@ public class TokenPostRequestDto {
 
     @JsonProperty("oauth_type")
     @NotNull(groups = TokenRequestGroups.OAuthType.class, message = "oauth_type is not null")
-    @Schema(description = "액세스 토큰을 발급해준 리소스 서비스 이름")
+    @Schema(description = "액세스 토큰을 발급해준 서비스 이름(소문자로 입력)")
     private OauthType oauthType;
 
     @JsonProperty("access_token")
@@ -32,6 +32,6 @@ public class TokenPostRequestDto {
 
     @JsonProperty("refresh_token")
     @NotNull(groups = TokenRequestGroups.RefreshToken.class, message = "refresh_token is not null")
-    @Schema(description = "발급받은 리프레시 토큰")
+    @Schema(description = "어플리케이션으로부터 발급받은 리프레시 토큰")
     private String refreshToken;
 }
