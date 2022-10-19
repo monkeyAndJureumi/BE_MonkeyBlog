@@ -1,12 +1,11 @@
 package com.monkey.context.token.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkey.context.token.annotation.JwtTokenConstraint;
 import com.monkey.context.token.annotation.TokenPostRequestConstraint;
 import com.monkey.context.token.enums.TokenGrantType;
 import com.monkey.context.token.validator.groups.TokenRequestGroups;
 import com.monkey.context.member.enums.OauthType;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,21 +17,21 @@ import javax.validation.constraints.NotNull;
 @TokenPostRequestConstraint(message = "invalid grant_type")
 public class TokenPostRequestDto {
     @JsonProperty("grant_type")
-    @ApiModelProperty(value = "요청 타입")
+    @Schema(description = "요청 타입(소문자로 입력)")
     private TokenGrantType grantType;
 
     @JsonProperty("oauth_type")
-    @NotNull(groups = TokenRequestGroups.OAuthType.class, message = "invalid oauth_type")
-    @ApiModelProperty(value = "액세스 토큰을 발급해준 리소스 서비스 이름")
+    @NotNull(groups = TokenRequestGroups.OAuthType.class, message = "oauth_type is not null")
+    @Schema(description = "액세스 토큰을 발급해준 리소스 서비스 이름")
     private OauthType oauthType;
 
     @JsonProperty("access_token")
-    @JwtTokenConstraint(groups = TokenRequestGroups.AccessToken.class, message = "invalid access_token")
-    @ApiModelProperty(value = "소셜로그인 진행 후 받은 액세스 토큰")
+    @NotNull(groups = TokenRequestGroups.AccessToken.class, message = "access_token is not null")
+    @Schema(description = "소셜로그인 진행 후 받은 액세스 토큰")
     private String accessToken;
 
     @JsonProperty("refresh_token")
-    @JwtTokenConstraint(groups = TokenRequestGroups.RefreshToken.class, message = "invalid refresh_token")
-    @ApiModelProperty(value = "발급받은 리프레시 토큰")
+    @NotNull(groups = TokenRequestGroups.RefreshToken.class, message = "refresh_token is not null")
+    @Schema(description = "발급받은 리프레시 토큰")
     private String refreshToken;
 }

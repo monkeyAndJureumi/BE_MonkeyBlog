@@ -18,7 +18,7 @@ import javax.validation.constraints.NotNull;
 @UserPatchRequestConstraint
 public class UserPatchRequestDto extends UserSessionDto {
     @JsonProperty("grant_type")
-    @Schema(description = "요청타입")
+    @Schema(description = "요청타입(소문자로 입력)")
     private UserGrantType grantType;
 
     @JsonProperty("user_profile")

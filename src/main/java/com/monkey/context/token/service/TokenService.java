@@ -12,17 +12,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.Valid;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
+@Validated
 public class TokenService {
     private final TokenRepository tokenRepository;
     private final MemberService memberService;
     private final JwtProperties jwtProperties;
 
-    public TokenResponseDto provideToken(TokenAccessRequestDto dto) {
+    public TokenResponseDto provideToken(@Valid TokenAccessRequestDto dto) {
         MemberId memberId = memberService.getUserIdOrElseCreate(dto.getOauthType(), dto.getAccessToken());
         TokenSaveDto saveDto = new TokenSaveDto(memberId, jwtProperties);
         tokenRepository.save(new Token(saveDto));
@@ -30,7 +34,7 @@ public class TokenService {
         return new TokenResponseDto(saveDto.getAccessToken(), jwtProperties.getAccessTokenExpiration().intValue(), saveDto.getRefreshToken(), jwtProperties.getRefreshTokenExpiration().intValue());
     }
 
-    public TokenResponseDto refreshToken(TokenRefreshRequestDto dto) {
+    public TokenResponseDto refreshToken(@Valid TokenRefreshRequestDto dto) {
         Token token = tokenRepository.findById(dto.getRefreshToken()).orElseThrow(() -> new MonkeyException(TokenErrorCode.T400));
         String accessToken = token.refresh(jwtProperties);
         log.info("Refresh Token");
