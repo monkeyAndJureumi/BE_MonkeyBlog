@@ -1,12 +1,14 @@
 package com.monkey.context.member.domain.service;
 
 import com.monkey.context.member.enums.OauthType;
+import com.monkey.context.member.exception.MemberErrorCode;
+import com.monkey.context.member.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class OauthServiceFactory {
+public class OAuthServiceFactory {
     private final OAuthKakaoServiceImpl OAuthKakaoServiceImpl;
     private final OAuthNaverServiceImpl OAuthNaverServiceImpl;
 
@@ -18,7 +20,7 @@ public class OauthServiceFactory {
                 return OAuthNaverServiceImpl;
         }
 
-        throw new IllegalStateException("서버 오류");
+        throw new MemberException(MemberErrorCode.M400);
     }
 
 }

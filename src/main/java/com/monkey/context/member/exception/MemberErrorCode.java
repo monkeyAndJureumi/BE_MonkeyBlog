@@ -5,15 +5,15 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public enum WebClientErrorCode implements ErrorCode {
-    U000(HttpStatus.INTERNAL_SERVER_ERROR, "정의되지 않은 에러"),
-    U400(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
-    U401(HttpStatus.UNAUTHORIZED, "인증되지 않는 요청입니다.");
+public enum MemberErrorCode implements ErrorCode {
+    M000(HttpStatus.INTERNAL_SERVER_ERROR, "서버 오류"),
+    M400(HttpStatus.BAD_REQUEST, "잘못된 요청입니다."),
+    M401(HttpStatus.UNAUTHORIZED, "인증되지 않는 요청입니다.");
 
     private final HttpStatus httpStatus;
     private final String description;
 
-    WebClientErrorCode(HttpStatus httpStatus, String description) {
+    MemberErrorCode(HttpStatus httpStatus, String description) {
         this.httpStatus = httpStatus;
         this.description = description;
     }
@@ -28,12 +28,12 @@ public enum WebClientErrorCode implements ErrorCode {
         return description;
     }
 
-    public static WebClientErrorCode findByHttpStatus(HttpStatus httpStatus) {
-        for(WebClientErrorCode code : WebClientErrorCode.values()) {
+    public static MemberErrorCode findByHttpStatus(HttpStatus httpStatus) {
+        for(MemberErrorCode code : MemberErrorCode.values()) {
             if (code.httpStatus.equals(httpStatus))
                 return code;
         }
 
-        return WebClientErrorCode.U000;
+        return MemberErrorCode.M000;
     }
 }

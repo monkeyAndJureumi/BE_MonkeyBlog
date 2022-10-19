@@ -5,6 +5,7 @@ import com.monkey.converter.AbstractEnumConverter;
 
 import javax.persistence.Converter;
 
+@Deprecated
 @Converter(autoApply = true)
 public class MemberSocialConverter extends AbstractEnumConverter<OauthType> {
     public MemberSocialConverter() {

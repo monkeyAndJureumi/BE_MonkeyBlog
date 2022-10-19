@@ -4,14 +4,14 @@ import com.monkey.context.member.domain.Members;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.member.domain.MemberProfile;
 import com.monkey.context.member.domain.service.OAuthService;
-import com.monkey.context.member.domain.service.OauthServiceFactory;
+import com.monkey.context.member.domain.service.OAuthServiceFactory;
 import com.monkey.context.member.dto.oauth.OAuthUserInfo;
 import com.monkey.context.member.dto.user.UserProfileUpdateDto;
 import com.monkey.context.member.enums.OauthType;
+import com.monkey.context.member.exception.MemberErrorCode;
+import com.monkey.context.member.exception.MemberException;
 import com.monkey.context.member.infra.repository.UserRepository;
 import com.monkey.aop.permission.service.PermissionService;
-import com.monkey.enums.MonkeyErrorCode;
-import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,11 +24,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
     private final UserRepository userRepository;
     private final PermissionService permissionService;
-    private final OauthServiceFactory oAuthServiceFactory;
+    private final OAuthServiceFactory OAuthServiceFactory;
 
     @Transactional
     public void updateProfile(MemberId memberId, UserProfileUpdateDto dto) {
-        MemberProfile profile = userRepository.findProfileByUserId(memberId).orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E000));
+        MemberProfile profile = userRepository.findProfileByUserId(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.M400));
         permissionService.checkPermission(memberId, profile);
         profile.update(dto);
         log.info("[{}] - Update Profile", memberId.getId());
@@ -36,7 +37,8 @@ public class MemberService {
 
     @Transactional
     public void deactivateUser(MemberId memberId) {
-        Members members = userRepository.findById(memberId).orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E000));
+        Members members = userRepository.findById(memberId)
+                .orElseThrow(() -> new MemberException(MemberErrorCode.M400));
         permissionService.checkPermission(memberId, members);
         members.deactivate();
         log.info("[{}] - Deactivate", memberId.getId());
@@ -56,7 +58,7 @@ public class MemberService {
     }
 
     private OAuthUserInfo getUserInfo(OauthType oauthType, String accessToken) {
-        OAuthService service = oAuthServiceFactory.getSocialService(oauthType);
+        OAuthService service = OAuthServiceFactory.getSocialService(oauthType);
         return service.getUserInfo(accessToken);
     }
 }

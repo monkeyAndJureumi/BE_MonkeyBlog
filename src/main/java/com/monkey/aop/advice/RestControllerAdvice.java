@@ -1,5 +1,6 @@
 package com.monkey.aop.advice;
 
+import com.monkey.context.member.exception.MemberException;
 import com.monkey.enums.MonkeyErrorCode;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -36,6 +37,16 @@ public class RestControllerAdvice {
         return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), exception.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(IllegalStateException.class)
+    protected ResponseEntity<ExceptionResponse> illegalStateException(IllegalStateException exception) {
+        return new ResponseEntity<>(new ExceptionResponse("200", exception.getMessage()), HttpStatus.OK);
+    }
+
+    @ExceptionHandler(MemberException.class)
+    protected ResponseEntity<ExceptionResponse> memberException(MemberException exception) {
+        return new ResponseEntity<>(new ExceptionResponse(exception.getCode(), exception.getMessage()), exception.getHttpStatus());
+    }
+
     @ExceptionHandler(SignatureException.class)
     public ResponseEntity<ExceptionResponse> signatureException() {
         return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E600.getCode(), MonkeyErrorCode.E600.getDescription()), HttpStatus.UNAUTHORIZED);
@@ -49,11 +60,11 @@ public class RestControllerAdvice {
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
     public static class ExceptionResponse {
-        private String errorCode;
+        private String code;
         private String message;
 
-        public ExceptionResponse(String errorCode, String message) {
-            this.errorCode = errorCode;
+        public ExceptionResponse(String code, String message) {
+            this.code = code;
             this.message = message;
         }
     }
