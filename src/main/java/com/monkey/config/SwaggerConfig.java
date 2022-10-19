@@ -36,7 +36,7 @@ public class SwaggerConfig {
                 .securitySchemes(Arrays.asList(apiKey()))
                 .produces(getProduceContentTypes())
                 .apiInfo(apiInfo()).select()
-                .apis(RequestHandlerSelectors.basePackage("com.monkey.aggregate"))
+                .apis(RequestHandlerSelectors.basePackage("com.monkey.context"))
                 .paths(PathSelectors.any())
                 .build()
                 .useDefaultResponseMessages(false);
