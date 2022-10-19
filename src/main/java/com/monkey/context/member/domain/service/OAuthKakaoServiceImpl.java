@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkey.context.member.dto.oauth.kakao.KakaoUserInfoRequestDto;
 import com.monkey.context.member.dto.oauth.kakao.KakaoUserInfoResponseDto;
 import com.monkey.context.member.infra.client.kakao.KakaoWebClient;
-import com.monkey.properties.KakaoProperties;
+import com.monkey.context.member.infra.client.kakao.KakaoProperties;
 import com.monkey.utils.WebClientUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;

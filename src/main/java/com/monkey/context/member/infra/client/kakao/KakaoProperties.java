@@ -1,4 +1,4 @@
-package com.monkey.properties;
+package com.monkey.context.member.infra.client.kakao;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

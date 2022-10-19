@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @SpringBootTest
 public class MembersServiceTest {
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
 
     @Autowired
     private ObjectMapper objectMapper;

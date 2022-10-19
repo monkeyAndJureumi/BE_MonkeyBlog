@@ -1,4 +1,4 @@
-package com.monkey.properties;
+package com.monkey.context.token.properties;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;

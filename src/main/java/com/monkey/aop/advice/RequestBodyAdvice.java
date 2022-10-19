@@ -2,7 +2,7 @@ package com.monkey.aop.advice;
 
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
-import com.monkey.properties.JwtProperties;
+import com.monkey.context.token.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
 import com.monkey.dto.UserSessionDto;
 import io.jsonwebtoken.Claims;

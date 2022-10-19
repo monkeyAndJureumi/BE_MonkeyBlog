@@ -2,7 +2,7 @@ package com.monkey.context.member.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.monkey.context.member.dto.user.UserPatchRequestDto;
-import com.monkey.context.member.service.UserService;
+import com.monkey.context.member.service.MemberService;
 import lombok.Getter;
 
 import java.util.function.BiConsumer;
@@ -10,12 +10,12 @@ import java.util.function.BiConsumer;
 
 @Getter
 public enum UserGrantType {
-    update((userService, dto) -> userService.updateProfile(dto.getMemberId(), dto.getUserProfileUpdateDto())),
-    deactivate((userService, dto) -> userService.deactivateUser(dto.getMemberId()));
+    update((memberService, dto) -> memberService.updateProfile(dto.getMemberId(), dto.getUserProfileUpdateDto())),
+    deactivate((memberService, dto) -> memberService.deactivateUser(dto.getMemberId()));
 
-    private final BiConsumer<UserService, UserPatchRequestDto> consumer;
+    private final BiConsumer<MemberService, UserPatchRequestDto> consumer;
 
-    UserGrantType(BiConsumer<UserService, UserPatchRequestDto> consumer) {
+    UserGrantType(BiConsumer<MemberService, UserPatchRequestDto> consumer) {
         this.consumer = consumer;
     }
 

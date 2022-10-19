@@ -5,9 +5,9 @@ import com.monkey.context.token.dto.*;
 import com.monkey.context.token.enums.TokenErrorCode;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.token.infra.TokenRepository;
-import com.monkey.context.member.service.UserService;
+import com.monkey.context.member.service.MemberService;
 import com.monkey.exception.MonkeyException;
-import com.monkey.properties.JwtProperties;
+import com.monkey.context.token.properties.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,11 +20,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 public class TokenService {
     private final TokenRepository tokenRepository;
-    private final UserService userService;
+    private final MemberService memberService;
     private final JwtProperties jwtProperties;
 
     public TokenResponseDto provideToken(TokenAccessRequestDto dto) {
-        MemberId memberId = userService.getUserIdOrElseCreate(dto.getOauthType(), dto.getAccessToken());
+        MemberId memberId = memberService.getUserIdOrElseCreate(dto.getOauthType(), dto.getAccessToken());
         TokenSaveDto saveDto = new TokenSaveDto(memberId, jwtProperties);
         tokenRepository.save(new Token(saveDto));
         log.info("[{}] - Created AccessToken", memberId.getId());

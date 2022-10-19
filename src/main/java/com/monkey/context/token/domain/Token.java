@@ -2,7 +2,7 @@ package com.monkey.context.token.domain;
 
 import com.monkey.context.token.dto.TokenSaveDto;
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.properties.JwtProperties;
+import com.monkey.context.token.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;

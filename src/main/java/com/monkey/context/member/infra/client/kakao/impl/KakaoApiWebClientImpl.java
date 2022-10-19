@@ -3,7 +3,7 @@ package com.monkey.context.member.infra.client.kakao.impl;
 import com.monkey.context.member.dto.oauth.kakao.KakaoUserInfoResponseDto;
 import com.monkey.context.member.exception.WebClientException;
 import com.monkey.context.member.infra.client.kakao.KakaoApiWebClient;
-import com.monkey.properties.KakaoProperties;
+import com.monkey.context.member.infra.client.kakao.KakaoProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

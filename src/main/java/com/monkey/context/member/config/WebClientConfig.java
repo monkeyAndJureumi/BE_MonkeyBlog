@@ -1,6 +1,6 @@
-package com.monkey.config;
+package com.monkey.context.member.config;
 
-import com.monkey.properties.KakaoProperties;
+import com.monkey.context.member.infra.client.kakao.KakaoProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,7 +9,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
 @RequiredArgsConstructor
-public class WebClientConfiguration {
+public class WebClientConfig {
     private final KakaoProperties kakaoProperties;
 
     @Bean

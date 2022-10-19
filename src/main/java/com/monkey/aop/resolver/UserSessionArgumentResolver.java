@@ -2,7 +2,7 @@ package com.monkey.aop.resolver;
 
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.aop.annotation.NonRequiredParam;
-import com.monkey.properties.JwtProperties;
+import com.monkey.context.token.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

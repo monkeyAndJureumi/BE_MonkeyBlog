@@ -1,7 +1,7 @@
 package com.monkey.context.member.repository;
 
 import com.monkey.context.token.infra.TokenRepository;
-import com.monkey.properties.JwtProperties;
+import com.monkey.context.token.properties.JwtProperties;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

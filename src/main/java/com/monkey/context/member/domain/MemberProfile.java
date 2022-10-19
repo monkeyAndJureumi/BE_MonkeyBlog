@@ -73,6 +73,7 @@ public class MemberProfile implements PermissionEntity {
     public void update(UserProfileUpdateDto dto) {
         if (!this.members.getStatus().equals(MemberStatus.ACTIVATE))
             throw new IllegalStateException("비활성화 된 유저입니다.");
+        this.nickName = dto.getNickName();
         this.gitUrl = dto.getGitUrl();
         this.skillList = dto.getUserSkillList().stream()
                 .map(skill -> Objects.requireNonNull(UserSkill.create(skill)).name())
