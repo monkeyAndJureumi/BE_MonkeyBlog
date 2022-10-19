@@ -1,7 +1,7 @@
 package com.monkey.context.comment.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,8 +47,8 @@ public class CommentDto {
         @Override
         public boolean equals(Object o) {
             if (o == null) return false;
-            if (o instanceof UserId) {
-                UserId refAuthor = (UserId) o;
+            if (o instanceof MemberId) {
+                MemberId refAuthor = (MemberId) o;
                 return Objects.equals(id, refAuthor.getId());
             }
             return false;
@@ -74,8 +74,8 @@ public class CommentDto {
         @Override
         public boolean equals(Object o) {
             if (o == null) return false;
-            if (o.getClass().equals(UserId.class)) {
-                UserId author = (UserId) o;
+            if (o.getClass().equals(MemberId.class)) {
+                MemberId author = (MemberId) o;
                 return Objects.equals(id, author.getId());
             }
 

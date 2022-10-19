@@ -7,7 +7,7 @@ import com.monkey.context.comment.domain.Comment;
 import com.monkey.context.comment.infra.repository.CommentRepository;
 import com.monkey.aop.permission.service.PermissionService;
 import com.monkey.context.post.domain.PostId;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,7 @@ public class CommentService {
     private final PermissionService permissionService;
 
     public void save(CommentSaveDto dto) {
-        if (dto.getUserId() == null || dto.getPostId() == null)
+        if (dto.getMemberId() == null || dto.getPostId() == null)
             throw new MonkeyException(MonkeyErrorCode.E400);
         Comment refComment = null;
 
@@ -38,7 +38,7 @@ public class CommentService {
         }
 
         Comment comment = Comment.builder()
-                .author(new CommentAuthor(dto.getUserId()))
+                .author(new CommentAuthor(dto.getMemberId()))
                 .postId(new PostId(dto.getPostId()))
                 .refComment(refComment)
                 .content(dto.getContent())
@@ -51,14 +51,14 @@ public class CommentService {
     public void modifyComment(CommentUpdateDto dto) {
         Comment comment = commentRepository.findById(dto.getCommentId())
                 .orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E200, HttpStatus.NOT_FOUND));
-        permissionService.checkPermission(dto.getUserId(), comment);
+        permissionService.checkPermission(dto.getMemberId(), comment);
         comment.update(dto);
     }
 
-    public void deleteComment(UserId userId, Long commentId) {
+    public void deleteComment(MemberId memberId, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E200, HttpStatus.NOT_FOUND));
-        permissionService.checkPermission(userId, comment);
+        permissionService.checkPermission(memberId, comment);
         comment.delete();
     }
 }

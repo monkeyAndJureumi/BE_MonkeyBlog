@@ -5,7 +5,7 @@ import com.monkey.context.token.annotation.JwtTokenConstraint;
 import com.monkey.context.token.annotation.TokenPostRequestConstraint;
 import com.monkey.context.token.enums.TokenGrantType;
 import com.monkey.context.token.validator.groups.TokenRequestGroups;
-import com.monkey.context.user.enums.OauthType;
+import com.monkey.context.member.enums.OauthType;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AccessLevel;
 import lombok.Getter;

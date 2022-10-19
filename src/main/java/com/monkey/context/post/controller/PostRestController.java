@@ -6,7 +6,7 @@ import com.monkey.context.post.dto.PostSaveDto;
 import com.monkey.context.post.dto.PostUpdateDto;
 import com.monkey.context.post.infra.repository.PostRepository;
 import com.monkey.context.post.service.PostService;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +35,8 @@ public class PostRestController {
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(UserId userId, @RequestParam("id") Long postId) {
-        postService.deletePost(userId, new PostId(postId));
+    public ResponseEntity<HttpStatus> delete(MemberId memberId, @RequestParam("id") Long postId) {
+        postService.deletePost(memberId, new PostId(postId));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

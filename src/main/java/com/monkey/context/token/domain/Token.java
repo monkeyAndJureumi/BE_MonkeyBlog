@@ -1,7 +1,7 @@
 package com.monkey.context.token.domain;
 
 import com.monkey.context.token.dto.TokenSaveDto;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
 import lombok.AccessLevel;
@@ -32,8 +32,8 @@ public class Token {
         return JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), getUserId(jwtProperties));
     }
 
-    public UserId getUserId(JwtProperties jwtProperties) {
+    public MemberId getUserId(JwtProperties jwtProperties) {
         String userId = JwtTokenUtils.ParseJwtToken(refreshToken, jwtProperties.getSecretKey()).get("userId", String.class);
-        return new UserId(userId);
+        return new MemberId(userId);
     }
 }

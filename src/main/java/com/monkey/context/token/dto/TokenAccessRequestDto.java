@@ -1,6 +1,6 @@
 package com.monkey.context.token.dto;
 
-import com.monkey.context.user.enums.OauthType;
+import com.monkey.context.member.enums.OauthType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

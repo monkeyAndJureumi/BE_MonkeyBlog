@@ -1,17 +1,17 @@
 package com.monkey.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 
 @Getter
 public class UserSessionDto {
     @JsonIgnore
-    private UserId userId;
+    private MemberId memberId;
 
     @Schema(hidden = true)
     public void setSession(String id) {
-        this.userId = new UserId(id);
+        this.memberId = new MemberId(id);
     }
 }

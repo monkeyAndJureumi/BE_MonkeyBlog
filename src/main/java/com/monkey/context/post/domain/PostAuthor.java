@@ -1,6 +1,6 @@
 package com.monkey.context.post.domain;
 
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,7 +21,8 @@ public class PostAuthor implements Serializable {
     @AttributeOverrides(
             @AttributeOverride(name = "id", column = @Column(name = "author_id", nullable = false))
     )
-    private UserId userId;
+    @Column(nullable = false)
+    private MemberId memberId;
 
     @Override
     public boolean equals(Object o) {
@@ -30,12 +31,12 @@ public class PostAuthor implements Serializable {
 
         PostAuthor postAuthor = (PostAuthor) o;
 
-        return Objects.equals(userId.getId(), postAuthor.getUserId().getId());
+        return Objects.equals(memberId.getId(), postAuthor.getMemberId().getId());
     }
 
     @Override
     public int hashCode() {
-        int result = userId != null ? userId.hashCode() : 0;
+        int result = memberId != null ? memberId.hashCode() : 0;
         return result;
     }
 }

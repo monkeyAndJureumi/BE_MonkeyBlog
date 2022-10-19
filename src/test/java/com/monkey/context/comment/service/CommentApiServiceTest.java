@@ -5,7 +5,7 @@ import com.monkey.context.comment.dto.CommentDto;
 import com.monkey.context.comment.dto.CommentResponseDto;
 import com.monkey.context.comment.infra.repository.CommentRepository;
 import com.monkey.context.post.domain.PostId;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,11 +33,11 @@ public class CommentApiServiceTest {
     public void selectComments() {
         //given
         PostId postId = new PostId(1L);
-        UserId userId = new UserId(1L);
+        MemberId memberId = new MemberId(1L);
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByPostId(postId);
         //when
-        CommentResponseDto result = commentApiService.selectByPostId(userId, postId);
+        CommentResponseDto result = commentApiService.selectByPostId(memberId, postId);
 
         //then
         assertEquals(100, result.getData().size());
@@ -51,7 +51,7 @@ public class CommentApiServiceTest {
     public void selectSecreteComments() {
         //given
         PostId postId = new PostId(1L);
-        UserId postAuthor = new UserId(1L);
+        MemberId postAuthor = new MemberId(1L);
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByPostId(postId);
         //when
@@ -70,7 +70,7 @@ public class CommentApiServiceTest {
     public void selectSecretCommentsFail() {
         //given
         PostId postId = new PostId(1L);
-        UserId anonymous = new UserId(null);
+        MemberId anonymous = new MemberId(null);
         List<CommentDto> comment = getCommentList();
         doReturn(comment).when(commentRepository).findAllByPostId(postId);
 
@@ -89,12 +89,12 @@ public class CommentApiServiceTest {
     public void selectReplyComments() {
         //given
         CommentId commentId = new CommentId(1L);
-        UserId userId = new UserId(1L);
+        MemberId memberId = new MemberId(1L);
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByRefCommentId(commentId);
 
         //when
-        CommentResponseDto result = commentApiService.selectByCommentId(userId, commentId);
+        CommentResponseDto result = commentApiService.selectByCommentId(memberId, commentId);
 
         //then
         assertEquals(100, result.getData().size());
@@ -106,12 +106,12 @@ public class CommentApiServiceTest {
     public void selectSecretReplyComments() {
         //given
         CommentId commentId = new CommentId(1L);
-        UserId userId = new UserId(1L);
+        MemberId memberId = new MemberId(1L);
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByRefCommentId(commentId);
 
         //when
-        CommentResponseDto result = commentApiService.selectByCommentId(userId, commentId);
+        CommentResponseDto result = commentApiService.selectByCommentId(memberId, commentId);
 
         //then
         assertEquals("Test Content", result.getData().get(0).getContent());
@@ -123,12 +123,12 @@ public class CommentApiServiceTest {
     public void setSecretReplyCommentsFail() {
         //given
         CommentId commentId = new CommentId(1L);
-        UserId userId = new UserId(null);
+        MemberId memberId = new MemberId(null);
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByRefCommentId(commentId);
 
         //when
-        CommentResponseDto result = commentApiService.selectByCommentId(userId, commentId);
+        CommentResponseDto result = commentApiService.selectByCommentId(memberId, commentId);
 
         //then
         assertEquals("비밀 댓글입니다.", result.getData().get(0).getContent());

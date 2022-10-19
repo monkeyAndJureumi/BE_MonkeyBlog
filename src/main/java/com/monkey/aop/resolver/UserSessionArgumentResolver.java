@@ -1,6 +1,6 @@
 package com.monkey.aop.resolver;
 
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.aop.annotation.NonRequiredParam;
 import com.monkey.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
@@ -22,7 +22,7 @@ public class UserSessionArgumentResolver implements HandlerMethodArgumentResolve
     private final JwtProperties jwtProperties;
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().isAssignableFrom(UserId.class) && !parameter.hasParameterAnnotation(NonRequiredParam.class);
+        return parameter.getParameterType().isAssignableFrom(MemberId.class) && !parameter.hasParameterAnnotation(NonRequiredParam.class);
     }
 
     @Override
@@ -34,6 +34,6 @@ public class UserSessionArgumentResolver implements HandlerMethodArgumentResolve
 //            return new UserId(null);
 
         Claims claims = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
-        return new UserId(claims.get("user_id", String.class));
+        return new MemberId(claims.get("user_id", String.class));
     }
 }

@@ -6,7 +6,7 @@ import com.monkey.context.post_temp.dto.PostTempResponseDto;
 import com.monkey.context.post_temp.dto.PostTempSaveDto;
 import com.monkey.context.post_temp.dto.PostTempUpdateDto;
 import com.monkey.context.post_temp.infra.PostTempRepository;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.aop.permission.service.PermissionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,9 +19,9 @@ public class PostTempService {
     private final PostTempRepository postTempRepository;
     private final PermissionService permissionService;
 
-    public PostTempResponseDto select(UserId userId, String id) {
+    public PostTempResponseDto select(MemberId memberId, String id) {
         PostTemp post = postTempRepository.findById(new PostTempId(id)).orElseThrow();
-        permissionService.checkPermission(userId, post);
+        permissionService.checkPermission(memberId, post);
         return new PostTempResponseDto(post);
     }
 
@@ -34,14 +34,14 @@ public class PostTempService {
     @Transactional
     public void update(PostTempUpdateDto dto) {
         PostTemp post = postTempRepository.findById(new PostTempId(dto.getPostTempId())).orElseThrow();
-        permissionService.checkPermission(dto.getUserId(), post);
+        permissionService.checkPermission(dto.getMemberId(), post);
         post.update(dto);
     }
 
     @Transactional
-    public void delete(UserId userId, String id) {
+    public void delete(MemberId memberId, String id) {
         PostTemp post = postTempRepository.findById(new PostTempId(id)).orElseThrow();
-        permissionService.checkPermission(userId, post);
+        permissionService.checkPermission(memberId, post);
         postTempRepository.delete(post);
     }
 }

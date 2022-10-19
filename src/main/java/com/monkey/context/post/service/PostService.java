@@ -6,7 +6,7 @@ import com.monkey.context.post.domain.PostId;
 import com.monkey.context.post.infra.repository.PostRepository;
 import com.monkey.context.post.dto.PostSaveDto;
 import com.monkey.context.post.dto.PostUpdateDto;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.enums.MonkeyErrorCode;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
@@ -28,14 +28,14 @@ public class PostService {
     public void modifyPost(final PostUpdateDto dto) {
         Post post = postRepository.findById(dto.getPostId())
                 .orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E100));
-        permissionService.checkPermission(dto.getUserId(), post);
+        permissionService.checkPermission(dto.getMemberId(), post);
         post.update(dto);
     }
 
-    public void deletePost(final UserId userId, final PostId postId) {
+    public void deletePost(final MemberId memberId, final PostId postId) {
         Post post = postRepository.findById(postId.getId())
                 .orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E100));
-        permissionService.checkPermission(userId, post);
+        permissionService.checkPermission(memberId, post);
         postRepository.delete(post);
     }
 }

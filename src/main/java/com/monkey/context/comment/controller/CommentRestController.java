@@ -7,7 +7,7 @@ import com.monkey.context.comment.service.CommentService;
 import com.monkey.context.comment.dto.CommentSaveDto;
 import com.monkey.context.comment.dto.CommentUpdateDto;
 import com.monkey.context.post.domain.PostId;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.aop.annotation.NonRequiredParam;
 import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,16 +28,16 @@ public class CommentRestController {
     @Operation(description = "게시글의 댓글 목록 리턴")
     @GetMapping
     public ResponseEntity<CommentResponseDto> getCommentsByPost(
-            @NonRequiredParam @ApiIgnore final UserId userId,
+            @NonRequiredParam @ApiIgnore final MemberId memberId,
             @RequestParam("post_id") @ApiParam(value = "게시글 인덱스번호") final Long postId) {
-        CommentResponseDto responseDto = commentApiService.selectByPostId(userId, new PostId(postId));
+        CommentResponseDto responseDto = commentApiService.selectByPostId(memberId, new PostId(postId));
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
     @Operation(description = "대댓글 목록 리턴")
     @GetMapping("/{comment_id}")
-    public ResponseEntity<CommentResponseDto> getReplyComments(@NonRequiredParam @ApiIgnore final UserId userId, @PathVariable("comment_id") final Long commentId) {
-        CommentResponseDto responseDto = commentApiService.selectByCommentId(userId, new CommentId(commentId));
+    public ResponseEntity<CommentResponseDto> getReplyComments(@NonRequiredParam @ApiIgnore final MemberId memberId, @PathVariable("comment_id") final Long commentId) {
+        CommentResponseDto responseDto = commentApiService.selectByCommentId(memberId, new CommentId(commentId));
         return new ResponseEntity<>(responseDto, HttpStatus.OK);
     }
 
@@ -57,8 +57,8 @@ public class CommentRestController {
 
     @Operation(description = "댓글 삭제")
     @DeleteMapping("/{comment_id}")
-    public ResponseEntity<HttpStatus> deleteComment(final UserId userId, @PathVariable("comment_id") final Long commentId) {
-        commentService.deleteComment(userId, commentId);
+    public ResponseEntity<HttpStatus> deleteComment(final MemberId memberId, @PathVariable("comment_id") final Long commentId) {
+        commentService.deleteComment(memberId, commentId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

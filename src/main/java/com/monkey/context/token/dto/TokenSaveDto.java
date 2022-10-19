@@ -1,6 +1,6 @@
 package com.monkey.context.token.dto;
 
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
 import lombok.AccessLevel;
@@ -14,9 +14,9 @@ public class TokenSaveDto {
     private String refreshToken;
     private Long expiration;
 
-    public TokenSaveDto(UserId userId, JwtProperties jwtProperties) {
-        this.accessToken = "Bearer " + JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId);
-        this.refreshToken = "Bearer " + JwtTokenUtils.CreateRefreshToken(jwtProperties.getRefreshTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), userId);
+    public TokenSaveDto(MemberId memberId, JwtProperties jwtProperties) {
+        this.accessToken = JwtTokenUtils.CreateAccessToken(jwtProperties.getAccessTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), memberId);
+        this.refreshToken = JwtTokenUtils.CreateRefreshToken(jwtProperties.getRefreshTokenExpiration(), jwtProperties.getIssuer(), jwtProperties.getSecretKey(), memberId);
         this.expiration = jwtProperties.getRefreshTokenExpiration();
     }
 }

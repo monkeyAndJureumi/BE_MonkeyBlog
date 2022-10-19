@@ -3,7 +3,7 @@ package com.monkey.context.post.domain;
 import com.monkey.context.post.dto.PostSaveDto;
 import com.monkey.context.post.dto.PostUpdateDto;
 import com.monkey.aop.permission.implement.PermissionEntity;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -41,7 +41,7 @@ public class Post implements PermissionEntity {
 
     @Builder
     public Post(PostSaveDto dto) {
-        this.author = new PostAuthor(dto.getUserId());
+        this.author = new PostAuthor(dto.getMemberId());
         this.content = dto.getContent();
         this.isSecret = dto.getIsSecrete();
         this.createdAt = LocalDateTime.now();
@@ -55,7 +55,7 @@ public class Post implements PermissionEntity {
     }
 
     @Override
-    public UserId getUserId() {
-        return this.author.getUserId();
+    public MemberId getMemberId() {
+        return this.author.getMemberId();
     }
 }

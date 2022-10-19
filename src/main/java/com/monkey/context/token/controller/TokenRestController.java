@@ -19,7 +19,7 @@ import javax.validation.Valid;
 public class TokenRestController {
     private final TokenService tokenService;
 
-    @ApiOperation(value = "토큰 발급/토큰 재발급", notes = "소셜로그인을 진행한 후 발급받은 액세스토큰을 요청 값에 담아 전송하면 토큰을 리턴")
+    @ApiOperation(value = "토큰 발급/토큰 재발급(네이버 미지원)", notes = "소셜로그인을 진행한 후 발급받은 액세스토큰을 요청 값에 담아 전송하면 토큰을 리턴")
     @ApiResponses({
             @ApiResponse(code = 200, message = "액세스 토큰과 리프레시 토큰을 리턴"),
             @ApiResponse(code = 400, message = "잘못된 값을 담아 요청한 경우"),

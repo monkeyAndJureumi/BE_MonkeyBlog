@@ -6,7 +6,7 @@ import com.monkey.context.comment.dto.CommentSaveDto;
 import com.monkey.context.comment.dto.CommentUpdateDto;
 import com.monkey.context.comment.infra.repository.CommentRepository;
 import com.monkey.context.post.domain.PostId;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import com.monkey.aop.permission.service.PermissionService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -74,20 +74,20 @@ public class CommentServiceTest {
 
         //verify
         verify(commentRepository, times(1)).findById(dto.getCommentId());
-        verify(permissionService, times(1)).checkPermission(dto.getUserId(), comment);
+        verify(permissionService, times(1)).checkPermission(dto.getMemberId(), comment);
     }
 
     @DisplayName("댓글 삭제")
     @Test
     public void deleteComment() {
         //given
-        UserId userId = new UserId(1L);
+        MemberId memberId = new MemberId(1L);
         Long commentId = 1L;
         Comment comment = getComment();
         doReturn(Optional.of(comment)).when(commentRepository).findById(1L);
 
         //when
-        commentService.deleteComment(userId, commentId);
+        commentService.deleteComment(memberId, commentId);
 
         //verify
         verify(commentRepository, times(1)).findById(commentId);
@@ -95,7 +95,7 @@ public class CommentServiceTest {
 
     private Comment getComment() {
         Comment comment = Comment.builder()
-                .author(new CommentAuthor(new UserId(1L)))
+                .author(new CommentAuthor(new MemberId(1L)))
                 .postId(new PostId(1L))
                 .refComment(null)
                 .content("Test Comment")

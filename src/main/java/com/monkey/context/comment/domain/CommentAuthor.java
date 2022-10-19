@@ -1,6 +1,6 @@
 package com.monkey.context.comment.domain;
 
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +18,7 @@ public class CommentAuthor {
     @AttributeOverrides(
             @AttributeOverride(name = "id", column = @Column(name = "author_id", nullable = false))
     )
-    private UserId userId;
+    private MemberId memberId;
 
     @Override
     public boolean equals(Object o) {
@@ -27,11 +27,11 @@ public class CommentAuthor {
 
         CommentAuthor that = (CommentAuthor) o;
 
-        return Objects.equals(userId, that.userId);
+        return Objects.equals(memberId, that.memberId);
     }
 
     @Override
     public int hashCode() {
-        return userId != null ? userId.hashCode() : 0;
+        return memberId != null ? memberId.hashCode() : 0;
     }
 }

@@ -4,7 +4,7 @@ import com.monkey.context.post_temp.dto.PostTempResponseDto;
 import com.monkey.context.post_temp.dto.PostTempSaveDto;
 import com.monkey.context.post_temp.dto.PostTempUpdateDto;
 import com.monkey.context.post_temp.service.PostTempService;
-import com.monkey.context.user.domain.UserId;
+import com.monkey.context.member.domain.MemberId;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +21,8 @@ public class TempRestController {
 
     @ApiOperation(value = "게시글 조회")
     @GetMapping("/{id}")
-    public ResponseEntity<PostTempResponseDto> get(UserId userId, @PathVariable("id") String postId) {
-        return new ResponseEntity<>(postTempService.select(userId, postId), HttpStatus.OK);
+    public ResponseEntity<PostTempResponseDto> get(MemberId memberId, @PathVariable("id") String postId) {
+        return new ResponseEntity<>(postTempService.select(memberId, postId), HttpStatus.OK);
     }
 
     @ApiOperation(value = "게시글 생성")
@@ -41,8 +41,8 @@ public class TempRestController {
 
     @ApiModelProperty(value = "게시글 삭제")
     @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> delete(@ApiIgnore UserId userId, @PathVariable("id") String id) {
-        postTempService.delete(userId, id);
+    public ResponseEntity<HttpStatus> delete(@ApiIgnore MemberId memberId, @PathVariable("id") String id) {
+        postTempService.delete(memberId, id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
