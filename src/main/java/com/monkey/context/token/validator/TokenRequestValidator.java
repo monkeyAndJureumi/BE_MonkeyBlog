@@ -24,10 +24,10 @@ public class TokenRequestValidator implements ConstraintValidator<TokenPostReque
 
         Set<ConstraintViolation<Object>> constraintViolations = null;
         switch (value.getGrantType()) {
-            case access_token:
+            case ACCESS_TOKEN:
                 constraintViolations = validator.validate(value, AccessRequestSequence.class);
                 break;
-            case refresh_token:
+            case REFRESH_TOKEN:
                 constraintViolations = validator.validate(value, RefreshRequestSequence.class);
                 break;
         }

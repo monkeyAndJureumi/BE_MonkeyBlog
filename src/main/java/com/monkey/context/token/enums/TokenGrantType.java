@@ -12,8 +12,8 @@ import java.util.function.BiFunction;
 
 @Getter
 public enum TokenGrantType {
-    access_token((service, dto) -> service.provideToken(new TokenAccessRequestDto(dto.getOauthType(), dto.getAccessToken()))),
-    refresh_token(((service, dto) -> service.refreshToken(new TokenRefreshRequestDto(dto.getRefreshToken()))));
+    ACCESS_TOKEN((service, dto) -> service.provideToken(new TokenAccessRequestDto(dto.getOauthType(), dto.getAccessToken()))),
+    REFRESH_TOKEN(((service, dto) -> service.refreshToken(new TokenRefreshRequestDto(dto.getRefreshToken()))));
 
 
     private final BiFunction<TokenService, TokenPostRequestDto, TokenResponseDto> tokenFunc;
