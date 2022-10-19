@@ -13,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
-@RequestMapping("/temp")
+@RequestMapping("/post/temp")
 @RequiredArgsConstructor
-public class TempRestController {
+public class PostTempRestController {
     private final PostTempService postTempService;
 
     @ApiOperation(value = "임시 게시글 조회")
