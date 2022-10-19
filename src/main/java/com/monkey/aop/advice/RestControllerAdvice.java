@@ -1,7 +1,8 @@
 package com.monkey.aop.advice;
 
-import com.monkey.context.member.exception.MemberException;
-import com.monkey.enums.MonkeyErrorCode;
+import com.monkey.enums.CommonErrorCode;
+import com.monkey.enums.ErrorCode;
+import com.monkey.exception.MonkeyException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
 import lombok.AccessLevel;
@@ -18,48 +19,62 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @org.springframework.web.bind.annotation.RestControllerAdvice
 public class RestControllerAdvice {
+//    @ExceptionHandler(IllegalStateException.class)
+//    protected ResponseEntity<ExceptionResponse> illegalStateException(IllegalStateException exception) {
+//        return new ExceptionResponseEntityWrapper("200", exception.getMessage(), HttpStatus.OK);
+//    }
+
+//    @ExceptionHandler(IllegalArgumentException.class)
+//    protected ResponseEntity<ExceptionResponse> illegalArgumentException(IllegalArgumentException exception) {
+//        return new ExceptionResponseEntityWrapper("400", exception.getMessage(), HttpStatus.BAD_REQUEST);
+//    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ExceptionResponse> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
-        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), getErrorMessage(exception.getBindingResult().getAllErrors())), HttpStatus.BAD_REQUEST);
+        return new ExceptionResponseEntityWrapper("400", exception.getAllErrors(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<ExceptionResponse> constraintViolationException(ConstraintViolationException exception) {
-        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), getErrorMessage(exception.getConstraintViolations().iterator())), HttpStatus.BAD_REQUEST);
+        return new ExceptionResponseEntityWrapper("400", exception.getConstraintViolations().iterator(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    protected ResponseEntity<ExceptionResponse> illegalArgumentException(IllegalArgumentException exception) {
-        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E400.getCode(), exception.getMessage()), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(MonkeyException.class)
+    protected ResponseEntity<ExceptionResponse> monkeyException(MonkeyException exception) {
+        return new ExceptionResponseEntityWrapper(exception.getCode(), exception.getMessage(), exception.getHttpStatus());
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    protected ResponseEntity<ExceptionResponse> illegalStateException(IllegalStateException exception) {
-        return new ResponseEntity<>(new ExceptionResponse("200", exception.getMessage()), HttpStatus.OK);
+    @ExceptionHandler({SignatureException.class, ExpiredJwtException.class})
+    public ResponseEntity<ExceptionResponse> jwtException() {
+        return new ExceptionResponseEntityWrapper(CommonErrorCode.E401);
     }
 
-    @ExceptionHandler(MemberException.class)
-    protected ResponseEntity<ExceptionResponse> memberException(MemberException exception) {
-        return new ResponseEntity<>(new ExceptionResponse(exception.getCode(), exception.getMessage()), exception.getHttpStatus());
-    }
+    private static class ExceptionResponseEntityWrapper extends ResponseEntity<ExceptionResponse> {
+        public ExceptionResponseEntityWrapper(ErrorCode errorCode) {
+            super(new ExceptionResponse(errorCode.getCode(), errorCode.getMessage()), errorCode.getHttpStatus());
+        }
 
-    @ExceptionHandler(SignatureException.class)
-    public ResponseEntity<ExceptionResponse> signatureException() {
-        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E600.getCode(), MonkeyErrorCode.E600.getDescription()), HttpStatus.UNAUTHORIZED);
-    }
+        public ExceptionResponseEntityWrapper(String code, String message, HttpStatus status) {
+            super(new ExceptionResponse(code, message), status);
+        }
 
-    @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<ExceptionResponse> expiredJwtException() {
-        return new ResponseEntity<>(new ExceptionResponse(MonkeyErrorCode.E602.getCode(), MonkeyErrorCode.E602.getDescription()), HttpStatus.UNAUTHORIZED);
+        public ExceptionResponseEntityWrapper(String code, final List<ObjectError> errors, HttpStatus status) {
+            super(new ExceptionResponse(code, errors), status);
+        }
+
+        public ExceptionResponseEntityWrapper(String code, final Iterator<ConstraintViolation<?>> violationIterator, HttpStatus status) {
+            super(new ExceptionResponse(code, violationIterator), status);
+        }
     }
 
     @Getter
     @NoArgsConstructor(access = AccessLevel.PRIVATE)
-    public static class ExceptionResponse {
+    private static class ExceptionResponse {
         private String code;
         private String message;
 
@@ -67,27 +82,37 @@ public class RestControllerAdvice {
             this.code = code;
             this.message = message;
         }
-    }
 
-    private String getErrorMessage(final List<ObjectError> errors) {
-        final StringBuilder result = new StringBuilder();
-        errors.forEach(error -> result.append(error.getDefaultMessage()));
-        return result.toString();
-    }
-
-    private String getErrorMessage(final Iterator<ConstraintViolation<?>> violationIterator) {
-        final StringBuilder result = new StringBuilder();
-        while (violationIterator.hasNext()) {
-            final ConstraintViolation<?> constraintViolation = violationIterator.next();
-            result.append(getPropertyName(constraintViolation.getPropertyPath().toString()));
-            result.append(" is ");
-            result.append(constraintViolation.getMessage());
+        public ExceptionResponse(String code, final List<ObjectError> errors) {
+            this.code = code;
+            this.message = getErrorMessage(errors);
         }
 
-        return result.toString();
-    }
+        public ExceptionResponse(String code, final Iterator<ConstraintViolation<?>> violationIterator) {
+            this.code = code;
+            this.message = getErrorMessage(violationIterator);
+        }
 
-    private String getPropertyName(String path) {
-        return path.substring(path.lastIndexOf(".") + 1);
+        private String getErrorMessage(final List<ObjectError> errors) {
+            return errors.stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.joining());
+        }
+
+        private String getErrorMessage(final Iterator<ConstraintViolation<?>> violationIterator) {
+            final StringBuilder result = new StringBuilder();
+            while (violationIterator.hasNext()) {
+                final ConstraintViolation<?> constraintViolation = violationIterator.next();
+                result.append(getPropertyName(constraintViolation.getPropertyPath().toString()));
+                result.append(" is ");
+                result.append(constraintViolation.getMessage());
+            }
+
+            return result.toString();
+        }
+
+        private String getPropertyName(String path) {
+            return path.substring(path.lastIndexOf(".") + 1);
+        }
     }
 }

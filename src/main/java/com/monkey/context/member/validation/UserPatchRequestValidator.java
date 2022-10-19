@@ -41,7 +41,7 @@ public class UserPatchRequestValidator implements ConstraintValidator<UserPatchR
     }
 
     private Set<ConstraintViolation<Object>> validate(UserPatchRequestDto value) {
-        if (value.getGrantType() == UserGrantType.update) {
+        if (value.getGrantType() == UserGrantType.UPDATE) {
             return validator.validate(value.getUserProfileUpdateDto(), UserProfileUpdate.class);
         }
 

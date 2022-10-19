@@ -10,8 +10,8 @@ import java.util.function.BiConsumer;
 
 @Getter
 public enum UserGrantType {
-    update((memberService, dto) -> memberService.updateProfile(dto.getMemberId(), dto.getUserProfileUpdateDto())),
-    deactivate((memberService, dto) -> memberService.deactivateUser(dto.getMemberId()));
+    UPDATE((memberService, dto) -> memberService.updateProfile(dto.getMemberId(), dto.getUserProfileUpdateDto())),
+    DEACTIVATE((memberService, dto) -> memberService.deactivateUser(dto.getMemberId()));
 
     private final BiConsumer<MemberService, UserPatchRequestDto> consumer;
 
@@ -22,7 +22,7 @@ public enum UserGrantType {
     @JsonCreator
     public static UserGrantType create(String value) {
         for (UserGrantType grantType : UserGrantType.values()) {
-            if (grantType.name().equals(value))
+            if (grantType.name().toLowerCase().equals(value))
                 return grantType;
         }
 

@@ -1,25 +1,30 @@
 package com.monkey.context.token.enums;
 
 import com.monkey.enums.ErrorCode;
-import lombok.Getter;
+import org.springframework.http.HttpStatus;
 
-@Getter
 public enum TokenErrorCode implements ErrorCode {
-    T400("invalid token");
+    T400("invalid token", HttpStatus.BAD_REQUEST);
 
     private final String message;
+    private final HttpStatus httpStatus;
 
-    TokenErrorCode(String message) {
+    TokenErrorCode(String message, HttpStatus httpStatus) {
         this.message = message;
+        this.httpStatus = httpStatus;
     }
 
-    @Override
     public String getCode() {
         return name();
     }
 
     @Override
-    public String getDescription() {
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    @Override
+    public String getMessage() {
         return this.message;
     }
 }

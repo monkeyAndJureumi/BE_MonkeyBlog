@@ -23,7 +23,7 @@ public enum OauthType implements EntityEnum {
     @JsonCreator
     public static OauthType create(String value) {
         for (OauthType social : OauthType.values()) {
-            if (social.name().equalsIgnoreCase(value))
+            if (social.name().toLowerCase().equals(value))
                 return social;
         }
         return null;

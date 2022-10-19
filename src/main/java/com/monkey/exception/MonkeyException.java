@@ -2,29 +2,25 @@ package com.monkey.exception;
 
 import com.monkey.enums.ErrorCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
 
 @Getter
+@NoArgsConstructor
 public class MonkeyException extends RuntimeException {
-    private ErrorCode errorCode;
+    private String message;
+    private String code;
     private HttpStatus httpStatus;
 
     public MonkeyException(ErrorCode errorCode) {
-        this.errorCode = errorCode;
-    }
-
-    public MonkeyException(ErrorCode errorCode, String message) {
-        super(message);
-        this.errorCode = errorCode;
+        super(errorCode.getMessage());
+        this.message = errorCode.getMessage();
+        this.code = errorCode.getCode();
+        this.httpStatus = errorCode.getHttpStatus();
     }
 
     public MonkeyException(Throwable throwable) {
         super(throwable);
-    }
-
-    public MonkeyException(ErrorCode errorCode, HttpStatus httpStatus) {
-        this.errorCode = errorCode;
-        this.httpStatus = httpStatus;
     }
 }

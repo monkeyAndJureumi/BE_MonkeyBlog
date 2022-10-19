@@ -1,9 +1,10 @@
 package com.monkey.context.member.infra.client.kakao.impl;
 
 import com.monkey.context.member.dto.oauth.kakao.KakaoUserInfoResponseDto;
-import com.monkey.context.member.exception.MemberException;
+import com.monkey.context.member.enums.WebClientErrorCode;
 import com.monkey.context.member.infra.client.kakao.KakaoApiWebClient;
 import com.monkey.context.member.infra.client.kakao.KakaoProperties;
+import com.monkey.exception.MonkeyException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,7 +35,10 @@ public class KakaoApiWebClientImpl implements KakaoApiWebClient {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .body(BodyInserters.fromFormData(parameters))
                 .retrieve().onStatus(httpStatus -> httpStatus != HttpStatus.OK,
-                        response -> response.createException().flatMap(err -> Mono.error(new MemberException(err.getResponseBodyAsString(), err.getStatusCode()))))
+                        response -> response.createException().flatMap(err -> {
+                            log.error(err.getResponseBodyAsString());
+                            return Mono.error(new MonkeyException(WebClientErrorCode.findByHttpStatus(err.getStatusCode())));
+                        }))
                 .bodyToMono(KakaoUserInfoResponseDto.class).block();
         return responseDto;
     }

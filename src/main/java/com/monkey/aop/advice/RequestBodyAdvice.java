@@ -1,6 +1,6 @@
 package com.monkey.aop.advice;
 
-import com.monkey.enums.MonkeyErrorCode;
+import com.monkey.enums.CommonErrorCode;
 import com.monkey.exception.MonkeyException;
 import com.monkey.context.token.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
@@ -26,7 +26,7 @@ public class RequestBodyAdvice implements org.springframework.web.servlet.mvc.me
         try {
             return UserSessionDto.class.isAssignableFrom(Class.forName(targetType.getTypeName()));
         } catch (ClassNotFoundException e) {
-            throw new MonkeyException(MonkeyErrorCode.E400);
+            throw new MonkeyException(CommonErrorCode.E400);
         }
     }
 

@@ -10,7 +10,6 @@ import com.monkey.exception.MonkeyException;
 import com.monkey.context.token.properties.JwtProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,7 +31,7 @@ public class TokenService {
     }
 
     public TokenResponseDto refreshToken(TokenRefreshRequestDto dto) {
-        Token token = tokenRepository.findById(dto.getRefreshToken()).orElseThrow(() -> new MonkeyException(TokenErrorCode.T400, HttpStatus.BAD_REQUEST));
+        Token token = tokenRepository.findById(dto.getRefreshToken()).orElseThrow(() -> new MonkeyException(TokenErrorCode.T400));
         String accessToken = token.refresh(jwtProperties);
         log.info("Refresh Token");
         return new TokenResponseDto(accessToken, jwtProperties.getAccessTokenExpiration().intValue(), token.getRefreshToken(), jwtProperties.getRefreshTokenExpiration().intValue());

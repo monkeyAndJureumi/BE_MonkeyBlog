@@ -1,12 +1,11 @@
 package com.monkey.utils;
 
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.enums.MonkeyErrorCode;
+import com.monkey.enums.CommonErrorCode;
 import com.monkey.exception.MonkeyException;
 import io.jsonwebtoken.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 import java.time.Duration;
 import java.util.Base64;
@@ -53,7 +52,7 @@ public class JwtTokenUtils {
 
     private static String RemoveBearer(String token) {
         if (token == null || !token.startsWith("Bearer "))
-            throw new MonkeyException(MonkeyErrorCode.E601, HttpStatus.BAD_REQUEST);
+            throw new MonkeyException(CommonErrorCode.E401);
 
         return token.substring("Bearer ".length());
     }

@@ -8,10 +8,10 @@ import com.monkey.context.member.domain.service.OAuthServiceFactory;
 import com.monkey.context.member.dto.oauth.OAuthUserInfo;
 import com.monkey.context.member.dto.user.UserProfileUpdateDto;
 import com.monkey.context.member.enums.OauthType;
-import com.monkey.context.member.exception.MemberErrorCode;
-import com.monkey.context.member.exception.MemberException;
 import com.monkey.context.member.infra.repository.UserRepository;
 import com.monkey.aop.permission.service.PermissionService;
+import com.monkey.enums.CommonErrorCode;
+import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +29,7 @@ public class MemberService {
     @Transactional
     public void updateProfile(MemberId memberId, UserProfileUpdateDto dto) {
         MemberProfile profile = userRepository.findProfileByUserId(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.M400));
+                .orElseThrow(() -> new MonkeyException(CommonErrorCode.E404));
         permissionService.checkPermission(memberId, profile);
         profile.update(dto);
         log.info("[{}] - Update Profile", memberId.getId());
@@ -38,7 +38,7 @@ public class MemberService {
     @Transactional
     public void deactivateUser(MemberId memberId) {
         Members members = userRepository.findById(memberId)
-                .orElseThrow(() -> new MemberException(MemberErrorCode.M400));
+                .orElseThrow(() -> new MonkeyException(CommonErrorCode.E404));
         permissionService.checkPermission(memberId, members);
         members.deactivate();
         log.info("[{}] - Deactivate", memberId.getId());

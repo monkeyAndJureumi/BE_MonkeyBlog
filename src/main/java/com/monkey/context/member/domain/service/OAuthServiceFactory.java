@@ -1,8 +1,6 @@
 package com.monkey.context.member.domain.service;
 
 import com.monkey.context.member.enums.OauthType;
-import com.monkey.context.member.exception.MemberErrorCode;
-import com.monkey.context.member.exception.MemberException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +18,7 @@ public class OAuthServiceFactory {
                 return OAuthNaverServiceImpl;
         }
 
-        throw new MemberException(MemberErrorCode.M400);
+        throw new IllegalStateException("oauth type is not exists");
     }
 
 }

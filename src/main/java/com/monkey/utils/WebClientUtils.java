@@ -2,8 +2,6 @@ package com.monkey.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkey.enums.MonkeyErrorCode;
-import com.monkey.exception.MonkeyException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,11 +17,13 @@ public class WebClientUtils {
     public static MultiValueMap<String, String> convertParameters(Object dto, ObjectMapper objectMapper) {
         try {
             MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-            Map<String, String> buffer = objectMapper.convertValue(dto, new TypeReference<>() {});
+            Map<String, String> buffer = objectMapper.convertValue(dto, new TypeReference<>() {
+            });
             params.setAll(buffer);
             return params;
         } catch (Exception e) {
-            throw new MonkeyException(MonkeyErrorCode.E500, e.getMessage());
+            log.error("파라미터 변환 중 에러발생: {}", e.getMessage());
+            throw new IllegalStateException("서버 오류");
         }
     }
 }

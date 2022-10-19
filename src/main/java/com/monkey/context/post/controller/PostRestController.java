@@ -7,7 +7,7 @@ import com.monkey.context.post.dto.PostUpdateDto;
 import com.monkey.context.post.infra.repository.PostRepository;
 import com.monkey.context.post.service.PostService;
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.enums.MonkeyErrorCode;
+import com.monkey.enums.CommonErrorCode;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class PostRestController {
 
     @GetMapping("/{post_id}")
     public ResponseEntity<PostResponseDto> select(@PathVariable("post_id") Long id) {
-        return new ResponseEntity<>(postRepository.selectByPostId(new PostId(id)).orElseThrow(() -> new MonkeyException(MonkeyErrorCode.E100)), HttpStatus.OK);
+        return new ResponseEntity<>(postRepository.selectByPostId(new PostId(id)).orElseThrow(() -> new MonkeyException(CommonErrorCode.E400)), HttpStatus.OK);
     }
 
     @PostMapping
