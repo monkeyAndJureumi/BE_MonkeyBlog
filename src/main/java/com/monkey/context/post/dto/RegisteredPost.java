@@ -1,4 +1,4 @@
-package com.monkey.context.temp_post.dto;
+package com.monkey.context.post.dto;
 
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.temp_post.domain.TempPostId;

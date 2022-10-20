@@ -1,6 +1,6 @@
 package com.monkey.context.temp_post.event;
 
-import com.monkey.context.temp_post.dto.RegisteredPost;
+import com.monkey.context.post.dto.RegisteredPost;
 import com.monkey.context.temp_post.service.TempPostService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

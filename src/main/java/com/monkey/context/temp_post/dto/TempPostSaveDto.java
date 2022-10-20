@@ -9,10 +9,13 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TempPostSaveDto extends UserSessionDto {
+    @JsonProperty(value = "title")
+    private String title;
     @JsonProperty(value = "content")
     private String content;
 
-    TempPostSaveDto(String content) {
+    TempPostSaveDto(String title, String content) {
+        this.title = title;
         this.content = content;
     }
 }

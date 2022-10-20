@@ -1,7 +1,6 @@
 package com.monkey.context.temp_post.controller;
 
 import com.monkey.context.temp_post.domain.TempPostId;
-import com.monkey.context.temp_post.dto.TempPostResponseDto;
 import com.monkey.context.temp_post.dto.TempPostSaveDto;
 import com.monkey.context.temp_post.dto.TempPostUpdateDto;
 import com.monkey.context.temp_post.service.TempPostService;
@@ -18,12 +17,6 @@ import springfox.documentation.annotations.ApiIgnore;
 @RequiredArgsConstructor
 public class TempPostRestController {
     private final TempPostService tempPostService;
-
-    @ApiOperation(value = "임시 게시글 조회")
-    @GetMapping("/{id}")
-    public ResponseEntity<TempPostResponseDto> get(MemberId memberId, @PathVariable("id") String id) {
-        return new ResponseEntity<>(tempPostService.select(memberId, new TempPostId(id)), HttpStatus.OK);
-    }
 
     @ApiOperation(value = "임시 게시글 생성")
     @PostMapping

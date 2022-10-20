@@ -19,6 +19,9 @@ public class TempPost implements PermissionEntity {
     @EmbeddedId
     private TempPostId tempPostId;
 
+    @Column(name = "title")
+    private String title;
+
     @Column(name = "content", columnDefinition = "text")
     private String content;
 
@@ -34,6 +37,7 @@ public class TempPost implements PermissionEntity {
     public TempPost(TempPostSaveDto dto) {
         LocalDateTime now = LocalDateTime.now();
         this.tempPostId = new TempPostId(now.format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + "_" + dto.getMemberId().getId());
+        this.title = dto.getTitle();
         this.content = dto.getContent();
         this.author = new TempPostAuthor(dto.getMemberId());
         this.createdAt = now;
