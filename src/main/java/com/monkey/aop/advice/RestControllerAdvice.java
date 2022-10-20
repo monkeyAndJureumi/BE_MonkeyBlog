@@ -34,7 +34,7 @@ public class RestControllerAdvice {
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ExceptionResponse> exception(Exception e) {
-        log.error(e.getMessage());
+        log.error("{}", e.getMessage());
         return new ExceptionResponseEntityWrapper("500", "내부 오류", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

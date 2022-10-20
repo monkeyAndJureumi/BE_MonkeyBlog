@@ -7,6 +7,8 @@ import com.monkey.context.temp_post.dto.TempPostResponseDto;
 import com.monkey.context.temp_post.service.TempPostQueryService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +28,6 @@ public class TempPostQueryRestController {
 
     @GetMapping("/index")
     public ResponseEntity<TempPostIndexListDto> getIndexList(@ApiIgnore MemberId memberId, @RequestParam("page") int page, @RequestParam("size") int size) {
-        return new ResponseEntity<>(tempPostQueryService.getIndexList(memberId, page, size), HttpStatus.OK);
+        return new ResponseEntity<>(tempPostQueryService.getIndexList(memberId, PageRequest.of(page, size, Sort.Direction.DESC, "modifiedAt")), HttpStatus.OK);
     }
 }

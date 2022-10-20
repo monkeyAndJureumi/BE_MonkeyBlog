@@ -11,7 +11,9 @@ import com.monkey.context.temp_post.dto.TempPostResponseDto;
 import com.monkey.context.temp_post.infra.TempPostRepository;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,8 +33,8 @@ public class TempPostQueryService {
         return new TempPostResponseDto(post);
     }
 
-    public TempPostIndexListDto getIndexList(MemberId memberId, int page, int size) {
-        List<TempPost> result = tempPostRepository.findAllByAuthor(new TempPostAuthor(memberId), PageRequest.of(page, size, Sort.Direction.DESC));
+    public TempPostIndexListDto getIndexList(MemberId memberId, Pageable pageable) {
+        Page<TempPost> result = tempPostRepository.findAllByAuthor(new TempPostAuthor(memberId), pageable);
         return new TempPostIndexListDto(result);
     }
 }
