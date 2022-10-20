@@ -1,11 +1,11 @@
 package com.monkey.context.temp_post;
 
-import com.monkey.enums.ErrorCode;
+import com.monkey.enums.ErrorCodeEnumerable;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public enum TempPostErrorCode implements ErrorCode {
+public enum TempPostErrorCode implements ErrorCodeEnumerable {
     TP404(HttpStatus.NOT_FOUND, "temp post does not exist")
     ;
 

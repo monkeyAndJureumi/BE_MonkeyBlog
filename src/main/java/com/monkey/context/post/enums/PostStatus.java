@@ -1,11 +1,11 @@
 package com.monkey.context.post.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.monkey.enums.EntityEnum;
+import com.monkey.enums.EntityEnumerable;
 import lombok.Getter;
 
 @Getter
-public enum PostStatus implements EntityEnum {
+public enum PostStatus implements EntityEnumerable {
     ACTIVATE, DEACTIVATE, TEMPORARY;
 
     @Override

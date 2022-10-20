@@ -1,9 +1,9 @@
 package com.monkey.context.member.enums;
 
-import com.monkey.enums.ErrorCode;
+import com.monkey.enums.ErrorCodeEnumerable;
 import org.springframework.http.HttpStatus;
 
-public enum WebClientErrorCode implements ErrorCode {
+public enum WebClientErrorCode implements ErrorCodeEnumerable {
     W401(HttpStatus.UNAUTHORIZED, "access token does not exists"),
     ;
 

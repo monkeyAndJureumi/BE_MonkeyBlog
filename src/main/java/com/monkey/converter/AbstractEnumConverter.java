@@ -1,11 +1,11 @@
 package com.monkey.converter;
 
-import com.monkey.enums.EntityEnum;
+import com.monkey.enums.EntityEnumerable;
 import com.monkey.utils.EntityUtils;
 
 import javax.persistence.AttributeConverter;
 
-public abstract class AbstractEnumConverter<T extends Enum<T> & EntityEnum> implements AttributeConverter<T, String> {
+public abstract class AbstractEnumConverter<T extends Enum<T> & EntityEnumerable> implements AttributeConverter<T, String> {
     private final Class<T> enumClass;
     private final String enumName;
     private final boolean isNullable;

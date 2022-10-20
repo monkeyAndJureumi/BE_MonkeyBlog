@@ -2,7 +2,7 @@ package com.monkey.enums;
 
 import org.springframework.http.HttpStatus;
 
-public interface ErrorCode {
+public interface ErrorCodeEnumerable {
     String getMessage();
     String getCode();
     HttpStatus getHttpStatus();

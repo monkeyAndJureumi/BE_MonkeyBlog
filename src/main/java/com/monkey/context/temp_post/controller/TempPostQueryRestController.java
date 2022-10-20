@@ -4,11 +4,12 @@ import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.temp_post.domain.TempPostId;
 import com.monkey.context.temp_post.dto.TempPostIndexListDto;
 import com.monkey.context.temp_post.dto.TempPostResponseDto;
+import com.monkey.context.temp_post.enums.TempPostPageableProperties;
+import com.monkey.context.temp_post.enums.TempPostPageableSort;
 import com.monkey.context.temp_post.service.TempPostQueryService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,7 +28,9 @@ public class TempPostQueryRestController {
     }
 
     @GetMapping("/index")
-    public ResponseEntity<TempPostIndexListDto> getIndexList(@ApiIgnore MemberId memberId, @RequestParam("page") int page, @RequestParam("size") int size) {
-        return new ResponseEntity<>(tempPostQueryService.getIndexList(memberId, PageRequest.of(page, size, Sort.Direction.DESC, "modifiedAt")), HttpStatus.OK);
+    public ResponseEntity<TempPostIndexListDto> getIndexList(
+            @ApiIgnore MemberId memberId, @RequestParam("page") int page, @RequestParam("size") int size,
+            @RequestParam("sort") TempPostPageableSort sort, @RequestParam("properties") TempPostPageableProperties properties) {
+        return new ResponseEntity<>(tempPostQueryService.getIndexList(memberId, PageRequest.of(page, size, sort.getValue(), properties.getValue())), HttpStatus.OK);
     }
 }

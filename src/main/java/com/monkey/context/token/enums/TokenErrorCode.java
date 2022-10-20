@@ -1,9 +1,9 @@
 package com.monkey.context.token.enums;
 
-import com.monkey.enums.ErrorCode;
+import com.monkey.enums.ErrorCodeEnumerable;
 import org.springframework.http.HttpStatus;
 
-public enum TokenErrorCode implements ErrorCode {
+public enum TokenErrorCode implements ErrorCodeEnumerable {
     T400("invalid token", HttpStatus.BAD_REQUEST);
 
     private final String message;

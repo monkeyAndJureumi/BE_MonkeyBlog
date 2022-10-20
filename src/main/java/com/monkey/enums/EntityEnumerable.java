@@ -1,5 +1,5 @@
 package com.monkey.enums;
 
-public interface EntityEnum {
+public interface EntityEnumerable {
     String getName();
 }

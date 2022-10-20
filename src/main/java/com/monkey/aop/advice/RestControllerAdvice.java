@@ -2,7 +2,7 @@ package com.monkey.aop.advice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkey.enums.CommonErrorCode;
-import com.monkey.enums.ErrorCode;
+import com.monkey.enums.ErrorCodeEnumerable;
 import com.monkey.exception.MonkeyException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import javax.validation.ConstraintViolation;
@@ -43,6 +44,11 @@ public class RestControllerAdvice {
         return new ExceptionResponseEntityWrapper("400", exception.getAllErrors(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    protected ResponseEntity<ExceptionResponse> missingServletRequestParameterException(MissingServletRequestParameterException exception) {
+        return new ExceptionResponseEntityWrapper("400", exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
     @ExceptionHandler(ConstraintViolationException.class)
     protected ResponseEntity<ExceptionResponse> constraintViolationException(ConstraintViolationException exception) {
         return new ExceptionResponseEntityWrapper("400", exception.getConstraintViolations().iterator(), HttpStatus.BAD_REQUEST);
@@ -59,7 +65,7 @@ public class RestControllerAdvice {
     }
 
     private static class ExceptionResponseEntityWrapper extends ResponseEntity<ExceptionResponse> {
-        public ExceptionResponseEntityWrapper(ErrorCode errorCode) {
+        public ExceptionResponseEntityWrapper(ErrorCodeEnumerable errorCode) {
             super(new ExceptionResponse(errorCode.getCode(), errorCode.getMessage()), errorCode.getHttpStatus());
         }
 

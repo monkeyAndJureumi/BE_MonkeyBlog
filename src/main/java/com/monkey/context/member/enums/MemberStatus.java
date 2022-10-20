@@ -1,10 +1,10 @@
 package com.monkey.context.member.enums;
 
-import com.monkey.enums.EntityEnum;
+import com.monkey.enums.EntityEnumerable;
 import lombok.Getter;
 
 @Getter
-public enum MemberStatus implements EntityEnum {
+public enum MemberStatus implements EntityEnumerable {
     ACTIVATE, DEACTIVATE;
 
     @Override

@@ -1,12 +1,12 @@
 package com.monkey.context.member.enums;
 
-import com.monkey.enums.EntityEnum;
+import com.monkey.enums.EntityEnumerable;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Getter
 @Slf4j
-public enum UserSkill implements EntityEnum {
+public enum UserSkill implements EntityEnumerable {
     JAVA("Java"), JAVASCRIPT("JavaScript"), JPA("Jpa"), PYTHON("Python"), SPRING("Spring"), SPRING_BOOT("Spring Boot"), VUE("Vue"), C("C"), C_Plus("C++");
 
     private final String value;

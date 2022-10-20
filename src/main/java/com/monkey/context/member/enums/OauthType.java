@@ -1,11 +1,11 @@
 package com.monkey.context.member.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.monkey.enums.EntityEnum;
+import com.monkey.enums.EntityEnumerable;
 import lombok.Getter;
 
 @Getter
-public enum OauthType implements EntityEnum {
+public enum OauthType implements EntityEnumerable {
     KAKAO("카카오"),
     NAVER("네이버");
 
