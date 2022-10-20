@@ -2,6 +2,10 @@ package com.monkey.context.post.infra.repository.custom;
 
 import com.monkey.context.post.domain.PostId;
 import com.monkey.context.post.dto.PostResponseDto;
+import com.monkey.context.temp_post.domain.TempPost;
+import com.monkey.context.temp_post.domain.TempPostId;
+import com.monkey.enums.CommonErrorCode;
+import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -31,5 +35,18 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .getResultList();
 
         return result.stream().findAny();
+    }
+
+    @Override
+    public void deleteTempPostById(TempPostId tempPostId) {
+        TempPost result = em.createQuery(
+                        "select p " +
+                                "from TempPost p " +
+                                "where p.tempPostId =: id",
+                        TempPost.class)
+                .setParameter("id", tempPostId)
+                .getResultList().stream().findAny()
+                .orElseThrow(() -> new MonkeyException("temp post does not exist", CommonErrorCode.E404));
+        em.remove(result);
     }
 }

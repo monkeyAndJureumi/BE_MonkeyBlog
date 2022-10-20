@@ -1,13 +1,11 @@
 package com.monkey.aop.advice;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkey.enums.CommonErrorCode;
 import com.monkey.enums.ErrorCode;
 import com.monkey.exception.MonkeyException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.SignatureException;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,6 +31,12 @@ public class RestControllerAdvice {
 //    protected ResponseEntity<ExceptionResponse> illegalArgumentException(IllegalArgumentException exception) {
 //        return new ExceptionResponseEntityWrapper("400", exception.getMessage(), HttpStatus.BAD_REQUEST);
 //    }
+
+    @ExceptionHandler(Exception.class)
+    protected ResponseEntity<ExceptionResponse> exception(Exception e) {
+        log.error(e.getMessage());
+        return new ExceptionResponseEntityWrapper("500", "내부 오류", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     protected ResponseEntity<ExceptionResponse> methodArgumentNotValidException(MethodArgumentNotValidException exception) {
@@ -72,11 +76,22 @@ public class RestControllerAdvice {
         }
     }
 
-    @Getter
-    @NoArgsConstructor(access = AccessLevel.PRIVATE)
     private static class ExceptionResponse {
+        @JsonProperty("code")
         private String code;
+
+        public String getCode() {
+            return code;
+        }
+
+        @JsonProperty("message")
         private String message;
+
+        public String getMessage() {
+            return message;
+        }
+
+        private ExceptionResponse() {}
 
         public ExceptionResponse(String code, String message) {
             this.code = code;

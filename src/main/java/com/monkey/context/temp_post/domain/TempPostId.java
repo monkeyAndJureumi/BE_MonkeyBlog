@@ -1,4 +1,4 @@
-package com.monkey.context.post_temp.domain;
+package com.monkey.context.temp_post.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -11,11 +11,11 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
-public class PostTempId implements Serializable {
+public class TempPostId implements Serializable {
     private static final long serialVersionUID = 511665815035422515L;
     private String id;
 
-    public PostTempId(String id) {
+    public TempPostId(String id) {
         this.id = id;
     }
 
@@ -24,7 +24,7 @@ public class PostTempId implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PostTempId that = (PostTempId) o;
+        TempPostId that = (TempPostId) o;
 
         return Objects.equals(id, that.id);
     }

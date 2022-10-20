@@ -37,9 +37,10 @@ public class Members implements PermissionEntity {
     private MemberStatus status;
 
     public Members(OAuthUserInfo userInfo) {
+        LocalDateTime now = LocalDateTime.now();
         this.memberId = new MemberId(userInfo.getSocialType() + "_" + userInfo.getId());
-        this.createdAt = LocalDateTime.now();
-        this.modifiedAt = LocalDateTime.now();
+        this.createdAt = now;
+        this.modifiedAt = now;
         this.status = MemberStatus.ACTIVATE;
     }
 

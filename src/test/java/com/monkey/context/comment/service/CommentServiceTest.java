@@ -81,7 +81,7 @@ public class CommentServiceTest {
     @Test
     public void deleteComment() {
         //given
-        MemberId memberId = new MemberId(1L);
+        MemberId memberId = new MemberId("Test User");
         Long commentId = 1L;
         Comment comment = getComment();
         doReturn(Optional.of(comment)).when(commentRepository).findById(1L);
@@ -95,7 +95,7 @@ public class CommentServiceTest {
 
     private Comment getComment() {
         Comment comment = Comment.builder()
-                .author(new CommentAuthor(new MemberId(1L)))
+                .author(new CommentAuthor(new MemberId("Test User")))
                 .postId(new PostId(1L))
                 .refComment(null)
                 .content("Test Comment")

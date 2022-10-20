@@ -9,11 +9,11 @@ public enum CommonErrorCode implements ErrorCode {
     E401("권한이 없습니다.", HttpStatus.UNAUTHORIZED),
     E404("요청하신 내용을 찾을 수 없습니다.", HttpStatus.NOT_FOUND)
     ;
-    private final String description;
+    private final String message;
     private final HttpStatus httpStatus;
 
-    CommonErrorCode(String description, HttpStatus httpStatus) {
-        this.description = description;
+    CommonErrorCode(String message, HttpStatus httpStatus) {
+        this.message = message;
         this.httpStatus = httpStatus;
     }
 
@@ -24,6 +24,6 @@ public enum CommonErrorCode implements ErrorCode {
 
     @Override
     public String getMessage() {
-        return description;
+        return message;
     }
 }

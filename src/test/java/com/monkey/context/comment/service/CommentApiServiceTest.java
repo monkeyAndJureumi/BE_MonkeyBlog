@@ -33,7 +33,7 @@ public class CommentApiServiceTest {
     public void selectComments() {
         //given
         PostId postId = new PostId(1L);
-        MemberId memberId = new MemberId(1L);
+        MemberId memberId = new MemberId("Test User");
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByPostId(postId);
         //when
@@ -51,7 +51,7 @@ public class CommentApiServiceTest {
     public void selectSecreteComments() {
         //given
         PostId postId = new PostId(1L);
-        MemberId postAuthor = new MemberId(1L);
+        MemberId postAuthor = new MemberId("Test User");
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByPostId(postId);
         //when
@@ -89,7 +89,7 @@ public class CommentApiServiceTest {
     public void selectReplyComments() {
         //given
         CommentId commentId = new CommentId(1L);
-        MemberId memberId = new MemberId(1L);
+        MemberId memberId = new MemberId("Test User");
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByRefCommentId(commentId);
 
@@ -106,7 +106,7 @@ public class CommentApiServiceTest {
     public void selectSecretReplyComments() {
         //given
         CommentId commentId = new CommentId(1L);
-        MemberId memberId = new MemberId(1L);
+        MemberId memberId = new MemberId("Test User");
         List<CommentDto> comments = getCommentList();
         doReturn(comments).when(commentRepository).findAllByRefCommentId(commentId);
 
@@ -138,7 +138,7 @@ public class CommentApiServiceTest {
     private List<CommentDto> getCommentList() {
         List<CommentDto> result = new ArrayList<>();
         for (long i = 0; i < 2; i++) {
-            result.add(new CommentDto(1L, 2L, "Test Name", i, "Test Content", LocalDateTime.now(), false, true));
+            result.add(new CommentDto("Test", "test", "Test Name", i, "Test Content", LocalDateTime.now(), false, true));
         }
 
         return result;

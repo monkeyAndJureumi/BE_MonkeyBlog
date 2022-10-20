@@ -25,24 +25,24 @@ public class PostRestController {
 
     @GetMapping("/{post_id}")
     public ResponseEntity<PostResponseDto> select(@PathVariable("post_id") Long id) {
-        return new ResponseEntity<>(postRepository.selectByPostId(new PostId(id)).orElseThrow(() -> new MonkeyException(CommonErrorCode.E400)), HttpStatus.OK);
+        return new ResponseEntity<>(postRepository.selectByPostId(new PostId(id))
+                .orElseThrow(() -> new MonkeyException(CommonErrorCode.E400)), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<HttpStatus> save(@RequestBody PostSaveDto req) {
-        postService.savePost(req);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<PostId> save(@RequestBody PostSaveDto req) {
+        return new ResponseEntity<>(postService.save(req), HttpStatus.OK);
     }
 
     @DeleteMapping
     public ResponseEntity<HttpStatus> delete(MemberId memberId, @RequestParam("id") Long postId) {
-        postService.deletePost(memberId, new PostId(postId));
+        postService.delete(memberId, new PostId(postId));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PatchMapping
     public ResponseEntity<HttpStatus> update(PostUpdateDto dto) {
-        postService.modifyPost(dto);
+        postService.modify(dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

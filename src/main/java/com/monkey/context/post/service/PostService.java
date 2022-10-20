@@ -7,9 +7,11 @@ import com.monkey.context.post.infra.repository.PostRepository;
 import com.monkey.context.post.dto.PostSaveDto;
 import com.monkey.context.post.dto.PostUpdateDto;
 import com.monkey.context.member.domain.MemberId;
+import com.monkey.context.temp_post.dto.RegisteredPost;
 import com.monkey.enums.CommonErrorCode;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,20 +21,23 @@ import org.springframework.transaction.annotation.Transactional;
 public class PostService {
     private final PostRepository postRepository;
     private final PermissionService permissionService;
+    private final ApplicationEventPublisher eventPublisher;
 
-    public void savePost(final PostSaveDto dto) {
+    public PostId save(final PostSaveDto dto) {
         Post post = new Post(dto);
         postRepository.save(post);
+        eventPublisher.publishEvent(new RegisteredPost(dto.getMemberId(), dto.getTempPostId()));
+        return new PostId(post.getId());
     }
 
-    public void modifyPost(final PostUpdateDto dto) {
+    public void modify(final PostUpdateDto dto) {
         Post post = postRepository.findById(dto.getPostId())
                 .orElseThrow(() -> new MonkeyException(CommonErrorCode.E400));
         permissionService.checkPermission(dto.getMemberId(), post);
         post.update(dto);
     }
 
-    public void deletePost(final MemberId memberId, final PostId postId) {
+    public void delete(final MemberId memberId, final PostId postId) {
         Post post = postRepository.findById(postId.getId())
                 .orElseThrow(() -> new MonkeyException(CommonErrorCode.E400));
         permissionService.checkPermission(memberId, post);

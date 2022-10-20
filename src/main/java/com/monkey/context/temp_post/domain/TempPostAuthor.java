@@ -1,4 +1,4 @@
-package com.monkey.context.post_temp.domain;
+package com.monkey.context.temp_post.domain;
 
 import com.monkey.context.member.domain.MemberId;
 import lombok.AccessLevel;
@@ -16,13 +16,13 @@ import java.util.Objects;
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class
-PostTempAuthor implements Serializable {
+TempPostAuthor implements Serializable {
     @AttributeOverrides(
             @AttributeOverride(name = "id", column = @Column(name = "author_id", nullable = false))
     )
     private MemberId memberId;
 
-    public PostTempAuthor(MemberId memberId) {
+    public TempPostAuthor(MemberId memberId) {
         this.memberId = memberId;
     }
 
@@ -31,7 +31,7 @@ PostTempAuthor implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        PostTempAuthor postAuthor = (PostTempAuthor) o;
+        TempPostAuthor postAuthor = (TempPostAuthor) o;
 
         return Objects.equals(memberId.getId(), postAuthor.getMemberId().getId());
     }

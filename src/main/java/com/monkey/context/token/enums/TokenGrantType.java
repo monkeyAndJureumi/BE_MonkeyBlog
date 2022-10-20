@@ -25,10 +25,9 @@ public enum TokenGrantType {
     @JsonCreator
     public static TokenGrantType create(String value) {
         for (TokenGrantType type : TokenGrantType.values()) {
-            if (type.name().equals(value))
+            if (type.name().toLowerCase().equals(value))
                 return type;
         }
-
-        throw new IllegalArgumentException("invalid grant_type");
+        return null;
     }
 }

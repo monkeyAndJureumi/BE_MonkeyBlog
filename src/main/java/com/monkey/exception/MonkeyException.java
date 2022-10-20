@@ -20,6 +20,13 @@ public class MonkeyException extends RuntimeException {
         this.httpStatus = errorCode.getHttpStatus();
     }
 
+    public MonkeyException(String message, ErrorCode errorCode) {
+        super(message);
+        this.message = message;
+        this.code = errorCode.getCode();
+        this.httpStatus = errorCode.getHttpStatus();
+    }
+
     public MonkeyException(Throwable throwable) {
         super(throwable);
     }
