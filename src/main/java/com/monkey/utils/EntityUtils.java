@@ -1,6 +1,6 @@
 package com.monkey.utils;
 
-import com.monkey.enums.EntityEnum;
+import com.monkey.enums.EntityEnumerable;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -15,7 +15,7 @@ public class EntityUtils {
      * @param isEncrypt 암호화 여부
      * @return DB에 저장되는 값
      */
-    public static <T extends Enum<T> & EntityEnum> String EnumToDbData(T attribute, boolean isEncrypt) {
+    public static <T extends Enum<T> & EntityEnumerable> String EnumToDbData(T attribute, boolean isEncrypt) {
         if (attribute == null)
             return "";
 
@@ -33,7 +33,7 @@ public class EntityUtils {
      * @param isEncrypt 암호화 여부
      * @return EntityEnum 구현 클래스
      */
-    public static <T extends Enum<T> & EntityEnum> T DbDataToEnum(Class<T> className, String dbData, boolean isEncrypt) {
+    public static <T extends Enum<T> & EntityEnumerable> T DbDataToEnum(Class<T> className, String dbData, boolean isEncrypt) {
         if (dbData.isBlank() || dbData.isEmpty())
             return null;
 
