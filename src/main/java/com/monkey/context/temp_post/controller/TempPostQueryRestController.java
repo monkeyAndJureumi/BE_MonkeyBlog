@@ -4,8 +4,8 @@ import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.temp_post.domain.TempPostId;
 import com.monkey.context.temp_post.dto.TempPostIndexListDto;
 import com.monkey.context.temp_post.dto.TempPostResponseDto;
-import com.monkey.context.temp_post.enums.TempPostPageableProperties;
-import com.monkey.context.temp_post.enums.TempPostPageableSort;
+import com.monkey.context.temp_post.enums.TempPostColumns;
+import com.monkey.context.temp_post.enums.TempPostSortType;
 import com.monkey.context.temp_post.service.TempPostQueryService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -30,7 +30,7 @@ public class TempPostQueryRestController {
     @GetMapping("/index")
     public ResponseEntity<TempPostIndexListDto> getIndexList(
             @ApiIgnore MemberId memberId, @RequestParam("page") int page, @RequestParam("size") int size,
-            @RequestParam("sort") TempPostPageableSort sort, @RequestParam("properties") TempPostPageableProperties properties) {
-        return new ResponseEntity<>(tempPostQueryService.getIndexList(memberId, PageRequest.of(page, size, sort.getValue(), properties.getValue())), HttpStatus.OK);
+            @RequestParam("sort") TempPostSortType sort, @RequestParam("properties") TempPostColumns column) {
+        return new ResponseEntity<>(tempPostQueryService.getIndexList(memberId, PageRequest.of(page, size, sort.getValue(), column.getValue())), HttpStatus.OK);
     }
 }

@@ -2,12 +2,12 @@ package com.monkey.context.temp_post.enums;
 
 import com.monkey.enums.ParamEnumerable;
 
-public enum TempPostPageableProperties implements ParamEnumerable {
+public enum TempPostColumns implements ParamEnumerable {
     MODIFIED_AT("modifiedAt"), CREATED_AT("createdAt");
 
     private final String value;
 
-    TempPostPageableProperties(String value) {
+    TempPostColumns(String value) {
         this.value = value;
     }
 
