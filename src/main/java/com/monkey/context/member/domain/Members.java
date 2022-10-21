@@ -2,7 +2,7 @@ package com.monkey.context.member.domain;
 
 import com.monkey.context.member.dto.oauth.OAuthUserInfo;
 import com.monkey.context.member.enums.MemberStatus;
-import com.monkey.aop.permission.implement.PermissionEntity;
+import com.monkey.context.permission.implement.PermissionEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

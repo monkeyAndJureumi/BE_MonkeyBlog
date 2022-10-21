@@ -1,6 +1,6 @@
 package com.monkey.context.post.service;
 
-import com.monkey.aop.permission.service.PermissionService;
+import com.monkey.context.permission.service.PermissionService;
 import com.monkey.context.post.domain.Post;
 import com.monkey.context.post.domain.PostId;
 import com.monkey.context.post.infra.repository.PostRepository;

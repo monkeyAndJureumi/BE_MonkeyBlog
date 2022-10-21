@@ -9,7 +9,7 @@ import com.monkey.context.member.dto.oauth.OAuthUserInfo;
 import com.monkey.context.member.dto.user.UserProfileUpdateDto;
 import com.monkey.context.member.enums.OauthType;
 import com.monkey.context.member.infra.repository.UserRepository;
-import com.monkey.aop.permission.service.PermissionService;
+import com.monkey.context.permission.service.PermissionService;
 import com.monkey.enums.CommonErrorCode;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;

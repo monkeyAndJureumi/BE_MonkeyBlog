@@ -2,7 +2,7 @@ package com.monkey.context.post.domain;
 
 import com.monkey.context.post.dto.PostSaveDto;
 import com.monkey.context.post.dto.PostUpdateDto;
-import com.monkey.aop.permission.implement.PermissionEntity;
+import com.monkey.context.permission.implement.PermissionEntity;
 import com.monkey.context.member.domain.MemberId;
 import lombok.AccessLevel;
 import lombok.Builder;

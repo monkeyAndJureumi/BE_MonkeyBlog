@@ -5,7 +5,7 @@ import com.monkey.context.comment.dto.CommentSaveDto;
 import com.monkey.context.comment.dto.CommentUpdateDto;
 import com.monkey.context.comment.domain.Comment;
 import com.monkey.context.comment.infra.repository.CommentRepository;
-import com.monkey.aop.permission.service.PermissionService;
+import com.monkey.context.permission.service.PermissionService;
 import com.monkey.context.post.domain.PostId;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.enums.CommonErrorCode;

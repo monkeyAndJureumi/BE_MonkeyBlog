@@ -4,7 +4,7 @@ import com.monkey.context.member.dto.oauth.OAuthUserInfo;
 import com.monkey.context.member.dto.user.UserProfileUpdateDto;
 import com.monkey.context.member.enums.UserSkill;
 import com.monkey.context.member.enums.MemberStatus;
-import com.monkey.aop.permission.implement.PermissionEntity;
+import com.monkey.context.permission.implement.PermissionEntity;
 import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
 import lombok.Getter;

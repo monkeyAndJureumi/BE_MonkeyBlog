@@ -1,6 +1,6 @@
-package com.monkey.aop.permission.service;
+package com.monkey.context.permission.service;
 
-import com.monkey.aop.permission.implement.PermissionEntity;
+import com.monkey.context.permission.implement.PermissionEntity;
 import com.monkey.context.member.domain.MemberId;
 
 import com.monkey.enums.CommonErrorCode;
