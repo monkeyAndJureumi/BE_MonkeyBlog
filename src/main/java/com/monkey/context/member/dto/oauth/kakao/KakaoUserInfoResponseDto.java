@@ -2,7 +2,7 @@ package com.monkey.context.member.dto.oauth.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.context.member.dto.oauth.OAuthUserInfo;
+import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
 import com.monkey.context.member.enums.OauthType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class KakaoUserInfoResponseDto extends OAuthUserInfo {
+public class KakaoUserInfoResponseDto extends OAuthUserInfoDto {
     @JsonProperty("id")
     private Long id;
 

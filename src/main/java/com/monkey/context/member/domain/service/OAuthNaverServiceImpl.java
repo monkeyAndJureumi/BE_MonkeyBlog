@@ -1,6 +1,7 @@
 package com.monkey.context.member.domain.service;
 
-import com.monkey.context.member.dto.oauth.OAuthUserInfo;
+import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
+import com.monkey.context.member.dto.oauth.OauthTokenResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +10,12 @@ import org.springframework.stereotype.Component;
 public class OAuthNaverServiceImpl implements OAuthService {
 
     @Override
-    public OAuthUserInfo getUserInfo(String accessToken) {
+    public OAuthUserInfoDto getUserInfo(String accessToken) {
+        return null;
+    }
+
+    @Override
+    public OauthTokenResponseDto requestAccessToken(String authorizationCode) {
         return null;
     }
 }

@@ -6,7 +6,7 @@ import com.monkey.context.member.domain.MemberProfile;
 
 import java.util.Optional;
 
-public interface UserCustomRepository {
+public interface MemberCustomRepository {
     Optional<Members> findByUserIdAndStatusIsActivate(MemberId memberId);
     Optional<MemberProfile> findProfileByUserId(MemberId memberId);
 }

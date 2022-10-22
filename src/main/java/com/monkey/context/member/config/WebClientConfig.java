@@ -13,7 +13,7 @@ public class WebClientConfig {
     private final KakaoProperties kakaoProperties;
 
     @Bean
-    public WebClient kakaoAuthorizeClient() {
+    public WebClient kakaoAuthClient() {
         return WebClient.builder()
                 .baseUrl(kakaoProperties.getAuthorizeBaseUrl())
                 .build();

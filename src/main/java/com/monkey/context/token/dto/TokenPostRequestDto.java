@@ -10,6 +10,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Getter
@@ -25,10 +26,15 @@ public class TokenPostRequestDto {
     @Schema(description = "액세스 토큰을 발급해준 서비스 이름(소문자로 입력)")
     private OauthType oauthType;
 
-    @JsonProperty("access_token")
-    @NotNull(groups = TokenRequestGroups.AccessToken.class, message = "access_token is not null")
-    @Schema(description = "소셜로그인 진행 후 받은 액세스 토큰")
-    private String accessToken;
+//    @JsonProperty("access_token")
+//    @NotNull(/*groups = TokenRequestGroups.AccessToken.class,*/ message = "access_token is not null")
+//    @Schema(description = "소셜로그인 진행 후 받은 액세스 토큰")
+//    private String accessToken;
+
+    @JsonProperty("authorization_code")
+    @NotBlank(groups = TokenRequestGroups.AuthorizationCode.class, message = "authorization_code is not blank")
+    @Schema(description = "소셜로그인 진행 후 받은 인증코드")
+    private String authorizationCode;
 
     @JsonProperty("refresh_token")
     @NotNull(groups = TokenRequestGroups.RefreshToken.class, message = "refresh_token is not null")
