@@ -3,13 +3,13 @@ package com.monkey.context.member.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkey.context.member.domain.Members;
 import com.monkey.context.member.domain.MemberProfile;
-import com.monkey.context.member.enums.UserSkill;
+import com.monkey.context.member.enums.MemberSkill;
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.context.member.dto.oauth.OAuthUserInfo;
-import com.monkey.context.member.dto.user.UserProfileSaveDto;
-import com.monkey.context.member.dto.user.UserProfileUpdateDto;
+import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
+import com.monkey.context.member.dto.member.MemberProfileSaveDto;
+import com.monkey.context.member.dto.member.MemberProfileUpdateDto;
 import com.monkey.context.member.enums.OauthType;
-import com.monkey.context.member.infra.repository.UserRepository;
+import com.monkey.context.member.infra.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -28,14 +28,14 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @Transactional
 public class MembersRepositoryTest {
     @Autowired
-    UserRepository userRepository;
+    MemberRepository memberRepository;
 
     @Autowired
     ObjectMapper objectMapper;
 
     @BeforeEach
     public void initUser() {
-        userRepository.save(new Members(getOAuthUserInfo()));
+        memberRepository.save(new Members(getOAuthUserInfo()));
     }
 
     @DisplayName("유저 프로필 저장")
@@ -45,7 +45,7 @@ public class MembersRepositoryTest {
         saveProfile();
 
         //then
-        Members result = userRepository.findById(new MemberId("test")).orElseThrow();
+        Members result = memberRepository.findById(new MemberId("test")).orElseThrow();
         assertEquals(2, result.getProfile().getSkillList().size());
     }
 
@@ -55,33 +55,33 @@ public class MembersRepositoryTest {
         //given
         saveProfile();
         Map<String, Object> objectMap = new HashMap<>();
-        Set<UserSkill> userSkills = new LinkedHashSet<>();
-        userSkills.addAll(List.of(UserSkill.SPRING));
-        objectMap.put("skill_list", userSkills);
-        UserProfileUpdateDto dto = objectMapper.convertValue(objectMap, UserProfileUpdateDto.class);
+        Set<MemberSkill> memberSkills = new LinkedHashSet<>();
+        memberSkills.addAll(List.of(MemberSkill.SPRING));
+        objectMap.put("skill_list", memberSkills);
+        MemberProfileUpdateDto dto = objectMapper.convertValue(objectMap, MemberProfileUpdateDto.class);
 
         //when
-        MemberProfile user = userRepository.findProfileByUserId(new MemberId("gwqgrwq")).orElseThrow();
+        MemberProfile user = memberRepository.findProfileByUserId(new MemberId("gwqgrwq")).orElseThrow();
         user.update(dto);
 
         //then
-        Members result = userRepository.findById(new MemberId("fdqgrqw")).orElseThrow();
+        Members result = memberRepository.findById(new MemberId("fdqgrqw")).orElseThrow();
         assertEquals(1, result.getProfile().getSkillList().size());
     }
 
     private void saveProfile() {
         Map<String, Object> objectMap = new HashMap<>();
-        Set<UserSkill> userSkills = new LinkedHashSet<>();
-        userSkills.addAll(List.of(UserSkill.JAVA, UserSkill.SPRING));
-        objectMap.put("skill_list", userSkills);
-        UserProfileSaveDto dto = objectMapper.convertValue(objectMap, UserProfileSaveDto.class);
+        Set<MemberSkill> memberSkills = new LinkedHashSet<>();
+        memberSkills.addAll(List.of(MemberSkill.JAVA, MemberSkill.SPRING));
+        objectMap.put("skill_list", memberSkills);
+        MemberProfileSaveDto dto = objectMapper.convertValue(objectMap, MemberProfileSaveDto.class);
 
         //when
-        Members members = userRepository.findById(new MemberId("")).orElseThrow();
+        Members members = memberRepository.findById(new MemberId("")).orElseThrow();
     }
 
-    private OAuthUserInfo getOAuthUserInfo() {
-        return new OAuthUserInfo() {
+    private OAuthUserInfoDto getOAuthUserInfo() {
+        return new OAuthUserInfoDto() {
             @Override
             public OauthType getSocialType() {
                 return OauthType.KAKAO;

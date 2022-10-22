@@ -1,4 +1,4 @@
-package com.monkey.context.member.dto.user;
+package com.monkey.context.member.dto.member;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
@@ -13,7 +13,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ApiModel(value = "user_profile", description = "grant_type이 UPDATE인 경우에 입력")
-public class UserProfileUpdateDto {
+public class MemberProfileUpdateDto {
     @JsonProperty("nick_name")
     @Schema(description = "닉네임")
     private String nickName;

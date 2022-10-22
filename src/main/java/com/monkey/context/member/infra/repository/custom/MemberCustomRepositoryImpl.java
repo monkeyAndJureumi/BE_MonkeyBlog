@@ -12,14 +12,14 @@ import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
-public class UserCustomRepositoryImpl implements UserCustomRepository {
+public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     private final EntityManager em;
 
     public Optional<Members> findByUserIdAndStatusIsActivate(MemberId memberId) {
         return em.createQuery(
-                        "select u from Members u where u.userId =:userId and u.status =:status",
+                        "select u from Members u where u.memberId =:memberId and u.status =:status",
                         Members.class)
-                .setParameter("userId", memberId)
+                .setParameter("memberId", memberId)
                 .setParameter("status", MemberStatus.ACTIVATE)
                 .getResultStream()
                 .findAny();
@@ -28,9 +28,9 @@ public class UserCustomRepositoryImpl implements UserCustomRepository {
     @Override
     public Optional<MemberProfile> findProfileByUserId(MemberId memberId) {
         return em.createQuery(
-                "select p from MemberProfile p where p.userId =: userId"
+                "select p from MemberProfile p where p.memberId =: memberId"
                 , MemberProfile.class)
-                .setParameter("userId", memberId)
+                .setParameter("memberId", memberId)
                 .getResultStream().findAny();
     }
 }

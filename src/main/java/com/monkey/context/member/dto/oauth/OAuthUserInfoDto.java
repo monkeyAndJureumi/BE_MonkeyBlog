@@ -3,7 +3,7 @@ package com.monkey.context.member.dto.oauth;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.member.enums.OauthType;
 
-public abstract class OAuthUserInfo {
+public abstract class OAuthUserInfoDto {
     public abstract OauthType getSocialType();
     public abstract Long getId();
     public abstract String getName();

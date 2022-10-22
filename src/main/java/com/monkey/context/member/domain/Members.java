@@ -1,6 +1,6 @@
 package com.monkey.context.member.domain;
 
-import com.monkey.context.member.dto.oauth.OAuthUserInfo;
+import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
 import com.monkey.context.member.enums.MemberStatus;
 import com.monkey.context.permission.implement.PermissionEntity;
 import lombok.AccessLevel;
@@ -36,7 +36,7 @@ public class Members implements PermissionEntity {
     @Column(name = "member_status")
     private MemberStatus status;
 
-    public Members(OAuthUserInfo userInfo) {
+    public Members(OAuthUserInfoDto userInfo) {
         LocalDateTime now = LocalDateTime.now();
         this.memberId = new MemberId(userInfo.getSocialType() + "_" + userInfo.getId());
         this.createdAt = now;

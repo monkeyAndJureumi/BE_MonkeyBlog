@@ -2,11 +2,11 @@ package com.monkey.context.member.dto.oauth.kakao;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.monkey.context.member.infra.client.kakao.KakaoProperties;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Deprecated
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -26,10 +26,10 @@ public class KakaoTokenRequestDto {
     @JsonProperty(value = "client_secret")
     private String clientSecret;
 
-    public KakaoTokenRequestDto(String clientId, String redirectUri, String code, String clientSecret) {
-        this.clientId = clientId;
-        this.redirectUri = redirectUri;
+    public KakaoTokenRequestDto(String code, KakaoProperties properties) {
+        this.clientId = properties.getClientId();
+        this.redirectUri = properties.getRedirectUri();
         this.code = code;
-        this.clientSecret = clientSecret;
+        this.clientSecret = properties.getClientSecret();
     }
 }

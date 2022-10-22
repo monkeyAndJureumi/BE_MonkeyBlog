@@ -1,8 +1,12 @@
 package com.monkey.context.member.infra.client.kakao.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.monkey.context.member.dto.oauth.kakao.KakaAuthErrorDto;
+import com.monkey.context.member.dto.oauth.kakao.KakaoApiErrorDto;
 import com.monkey.context.member.dto.oauth.kakao.KakaoUserInfoResponseDto;
 import com.monkey.context.member.enums.WebClientErrorCode;
-import com.monkey.context.member.infra.client.kakao.KakaoApiWebClient;
+import com.monkey.context.member.infra.client.kakao.KakaoApiClient;
 import com.monkey.context.member.infra.client.kakao.KakaoProperties;
 import com.monkey.exception.MonkeyException;
 import lombok.extern.slf4j.Slf4j;
@@ -17,11 +21,13 @@ import reactor.core.publisher.Mono;
 
 @Slf4j
 @Component
-public class KakaoApiWebClientImpl implements KakaoApiWebClient {
+public class KakaoApiClientImpl implements KakaoApiClient {
+    private final ObjectMapper objectMapper;
     private final KakaoProperties properties;
     private final WebClient client;
 
-    public KakaoApiWebClientImpl(KakaoProperties properties, WebClient kakaoApiClient) {
+    public KakaoApiClientImpl(ObjectMapper objectMapper, KakaoProperties properties, WebClient kakaoApiClient) {
+        this.objectMapper = objectMapper;
         this.properties = properties;
         this.client = kakaoApiClient;
     }
@@ -36,10 +42,21 @@ public class KakaoApiWebClientImpl implements KakaoApiWebClient {
                 .body(BodyInserters.fromFormData(parameters))
                 .retrieve().onStatus(httpStatus -> httpStatus != HttpStatus.OK,
                         response -> response.createException().flatMap(err -> {
-                            log.error(err.getResponseBodyAsString());
+                            KakaoApiErrorDto errorDto = convertToErrorDto(err.getStatusCode(), err.getResponseBodyAsString());
                             return Mono.error(new MonkeyException(WebClientErrorCode.findByHttpStatus(err.getStatusCode())));
                         }))
                 .bodyToMono(KakaoUserInfoResponseDto.class).block();
         return responseDto;
+    }
+
+    private KakaoApiErrorDto convertToErrorDto(HttpStatus httpStatus, String errorBody) {
+        try {
+            log.error(errorBody);
+            KakaoApiErrorDto errorDto = objectMapper.readValue(errorBody, KakaoApiErrorDto.class);
+            log.error("httpStatus: {}, message: {}, code: {}",httpStatus, errorDto.getMsg(), errorDto.getCode());
+            return errorDto;
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException("카카오 에러 메세지 변환 중에 오류가 발생했습니다.");
+        }
     }
 }

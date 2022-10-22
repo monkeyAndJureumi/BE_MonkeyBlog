@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
 public class TokenAccessRequestDto {
-
     private OauthType oauthType;
 
-    @JwtTokenConstraint(message = "invalid token type")
-    private String accessToken;
+    private String authorizationCode;
 }

@@ -1,4 +1,4 @@
 package com.monkey.context.member.validation.marker;
 
-public interface UserProfileUpdate {
+public interface MemberProfileUpdate {
 }
