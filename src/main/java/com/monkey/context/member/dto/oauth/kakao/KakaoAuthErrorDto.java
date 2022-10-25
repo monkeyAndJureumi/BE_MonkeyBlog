@@ -8,9 +8,7 @@ import org.springframework.http.HttpStatus;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class KakaAuthErrorDto {
-    private HttpStatus httpStatus;
-
+public class KakaoAuthErrorDto {
     @JsonProperty("error")
     private String error;
 

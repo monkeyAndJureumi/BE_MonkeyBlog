@@ -1,6 +1,6 @@
 package com.monkey.context.member.infra.repository.custom;
 
-import com.monkey.context.member.domain.Members;
+import com.monkey.context.member.domain.Member;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.member.domain.MemberProfile;
 import com.monkey.context.member.enums.MemberStatus;
@@ -15,22 +15,13 @@ import java.util.Optional;
 public class MemberCustomRepositoryImpl implements MemberCustomRepository {
     private final EntityManager em;
 
-    public Optional<Members> findByUserIdAndStatusIsActivate(MemberId memberId) {
+    public Optional<Member> findByUserIdAndStatusIsActivate(MemberId memberId) {
         return em.createQuery(
-                        "select u from Members u where u.memberId =:memberId and u.status =:status",
-                        Members.class)
+                        "select u from Member u where u.memberId =:memberId and u.status =:status",
+                        Member.class)
                 .setParameter("memberId", memberId)
                 .setParameter("status", MemberStatus.ACTIVATE)
                 .getResultStream()
                 .findAny();
-    }
-
-    @Override
-    public Optional<MemberProfile> findProfileByUserId(MemberId memberId) {
-        return em.createQuery(
-                "select p from MemberProfile p where p.memberId =: memberId"
-                , MemberProfile.class)
-                .setParameter("memberId", memberId)
-                .getResultStream().findAny();
     }
 }

@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class NoticeDto {
+public class NoticeResponseDto {
     private String title;
     private String content;
     private LocalDateTime createdAt;

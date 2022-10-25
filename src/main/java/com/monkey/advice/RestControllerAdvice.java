@@ -1,4 +1,4 @@
-package com.monkey.aop.advice;
+package com.monkey.advice;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkey.enums.CommonErrorCode;
@@ -23,15 +23,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @org.springframework.web.bind.annotation.RestControllerAdvice
 public class RestControllerAdvice {
-//    @ExceptionHandler(IllegalStateException.class)
-//    protected ResponseEntity<ExceptionResponse> illegalStateException(IllegalStateException exception) {
-//        return new ExceptionResponseEntityWrapper("200", exception.getMessage(), HttpStatus.OK);
-//    }
-
-//    @ExceptionHandler(IllegalArgumentException.class)
-//    protected ResponseEntity<ExceptionResponse> illegalArgumentException(IllegalArgumentException exception) {
-//        return new ExceptionResponseEntityWrapper("400", exception.getMessage(), HttpStatus.BAD_REQUEST);
-//    }
 
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ExceptionResponse> exception(Exception e) {
@@ -121,14 +112,14 @@ public class RestControllerAdvice {
         }
 
         private String getErrorMessage(final Iterator<ConstraintViolation<?>> violationIterator) {
+            final StringBuilder internalMsg = new StringBuilder();
             final StringBuilder result = new StringBuilder();
             while (violationIterator.hasNext()) {
                 final ConstraintViolation<?> constraintViolation = violationIterator.next();
-                result.append(getPropertyName(constraintViolation.getPropertyPath().toString()));
-                result.append(" is ");
+                internalMsg.append(getPropertyName(constraintViolation.getPropertyPath().toString()) + " is " + constraintViolation.getMessage());
                 result.append(constraintViolation.getMessage());
             }
-
+            log.info("{}", internalMsg);
             return result.toString();
         }
 

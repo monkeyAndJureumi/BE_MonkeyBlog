@@ -1,8 +1,10 @@
 package com.monkey.context.member.domain;
 
+import com.monkey.context.member.dto.member.MemberProfileUpdateDto;
 import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
 import com.monkey.context.member.enums.MemberStatus;
 import com.monkey.context.permission.implement.PermissionEntity;
+import com.monkey.context.permission.service.PermissionService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,11 +17,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "members")
-public class Members implements PermissionEntity {
+public class Member implements PermissionEntity {
     @EmbeddedId
     private MemberId memberId;
 
-    @OneToOne(mappedBy = "members", orphanRemoval = true, cascade = CascadeType.ALL)
+//    @OneToOne(mappedBy = "member", orphanRemoval = true, cascade = CascadeType.ALL)
+    @Embedded
     @Comment("유저 프로필 정보")
     private MemberProfile profile;
 
@@ -36,17 +39,23 @@ public class Members implements PermissionEntity {
     @Column(name = "member_status")
     private MemberStatus status;
 
-    public Members(OAuthUserInfoDto userInfo) {
+    public Member(OAuthUserInfoDto userInfo) {
         LocalDateTime now = LocalDateTime.now();
-        this.memberId = new MemberId(userInfo.getSocialType() + "_" + userInfo.getId());
+        this.memberId = new MemberId(userInfo.getOAuthType() + "_" + userInfo.getId());
         this.createdAt = now;
         this.modifiedAt = now;
         this.status = MemberStatus.ACTIVATE;
+        this.profile = new MemberProfile(userInfo);
     }
 
-    public void setProfile(MemberProfile profile) {
-        profile.setMembers(this);
-        this.profile = profile;
+//    public void setProfile(MemberProfile profile) {
+//        profile.setMember(this);
+//        this.profile = profile;
+//    }
+
+    public void updateProfile(PermissionService permissionService, MemberProfileUpdateDto updateDto) {
+        permissionService.checkPermission(this.getMemberId(), this);
+        this.profile.update(updateDto);
     }
 
     public void deactivate() {

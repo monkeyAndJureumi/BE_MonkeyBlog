@@ -1,7 +1,7 @@
 package com.monkey.context.notice.controller;
 
 import com.monkey.context.notice.service.NoticeApiService;
-import com.monkey.context.notice.view.NoticeRes;
+import com.monkey.context.notice.dto.NoticeIndexResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +15,9 @@ public class NoticeRestController {
     private final NoticeApiService noticeApiService;
 
     @GetMapping
-    public ResponseEntity<NoticeRes> findByPageable(@RequestParam("page") int page,
-                                            @RequestParam("size") int size) {
-        NoticeRes response = noticeApiService.getNoticePageOrderByCreatedAtDesc(page, size);
+    public ResponseEntity<NoticeIndexResponseDto> findByPageable(@RequestParam("page") int page,
+                                                                 @RequestParam("size") int size) {
+        NoticeIndexResponseDto response = noticeApiService.getNoticePageOrderByCreatedAtDesc(page, size);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

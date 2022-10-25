@@ -3,7 +3,7 @@ package com.monkey.context.member.dto.oauth.kakao;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
-import com.monkey.context.member.enums.OauthType;
+import com.monkey.context.member.enums.OAuthType;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -27,14 +27,14 @@ public class KakaoUserInfoResponseDto extends OAuthUserInfoDto {
     private KakaoAccount kakaoAccount;
 
     public MemberId getUserId() {
-        return new MemberId(OauthType.KAKAO + "_" + getId());
+        return new MemberId(OAuthType.KAKAO + "_" + getId());
     }
 
     public Long getId() {
         return id;
     }
-    public OauthType getSocialType() {
-        return OauthType.KAKAO;
+    public OAuthType getOAuthType() {
+        return OAuthType.KAKAO;
     }
     public String getName() {
         return kakaoAccount.getName();

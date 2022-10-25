@@ -40,6 +40,4 @@ public class TokenService {
         log.info("Refresh Token");
         return new TokenResponseDto(accessToken, jwtProperties.getAccessTokenExpiration().intValue(), token.getRefreshToken(), jwtProperties.getRefreshTokenExpiration().intValue());
     }
-
-
 }

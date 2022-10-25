@@ -1,7 +1,6 @@
 package com.monkey.context.member.domain.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkey.context.member.dto.oauth.OauthTokenResponseDto;
 import com.monkey.context.member.dto.oauth.kakao.KakaoTokenRequestDto;
 import com.monkey.context.member.dto.oauth.kakao.KakaoTokenResponseDto;
 import com.monkey.context.member.dto.oauth.kakao.KakaoUserInfoRequestDto;

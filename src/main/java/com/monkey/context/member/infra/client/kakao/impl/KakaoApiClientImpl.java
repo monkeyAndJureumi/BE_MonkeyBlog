@@ -2,7 +2,6 @@ package com.monkey.context.member.infra.client.kakao.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkey.context.member.dto.oauth.kakao.KakaAuthErrorDto;
 import com.monkey.context.member.dto.oauth.kakao.KakaoApiErrorDto;
 import com.monkey.context.member.dto.oauth.kakao.KakaoUserInfoResponseDto;
 import com.monkey.context.member.enums.WebClientErrorCode;

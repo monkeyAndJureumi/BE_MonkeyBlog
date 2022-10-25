@@ -1,4 +1,4 @@
-package com.monkey.aop.advice;
+package com.monkey.advice;
 
 import com.monkey.enums.CommonErrorCode;
 import com.monkey.exception.MonkeyException;

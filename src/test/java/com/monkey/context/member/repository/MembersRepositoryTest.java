@@ -1,14 +1,12 @@
 package com.monkey.context.member.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkey.context.member.domain.Members;
-import com.monkey.context.member.domain.MemberProfile;
+import com.monkey.context.member.domain.Member;
 import com.monkey.context.member.enums.MemberSkill;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
 import com.monkey.context.member.dto.member.MemberProfileSaveDto;
-import com.monkey.context.member.dto.member.MemberProfileUpdateDto;
-import com.monkey.context.member.enums.OauthType;
+import com.monkey.context.member.enums.OAuthType;
 import com.monkey.context.member.infra.repository.MemberRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -35,7 +33,7 @@ public class MembersRepositoryTest {
 
     @BeforeEach
     public void initUser() {
-        memberRepository.save(new Members(getOAuthUserInfo()));
+        memberRepository.save(new Member(getOAuthUserInfo()));
     }
 
     @DisplayName("유저 프로필 저장")
@@ -45,29 +43,10 @@ public class MembersRepositoryTest {
         saveProfile();
 
         //then
-        Members result = memberRepository.findById(new MemberId("test")).orElseThrow();
+        Member result = memberRepository.findById(new MemberId("test")).orElseThrow();
         assertEquals(2, result.getProfile().getSkillList().size());
     }
 
-    @DisplayName("유저 프로필 업데이트")
-    @Test
-    public void updateProfile() {
-        //given
-        saveProfile();
-        Map<String, Object> objectMap = new HashMap<>();
-        Set<MemberSkill> memberSkills = new LinkedHashSet<>();
-        memberSkills.addAll(List.of(MemberSkill.SPRING));
-        objectMap.put("skill_list", memberSkills);
-        MemberProfileUpdateDto dto = objectMapper.convertValue(objectMap, MemberProfileUpdateDto.class);
-
-        //when
-        MemberProfile user = memberRepository.findProfileByUserId(new MemberId("gwqgrwq")).orElseThrow();
-        user.update(dto);
-
-        //then
-        Members result = memberRepository.findById(new MemberId("fdqgrqw")).orElseThrow();
-        assertEquals(1, result.getProfile().getSkillList().size());
-    }
 
     private void saveProfile() {
         Map<String, Object> objectMap = new HashMap<>();
@@ -77,14 +56,14 @@ public class MembersRepositoryTest {
         MemberProfileSaveDto dto = objectMapper.convertValue(objectMap, MemberProfileSaveDto.class);
 
         //when
-        Members members = memberRepository.findById(new MemberId("")).orElseThrow();
+        Member members = memberRepository.findById(new MemberId("")).orElseThrow();
     }
 
     private OAuthUserInfoDto getOAuthUserInfo() {
         return new OAuthUserInfoDto() {
             @Override
-            public OauthType getSocialType() {
-                return OauthType.KAKAO;
+            public OAuthType getOAuthType() {
+                return OAuthType.KAKAO;
             }
 
             @Override
@@ -134,7 +113,7 @@ public class MembersRepositoryTest {
 
             @Override
             public MemberId getUserId() {
-                return new MemberId(OauthType.KAKAO + "_" + getId());
+                return new MemberId(OAuthType.KAKAO + "_" + getId());
             }
         };
     }

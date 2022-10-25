@@ -1,7 +1,7 @@
-package com.monkey.aop.resolver;
+package com.monkey.resolver;
 
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.aop.annotation.NonRequiredParam;
+import com.monkey.annotation.NonRequiredParam;
 import com.monkey.context.token.properties.JwtProperties;
 import com.monkey.utils.JwtTokenUtils;
 import io.jsonwebtoken.Claims;

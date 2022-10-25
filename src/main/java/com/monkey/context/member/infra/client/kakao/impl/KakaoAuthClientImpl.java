@@ -2,7 +2,7 @@ package com.monkey.context.member.infra.client.kakao.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.monkey.context.member.dto.oauth.kakao.KakaAuthErrorDto;
+import com.monkey.context.member.dto.oauth.kakao.KakaoAuthErrorDto;
 import com.monkey.context.member.dto.oauth.kakao.KakaoTokenResponseDto;
 import com.monkey.context.member.enums.WebClientErrorCode;
 import com.monkey.context.member.infra.client.kakao.KakaoAuthClient;
@@ -39,15 +39,15 @@ public class KakaoAuthClientImpl implements KakaoAuthClient {
                 .body(BodyInserters.fromFormData(parameters))
                 .retrieve().onStatus(httpStatus -> httpStatus != HttpStatus.OK,
                         response -> response.createException().flatMap(err -> {
-                            KakaAuthErrorDto errorDto = convertToErrorDto(err.getStatusCode(), err.getResponseBodyAsString());
+                            KakaoAuthErrorDto errorDto = convertToErrorDto(err.getStatusCode(), err.getResponseBodyAsString());
                             return Mono.error(new MonkeyException(WebClientErrorCode.findByHttpStatus(err.getStatusCode())));
                         }))
                 .bodyToMono(KakaoTokenResponseDto.class).block();
     }
 
-    private KakaAuthErrorDto convertToErrorDto(HttpStatus httpStatus, String errorBody) {
+    private KakaoAuthErrorDto convertToErrorDto(HttpStatus httpStatus, String errorBody) {
         try {
-            KakaAuthErrorDto errorDto = objectMapper.readValue(errorBody, KakaAuthErrorDto.class);
+            KakaoAuthErrorDto errorDto = objectMapper.readValue(errorBody, KakaoAuthErrorDto.class);
             log.error("{}, error: {}, message: {}, code: {}", httpStatus, errorDto.getError(), errorDto.getDescription(), errorDto.getCode());
             return errorDto;
         } catch (JsonProcessingException e) {
