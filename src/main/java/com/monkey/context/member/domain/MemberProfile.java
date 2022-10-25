@@ -1,10 +1,11 @@
 package com.monkey.context.member.domain;
 
-import com.monkey.context.member.dto.oauth.OAuthUserInfo;
-import com.monkey.context.member.dto.user.UserProfileUpdateDto;
-import com.monkey.context.member.enums.UserSkill;
+import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
+import com.monkey.context.member.dto.member.MemberProfileUpdateDto;
+import com.monkey.context.member.enums.MemberSkill;
 import com.monkey.context.member.enums.MemberStatus;
-import com.monkey.aop.permission.implement.PermissionEntity;
+import com.monkey.context.member.enums.OAuthType;
+import com.monkey.context.permission.implement.PermissionEntity;
 import com.monkey.converter.EncryptConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,16 +19,20 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
-@Table(name = "member_profile")
-public class MemberProfile implements PermissionEntity {
-    @EmbeddedId
-    private MemberId memberId;
+//@Entity
+//@Table(name = "member_profile")
+@Embeddable
+public class MemberProfile {
+//    @EmbeddedId
+//    private MemberId memberId;
 
-    @MapsId
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id", referencedColumnName = "id")
-    private Members members;
+//    @MapsId
+//    @OneToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "id", referencedColumnName = "id")
+//    private Member member;
+
+    @Column(name = "oauth_type")
+    private OAuthType oAuthType;
 
     @Column(name = "member_name")
     private String name;
@@ -58,11 +63,12 @@ public class MemberProfile implements PermissionEntity {
     @Column(name = "skill_list")
     private String skillList;
 
-    public List<UserSkill> getSkillList() {
-        return Arrays.stream(skillList.split(", ")).map(UserSkill::create).collect(Collectors.toList());
+    public List<MemberSkill> getSkillList() {
+        return Arrays.stream(skillList.split(", ")).map(MemberSkill::create).collect(Collectors.toList());
     }
 
-    public MemberProfile(OAuthUserInfo userInfo) {
+    public MemberProfile(OAuthUserInfoDto userInfo) {
+        this.oAuthType = userInfo.getOAuthType();
         this.name = userInfo.getName();
         this.imageUrl = userInfo.getImageUrl();
         this.nickName = userInfo.getNickName();
@@ -70,17 +76,17 @@ public class MemberProfile implements PermissionEntity {
         this.number = userInfo.getPhoneNumber();
     }
 
-    public void update(UserProfileUpdateDto dto) {
-        if (!this.members.getStatus().equals(MemberStatus.ACTIVATE))
-            throw new IllegalStateException("비활성화 된 유저입니다.");
+    public void update(MemberProfileUpdateDto dto) {
+//        if (!this.member.getStatus().equals(MemberStatus.ACTIVATE))
+//            throw new IllegalStateException("비활성화 된 유저입니다.");
         this.nickName = dto.getNickName();
         this.gitUrl = dto.getGitUrl();
         this.skillList = dto.getUserSkillList().stream()
-                .map(skill -> Objects.requireNonNull(UserSkill.create(skill)).name())
+                .map(skill -> Objects.requireNonNull(MemberSkill.create(skill)).name())
                 .collect(Collectors.joining(", "));
     }
 
-    protected void setMembers(Members members) {
-        this.members = members;
-    }
+//    protected void setMember(Member member) {
+//        this.member = member;
+//    }
 }

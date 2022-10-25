@@ -1,6 +1,6 @@
 package com.monkey.config;
 
-import com.monkey.aop.resolver.UserSessionArgumentResolver;
+import com.monkey.resolver.UserSessionArgumentResolver;
 import com.monkey.converter.ParamToEnumConverterFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

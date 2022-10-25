@@ -3,7 +3,7 @@ package com.monkey.context.temp_post.domain;
 import com.monkey.context.temp_post.dto.TempPostSaveDto;
 import com.monkey.context.temp_post.dto.TempPostUpdateDto;
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.aop.permission.implement.PermissionEntity;
+import com.monkey.context.permission.implement.PermissionEntity;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

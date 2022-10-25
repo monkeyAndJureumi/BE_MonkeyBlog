@@ -28,7 +28,7 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
     public Optional<PostResponseDto> selectByPostId(PostId postId) {
         List<PostResponseDto> result = em.createQuery(
                         "select new com.monkey.context.post.dto.PostResponseDto(u.memberId.id, u.profile.name, p.content, p.createdAt, p.modifiedAt) " +
-                                "from Post p join Members u on p.author.memberId.id = u.memberId.id " +
+                                "from Post p join Member u on p.author.memberId.id = u.memberId.id " +
                                 "where p.id = :postId",
                         PostResponseDto.class)
                 .setParameter("postId", postId.getId())

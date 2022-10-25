@@ -1,5 +1,6 @@
 package com.monkey.context.comment.controller;
 
+import com.monkey.annotation.NonRequiredParam;
 import com.monkey.context.comment.dto.CommentResponseDto;
 import com.monkey.context.comment.domain.CommentId;
 import com.monkey.context.comment.service.CommentApiService;
@@ -8,7 +9,6 @@ import com.monkey.context.comment.dto.CommentSaveDto;
 import com.monkey.context.comment.dto.CommentUpdateDto;
 import com.monkey.context.post.domain.PostId;
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.aop.annotation.NonRequiredParam;
 import io.swagger.annotations.ApiParam;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

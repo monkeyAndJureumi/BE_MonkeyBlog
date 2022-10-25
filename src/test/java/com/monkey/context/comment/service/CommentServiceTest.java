@@ -7,7 +7,7 @@ import com.monkey.context.comment.dto.CommentUpdateDto;
 import com.monkey.context.comment.infra.repository.CommentRepository;
 import com.monkey.context.post.domain.PostId;
 import com.monkey.context.member.domain.MemberId;
-import com.monkey.aop.permission.service.PermissionService;
+import com.monkey.context.permission.service.PermissionService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,7 +1,7 @@
 package com.monkey.context.comment.domain;
 
 import com.monkey.context.comment.dto.CommentUpdateDto;
-import com.monkey.aop.permission.implement.PermissionEntity;
+import com.monkey.context.permission.implement.PermissionEntity;
 import com.monkey.context.post.domain.PostId;
 import com.monkey.context.member.domain.MemberId;
 import lombok.AccessLevel;

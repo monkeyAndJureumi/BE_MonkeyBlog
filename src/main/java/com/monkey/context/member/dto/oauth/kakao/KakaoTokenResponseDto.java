@@ -2,20 +2,17 @@ package com.monkey.context.member.dto.oauth.kakao;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.monkey.context.member.dto.oauth.OauthTokenResponseDto;
+import com.monkey.context.member.dto.oauth.OAuthTokenResponseDto;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Deprecated
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class KakaoTokenResponseDto extends OauthTokenResponseDto {
+public class KakaoTokenResponseDto extends OAuthTokenResponseDto {
     @JsonProperty(value = "token_type", required = true)
     private String tokenType;
 
@@ -43,5 +40,30 @@ public class KakaoTokenResponseDto extends OauthTokenResponseDto {
             result = Arrays.asList(this.scope.split(", "));
         }
         return result;
+    }
+
+    @Override
+    public String getTokenType() {
+        return tokenType;
+    }
+
+    @Override
+    public String getAccessToken() {
+        return "Bearer " + accessToken;
+    }
+
+    @Override
+    public Integer getAccessTokenExpiresIn() {
+        return accessTokenExpiresIn;
+    }
+
+    @Override
+    public String getRefreshToken() {
+        return "Bearer " + refreshToken;
+    }
+
+    @Override
+    public Integer getRefreshTokenExpiresIn() {
+        return refreshTokenExpiresIn;
     }
 }

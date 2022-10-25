@@ -27,7 +27,7 @@ public class TokenService {
     private final JwtProperties jwtProperties;
 
     public TokenResponseDto provideToken(@Valid TokenAccessRequestDto dto) {
-        MemberId memberId = memberService.getUserIdOrElseCreate(dto.getOauthType(), dto.getAccessToken());
+        MemberId memberId = memberService.getMember(dto.getOauthType(), dto.getAuthorizationCode());
         TokenSaveDto saveDto = new TokenSaveDto(memberId, jwtProperties);
         tokenRepository.save(new Token(saveDto));
         log.info("[{}] - Created AccessToken", memberId.getId());

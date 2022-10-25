@@ -4,7 +4,8 @@ import com.monkey.enums.ErrorCodeEnumerable;
 import org.springframework.http.HttpStatus;
 
 public enum WebClientErrorCode implements ErrorCodeEnumerable {
-    W401(HttpStatus.UNAUTHORIZED, "access token does not exists"),
+    W400(HttpStatus.BAD_REQUEST, "Bad Request"),
+    W401(HttpStatus.UNAUTHORIZED, "Bad Credential"),
     ;
 
     private final HttpStatus httpStatus;
