@@ -3,7 +3,7 @@ package com.monkey.context.member.validation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.monkey.context.token.dto.TokenPostRequestDto;
-import com.monkey.context.member.enums.OauthType;
+import com.monkey.context.member.enums.OAuthType;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -139,6 +139,6 @@ public class MembersOauthDtoValidTest {
         TokenPostRequestDto dto = objectMapper.readValue(jsonObject.toString(), TokenPostRequestDto.class);
 
         //then
-        assertEquals(OauthType.KAKAO, dto.getOauthType());
+        assertEquals(OAuthType.KAKAO, dto.getOauthType());
     }
 }

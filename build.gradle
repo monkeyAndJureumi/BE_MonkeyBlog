@@ -41,11 +41,25 @@ tasks.named('test') {
 }
 
 springBoot {
-    mainClass ='com.monkey.MonkeyBlogJavaApplication'
+    mainClass = 'com.monkey.MonkeyBlogJavaApplication'
     archivesBaseName = 'MonkeyBlog'
 }
 
+def profile = project.hasProperty("profile") ? project.getProperty("profile") : "local"
+
+String sourcePath = 'src/main/java'
+String resourcesPath = '/home/ubuntu/resources'
+sourceSets {
+    main {
+        java {
+            srcDirs = [sourcePath]
+        }
+        resources {
+            srcDirs = [resourcesPath]
+        }
+    }
+}
+
 bootRun {
-    String activeProfile = System.properties['spring.profiles.active']
-    systemProperty "spring.profiles.active", activeProfile
+    systemProperty "spring.profiles.active", profile
 }
