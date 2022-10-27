@@ -48,7 +48,7 @@ springBoot {
 def profile = project.hasProperty("profile") ? project.getProperty("profile") : "local"
 
 String sourcePath = 'src/main/java'
-String resourcesPath = '/home/ubuntu/resources'
+String resourcesPath = '/home/ubuntu/resources/'
 sourceSets {
     main {
         java {
