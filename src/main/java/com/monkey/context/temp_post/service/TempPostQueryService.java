@@ -1,6 +1,6 @@
 package com.monkey.context.temp_post.service;
 
-import com.monkey.context.permission.service.PermissionService;
+import com.monkey.context.grant.service.GrantService;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.temp_post.TempPostErrorCode;
 import com.monkey.context.temp_post.domain.TempPost;
@@ -21,11 +21,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class TempPostQueryService {
     private final TempPostRepository tempPostRepository;
-    private final PermissionService permissionService;
+    private final GrantService permissionService;
     public TempPostResponseDto getTempPost(MemberId memberId, TempPostId id) {
         TempPost post = tempPostRepository.findById(id)
                 .orElseThrow(() -> new MonkeyException(TempPostErrorCode.TP404));
-        permissionService.checkPermission(memberId, post);
+        permissionService.authorize(memberId, post.getAuthor().getMemberId());
         return new TempPostResponseDto(post);
     }
 

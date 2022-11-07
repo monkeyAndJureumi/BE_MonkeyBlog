@@ -43,15 +43,15 @@ public class CommentRestController {
 
     @Operation(description = "댓글 저장")
     @PostMapping
-    public ResponseEntity<HttpStatus> saveComment(@RequestBody final CommentSaveDto dto) {
-        commentService.save(dto);
+    public ResponseEntity<HttpStatus> saveComment(MemberId memberId, @RequestBody final CommentSaveDto dto) {
+        commentService.save(memberId, dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @Operation(description = "댓글 수정")
     @PatchMapping
-    public ResponseEntity<HttpStatus> patchComment(@RequestBody final CommentUpdateDto dto) {
-        commentService.modifyComment(dto);
+    public ResponseEntity<HttpStatus> patchComment(MemberId memberId, @RequestBody final CommentUpdateDto dto) {
+        commentService.modifyComment(memberId, dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

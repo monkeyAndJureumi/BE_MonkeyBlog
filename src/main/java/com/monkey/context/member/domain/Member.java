@@ -1,10 +1,9 @@
 package com.monkey.context.member.domain;
 
+import com.monkey.context.grant.enums.GrantGroup;
 import com.monkey.context.member.dto.member.MemberProfileUpdateDto;
 import com.monkey.context.member.dto.oauth.OAuthUserInfoDto;
 import com.monkey.context.member.enums.MemberStatus;
-import com.monkey.context.permission.implement.PermissionEntity;
-import com.monkey.context.permission.service.PermissionService;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 @Table(name = "members")
-public class Member implements PermissionEntity {
+public class Member {
     @EmbeddedId
     private MemberId memberId;
 
@@ -39,6 +38,9 @@ public class Member implements PermissionEntity {
     @Column(name = "member_status")
     private MemberStatus status;
 
+    @Enumerated(EnumType.STRING)
+    private GrantGroup grantGroup;
+
     public Member(OAuthUserInfoDto userInfo) {
         LocalDateTime now = LocalDateTime.now();
         this.memberId = new MemberId(userInfo.getOAuthType() + "_" + userInfo.getId());
@@ -46,15 +48,10 @@ public class Member implements PermissionEntity {
         this.modifiedAt = now;
         this.status = MemberStatus.ACTIVATE;
         this.profile = new MemberProfile(userInfo);
+        this.grantGroup = GrantGroup.USER;
     }
 
-//    public void setProfile(MemberProfile profile) {
-//        profile.setMember(this);
-//        this.profile = profile;
-//    }
-
-    public void updateProfile(PermissionService permissionService, MemberProfileUpdateDto updateDto) {
-        permissionService.checkPermission(this.getMemberId(), this);
+    public void updateProfile(MemberProfileUpdateDto updateDto) {
         this.profile.update(updateDto);
     }
 

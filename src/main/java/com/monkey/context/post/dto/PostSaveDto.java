@@ -8,7 +8,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class PostSaveDto extends UserSessionDto {
+public class PostSaveDto {
     @JsonProperty(value = "temp_post_id")
     @Schema(description = "임시 게시글 삭제를 위한 아이디 값")
     private String tempPostId;

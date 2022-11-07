@@ -20,14 +20,14 @@ public class TempPostRestController {
 
     @ApiOperation(value = "임시 게시글 생성")
     @PostMapping
-    public ResponseEntity<TempPostId> save(@RequestBody TempPostSaveDto dto) {
-        return new ResponseEntity<>(tempPostService.save(dto), HttpStatus.OK);
+    public ResponseEntity<TempPostId> save(@ApiIgnore MemberId memberId, @RequestBody TempPostSaveDto dto) {
+        return new ResponseEntity<>(tempPostService.save(memberId, dto), HttpStatus.OK);
     }
 
     @ApiOperation(value = "임시 게시글 수정")
     @PatchMapping
-    public ResponseEntity<HttpStatus> update(@RequestBody TempPostUpdateDto dto) {
-        tempPostService.update(dto);
+    public ResponseEntity<HttpStatus> update(@ApiIgnore MemberId memberId, @RequestBody TempPostUpdateDto dto) {
+        tempPostService.update(memberId, dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

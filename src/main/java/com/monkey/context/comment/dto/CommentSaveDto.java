@@ -1,13 +1,12 @@
 package com.monkey.context.comment.dto;
 
-import com.monkey.dto.UserSessionDto;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class CommentSaveDto extends UserSessionDto {
+public class CommentSaveDto {
     private Long postId;
 
     private Long refCommentId;

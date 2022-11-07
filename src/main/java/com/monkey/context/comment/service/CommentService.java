@@ -5,7 +5,7 @@ import com.monkey.context.comment.dto.CommentSaveDto;
 import com.monkey.context.comment.dto.CommentUpdateDto;
 import com.monkey.context.comment.domain.Comment;
 import com.monkey.context.comment.infra.repository.CommentRepository;
-import com.monkey.context.permission.service.PermissionService;
+import com.monkey.context.grant.service.GrantService;
 import com.monkey.context.post.domain.PostId;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.enums.CommonErrorCode;
@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class CommentService {
     private final CommentRepository commentRepository;
-    private final PermissionService permissionService;
+    private final GrantService grantService;
 
-    public void save(CommentSaveDto dto) {
-        if (dto.getMemberId() == null || dto.getPostId() == null)
+    public void save(MemberId memberId, CommentSaveDto dto) {
+        if (memberId == null || dto.getPostId() == null)
             throw new MonkeyException(CommonErrorCode.E400);
         Comment refComment = null;
 
@@ -38,7 +38,7 @@ public class CommentService {
         }
 
         Comment comment = Comment.builder()
-                .author(new CommentAuthor(dto.getMemberId()))
+                .author(new CommentAuthor(memberId))
                 .postId(new PostId(dto.getPostId()))
                 .refComment(refComment)
                 .content(dto.getContent())
@@ -48,17 +48,17 @@ public class CommentService {
         commentRepository.save(comment);
     }
 
-    public void modifyComment(CommentUpdateDto dto) {
+    public void modifyComment(MemberId memberId, CommentUpdateDto dto) {
         Comment comment = commentRepository.findById(dto.getCommentId())
                 .orElseThrow(() -> new MonkeyException(CommonErrorCode.E400));
-        permissionService.checkPermission(dto.getMemberId(), comment);
+        grantService.authorize(memberId, comment.getAuthor().getMemberId());
         comment.update(dto);
     }
 
     public void deleteComment(MemberId memberId, Long commentId) {
         Comment comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new MonkeyException(CommonErrorCode.E400));
-        permissionService.checkPermission(memberId, comment);
+        grantService.authorize(memberId, comment.getAuthor().getMemberId());
         comment.delete();
     }
 }

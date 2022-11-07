@@ -45,8 +45,6 @@ springBoot {
     archivesBaseName = 'MonkeyBlog'
 }
 
-def profile = project.hasProperty("profile") ? project.getProperty("profile") : "local"
-
 String sourcePath = 'src/main/java'
 String resourcesPath = System.properties["os.name"].toLowerCase().contains("ubuntu") ? '/home/ubuntu/resources' : "/Users/jiho/Desktop/resources"
 sourceSets {
@@ -58,8 +56,4 @@ sourceSets {
             srcDirs = [resourcesPath]
         }
     }
-}
-
-bootRun {
-    systemProperty "spring.profiles.active", profile
 }

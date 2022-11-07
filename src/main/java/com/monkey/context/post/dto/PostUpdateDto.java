@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class PostUpdateDto extends UserSessionDto {
-    @JsonProperty(value = "post_id")
-    private Long postId;
-
+public class PostUpdateDto {
     @JsonProperty(value = "content")
     private String content;
 
@@ -21,10 +18,6 @@ public class PostUpdateDto extends UserSessionDto {
 
     @JsonProperty(value = "status")
     private PostStatus status;
-
-    public Long getPostId() {
-        return postId;
-    }
 
     public String getContent() {
         return content;

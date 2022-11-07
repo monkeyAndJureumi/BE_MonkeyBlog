@@ -17,6 +17,7 @@ import java.lang.reflect.Type;
 
 @RestControllerAdvice
 @RequiredArgsConstructor
+@Deprecated
 public class RequestBodyAdvice implements org.springframework.web.servlet.mvc.method.annotation.RequestBodyAdvice {
     private final JwtProperties jwtProperties;
     private final String AUTH_HEADER = "Authorization";
@@ -43,6 +44,7 @@ public class RequestBodyAdvice implements org.springframework.web.servlet.mvc.me
 
         Claims claims = JwtTokenUtils.ParseJwtToken(token, jwtProperties.getSecretKey());
 
+        // UserSessionDto 클래스를 상속받는 객체에 토큰값을 파싱하여 유저 아이디 값 설정
         session.setSession(claims.get("user_id", String.class));
 
         return session;

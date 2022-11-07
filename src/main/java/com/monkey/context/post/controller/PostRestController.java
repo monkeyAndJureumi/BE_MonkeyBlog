@@ -30,19 +30,19 @@ public class PostRestController {
     }
 
     @PostMapping
-    public ResponseEntity<PostId> save(@RequestBody PostSaveDto req) {
-        return new ResponseEntity<>(postService.save(req), HttpStatus.OK);
+    public ResponseEntity<PostId> save(MemberId memberId, @RequestBody PostSaveDto dto) {
+        return new ResponseEntity<>(postService.save(memberId, dto), HttpStatus.OK);
     }
 
-    @DeleteMapping
-    public ResponseEntity<HttpStatus> delete(MemberId memberId, @RequestParam("id") Long postId) {
+    @DeleteMapping("/{post_id}")
+    public ResponseEntity<HttpStatus> delete(MemberId memberId, @PathVariable("post_id") Long postId) {
         postService.delete(memberId, new PostId(postId));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping
-    public ResponseEntity<HttpStatus> update(PostUpdateDto dto) {
-        postService.modify(dto);
+    @PatchMapping("/{post_id}")
+    public ResponseEntity<HttpStatus> update(MemberId memberId, @PathVariable("post_id") Long postId, PostUpdateDto dto) {
+        postService.modify(memberId, postId, dto);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

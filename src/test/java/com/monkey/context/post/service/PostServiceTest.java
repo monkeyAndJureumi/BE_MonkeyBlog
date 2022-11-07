@@ -1,7 +1,7 @@
 package com.monkey.context.post.service;
 
 import com.monkey.context.post.infra.repository.PostRepository;
-import com.monkey.context.permission.service.PermissionService;
+import com.monkey.context.grant.service.GrantService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +19,7 @@ public class PostServiceTest {
     private PostRepository postRepository;
 
     @Mock
-    private PermissionService permissionService;
+    private GrantService permissionService;
 
     // 테스트 대상 Mock 객체 주입
     @InjectMocks
