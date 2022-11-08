@@ -1,5 +1,6 @@
 package com.monkey.context.post.infra.repository.custom;
 
+import com.monkey.context.post.domain.Post;
 import com.monkey.context.post.domain.PostId;
 import com.monkey.context.post.dto.PostResponseDto;
 import com.monkey.context.temp_post.domain.TempPost;
@@ -48,5 +49,15 @@ public class PostCustomRepositoryImpl implements PostCustomRepository {
                 .getResultList().stream().findAny()
                 .orElseThrow(() -> new MonkeyException("temp post does not exist", CommonErrorCode.E404));
         em.remove(result);
+    }
+
+    @Override
+    public Optional<Post> findByPostIdWithPostLike(PostId postId) {
+        return em.createQuery("select p " +
+                        "from Post p " +
+                        "join fetch p.likeList " +
+                        "where p.id =: postId", Post.class)
+                .setParameter("postId", postId.getId())
+                .getResultList().stream().findAny();
     }
 }

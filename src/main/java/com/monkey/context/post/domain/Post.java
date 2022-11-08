@@ -34,7 +34,7 @@ public class Post {
     @Column(name = "like_cnt")
     private long likeCnt;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "postLikeId.post", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PostLike> likeList = new ArrayList<>();
 
     private boolean isSecret;
@@ -64,7 +64,7 @@ public class Post {
     }
 
     public void addLike(MemberId memberId) {
-        this.likeList.add(new PostLike(memberId));
+        this.likeList.add(new PostLike(memberId, this));
         this.likeCnt++;
     }
 

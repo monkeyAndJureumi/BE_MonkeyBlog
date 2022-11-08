@@ -18,7 +18,7 @@ public class PostLike {
     @EmbeddedId
     private PostLikeId postLikeId;
 
-    public PostLike(MemberId memberId) {
-        this.postLikeId = new PostLikeId(DateTimeUtils.ConvertToMillis(LocalDateTime.now(), ZoneId.SEOUL), memberId);
+    public PostLike(MemberId memberId, Post post) {
+        this.postLikeId = new PostLikeId(memberId, post);
     }
 }

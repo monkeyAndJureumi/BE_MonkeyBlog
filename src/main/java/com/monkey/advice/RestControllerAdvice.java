@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @org.springframework.web.bind.annotation.RestControllerAdvice
 public class RestControllerAdvice {
-
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ExceptionResponse> exception(Exception e) {
         log.error("{}", e.getMessage());

@@ -9,9 +9,11 @@ import com.monkey.enums.CommonErrorCode;
 import com.monkey.exception.MonkeyException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class PostLikeService {
     private final PostRepository postRepository;
     private final GrantService grantService;

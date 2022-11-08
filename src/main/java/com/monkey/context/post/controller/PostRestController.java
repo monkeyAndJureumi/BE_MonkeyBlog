@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RestController
 @RequestMapping("/post")
@@ -30,7 +31,7 @@ public class PostRestController {
     }
 
     @PostMapping
-    public ResponseEntity<PostId> save(MemberId memberId, @RequestBody PostSaveDto dto) {
+    public ResponseEntity<PostId> save(@ApiIgnore MemberId memberId, @RequestBody PostSaveDto dto) {
         return new ResponseEntity<>(postService.save(memberId, dto), HttpStatus.OK);
     }
 

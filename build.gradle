@@ -46,7 +46,7 @@ springBoot {
 }
 
 String sourcePath = 'src/main/java'
-String resourcesPath = System.properties["os.name"].toLowerCase().contains("ubuntu") ? '/home/ubuntu/resources' : "/Users/jiho/Desktop/resources"
+String resourcesPath = System.properties["os.name"].toLowerCase().contains("ubuntu") ? '/home/ubuntu/resources' : "./src/main/resources"
 sourceSets {
     main {
         java {

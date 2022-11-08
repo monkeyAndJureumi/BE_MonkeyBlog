@@ -3,6 +3,7 @@ package com.monkey.context.post.repository;
 import com.monkey.context.member.domain.MemberId;
 import com.monkey.context.post.domain.Post;
 import com.monkey.context.post.domain.PostAuthor;
+import com.monkey.context.post.domain.PostId;
 import com.monkey.context.post.domain.PostLike;
 import com.monkey.context.post.dto.PostSaveDto;
 import com.monkey.context.post.dto.PostSaveDtoBuilder;
@@ -21,7 +22,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(SpringExtension.class)
-@DataJpaTest
+@DataJpaTest(properties = "spring.profiles.active=local")
 public class PostRepositoryTest {
     @Autowired
     private PostRepository postRepository;

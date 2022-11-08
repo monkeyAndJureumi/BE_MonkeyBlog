@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.AttributeOverride;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.ManyToOne;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -15,14 +16,15 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PostLikeId implements Serializable {
-    private Long id;
+    @ManyToOne
+    private Post post;
 
     @AttributeOverride(name = "id", column = @Column(name = "member_id"))
     private MemberId memberId;
 
-    public PostLikeId(Long id, MemberId memberId) {
-        this.id = id;
+    protected PostLikeId(MemberId memberId, Post post) {
         this.memberId = memberId;
+        this.post = post;
     }
 
     @Override
@@ -32,13 +34,13 @@ public class PostLikeId implements Serializable {
 
         PostLikeId that = (PostLikeId) o;
 
-        if (!Objects.equals(id, that.id)) return false;
+        if (!Objects.equals(post, that.post)) return false;
         return Objects.equals(memberId, that.memberId);
     }
 
     @Override
     public int hashCode() {
-        int result = id != null ? id.hashCode() : 0;
+        int result = post != null ? post.hashCode() : 0;
         result = 31 * result + (memberId != null ? memberId.hashCode() : 0);
         return result;
     }
