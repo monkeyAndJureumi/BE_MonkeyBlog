@@ -14,5 +14,4 @@ public abstract class OAuthUserInfoDto {
     public abstract String getBirthDay();
     public abstract String getGender();
     public abstract String getPhoneNumber();
-    public abstract MemberId getUserId();
 }
